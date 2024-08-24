@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
+    <base href="https://websim.example.com/edible/">
     <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edible - Culinary Adventures for Young Chefs</title>
     <link rel="stylesheet" href="style.css">
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
 </head>
+
 <body>
     <div id="particles-js"></div>
     <div class="content">
@@ -40,25 +46,31 @@
                 <div class="question" id="q3">
                     <h2>On a scale from 1 to 10, how would you rate your cooking ability?</h2>
                     <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="q3-slider" oninput="updateSliderValue(3, this.value)">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="q3-slider"
+                            oninput="updateSliderValue(3, this.value)">
                         <p>Your rating: <span id="q3-value">5</span></p>
-                        <button class="nav-btn done-btn" onclick="nextQuestion(3, document.getElementById('q3-slider').value)">Done</button>
+                        <button class="nav-btn done-btn"
+                            onclick="nextQuestion(3, document.getElementById('q3-slider').value)">Done</button>
                     </div>
                 </div>
                 <div class="question" id="q4">
                     <h2>On a scale from 1 to 10, how much do people enjoy your food?</h2>
                     <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="q4-slider" oninput="updateSliderValue(4, this.value)">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="q4-slider"
+                            oninput="updateSliderValue(4, this.value)">
                         <p>Your rating: <span id="q4-value">5</span></p>
-                        <button class="nav-btn done-btn" onclick="nextQuestion(4, document.getElementById('q4-slider').value)">Done</button>
+                        <button class="nav-btn done-btn"
+                            onclick="nextQuestion(4, document.getElementById('q4-slider').value)">Done</button>
                     </div>
                 </div>
                 <div class="question" id="q5">
                     <h2>On a scale from 1 to 10, how excited are you to cook?</h2>
                     <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="q5-slider" oninput="updateSliderValue(5, this.value)">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="q5-slider"
+                            oninput="updateSliderValue(5, this.value)">
                         <p>Your excitement level: <span id="q5-value">5</span></p>
-                        <button class="nav-btn done-btn" onclick="nextQuestion(5, document.getElementById('q5-slider').value)">Done</button>
+                        <button class="nav-btn done-btn"
+                            onclick="nextQuestion(5, document.getElementById('q5-slider').value)">Done</button>
                     </div>
                 </div>
             </div>
@@ -80,6 +92,7 @@
         <div id="result"></div>
         <div id="recommended-dishes"></div>
     </div>
-    <script src="script.js"></script>
+    </script>
 </body>
+
 </html>
