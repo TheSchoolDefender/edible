@@ -1,18 +1,11 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edible - Culinary Adventures for Young Chefs</title>
     <link rel="stylesheet" href="style.css">
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="script.js"></script>
 </head>
-
 <body>
     <div id="particles-js"></div>
     <div class="content">
@@ -28,70 +21,72 @@
         </header>
         <main id="main-content">
             <div id="quiz">
-                <div class="question" id="q1">
-                    <h2>Do you like cooking?</h2>
+                <div id="q1" class="question">
+                    <h2>Have you ever cooked before?</h2>
                     <div class="options">
-                        <button class="nav-btn" onclick="nextQuestion(1, 'yes')">Yes, I love it!</button>
-                        <button class="nav-btn" onclick="nextQuestion(1, 'no')">Not really</button>
+                        <button onclick="nextQuestion(1, 'yes')">Yes</button>
+                        <button onclick="nextQuestion(1, 'no')">No</button>
                     </div>
                 </div>
-                <div class="question" id="q2">
-                    <h2>Do you want to do your best at cooking?</h2>
+                <div id="q2" class="question" style="display: none;">
+                    <h2>Do you enjoy trying new foods?</h2>
                     <div class="options">
-                        <button class="nav-btn" onclick="nextQuestion(2, 'yes')">Absolutely!</button>
-                        <button class="nav-btn" onclick="nextQuestion(2, 'no')">I'm not sure</button>
+                        <button onclick="nextQuestion(2, 'yes')">Yes</button>
+                        <button onclick="nextQuestion(2, 'no')">No</button>
                     </div>
                 </div>
-                <div class="question" id="q3">
-                    <h2>On a scale from 1 to 10, how would you rate your cooking ability?</h2>
+                <div id="q3" class="question" style="display: none;">
+                    <h2>How adventurous are you with food?</h2>
                     <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="q3-slider"
-                            oninput="updateSliderValue(3, this.value)">
-                        <p>Your rating: <span id="q3-value">5</span></p>
-                        <button class="nav-btn done-btn"
-                            onclick="nextQuestion(3, document.getElementById('q3-slider').value)">Done</button>
+                        <input type="range" min="1" max="10" value="5" class="slider" id="q3-slider" oninput="updateSliderValue(3, this.value)">
+                        <p>Value: <span id="q3-value">5</span></p>
                     </div>
+                    <button class="done-btn" onclick="nextQuestion(3, document.getElementById('q3-slider').value)">Done</button>
                 </div>
-                <div class="question" id="q4">
-                    <h2>On a scale from 1 to 10, how much do people enjoy your food?</h2>
+                <div id="q4" class="question" style="display: none;">
+                    <h2>How much do you like cooking?</h2>
                     <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="q4-slider"
-                            oninput="updateSliderValue(4, this.value)">
-                        <p>Your rating: <span id="q4-value">5</span></p>
-                        <button class="nav-btn done-btn"
-                            onclick="nextQuestion(4, document.getElementById('q4-slider').value)">Done</button>
+                        <input type="range" min="1" max="10" value="5" class="slider" id="q4-slider" oninput="updateSliderValue(4, this.value)">
+                        <p>Value: <span id="q4-value">5</span></p>
                     </div>
+                    <button class="done-btn" onclick="nextQuestion(4, document.getElementById('q4-slider').value)">Done</button>
                 </div>
-                <div class="question" id="q5">
-                    <h2>On a scale from 1 to 10, how excited are you to cook?</h2>
+                <div id="q5" class="question" style="display: none;">
+                    <h2>How confident are you in the kitchen?</h2>
                     <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="q5-slider"
-                            oninput="updateSliderValue(5, this.value)">
-                        <p>Your excitement level: <span id="q5-value">5</span></p>
-                        <button class="nav-btn done-btn"
-                            onclick="nextQuestion(5, document.getElementById('q5-slider').value)">Done</button>
+                        <input type="range" min="1" max="10" value="5" class="slider" id="q5-slider" oninput="updateSliderValue(5, this.value)">
+                        <p>Value: <span id="q5-value">5</span></p>
                     </div>
+                    <button class="done-btn" onclick="nextQuestion(5, document.getElementById('q5-slider').value)">Done</button>
                 </div>
             </div>
             <div id="recipes" style="display: none;">
-                <h2>Recipes</h2>
-                <!-- Recipe content will be dynamically added here -->
+                <h2>Our Recipes</h2>
+                <div id="search-container">
+                    <input type="text" id="search-input" placeholder="Search recipes..." oninput="searchRecipes()">
+                </div>
+                <div id="recipe-list"></div>
             </div>
             <div id="cooks" style="display: none;">
                 <h2>Cooks</h2>
-                <p>Meet our amazing young chefs!</p>
+                <p>My name</p>
             </div>
             <div id="questions" style="display: none;">
                 <h2>Questions</h2>
-                <p>Have a cooking question? Ask our community!</p>
+                <p>Send an email to edible@gmail.com</p>
             </div>
         </main>
+        <div id="result-container" style="display: none;">
+            <div id="result"></div>
+            <div id="recommended-dishes"></div>
+        </div>
+        <div id="recipe-container" style="display: none;">
+            
+        </div>
     </div>
-    <div id="result-container">
-        <div id="result"></div>
-        <div id="recommended-dishes"></div>
-    </div>
-    </script>
+    <div class="arrow"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
 </body>
-
 </html>
