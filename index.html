@@ -1,23 +1,647 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edible - Culinary Adventures for Young Chefs</title>
-    <link rel="stylesheet" href="style.css">
+<html><head><base href="https://websim.example.com/edible/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edible - Culinary Adventures for Young Chefs</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Poppins:wght@400;700&display=swap');
+    
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    /* Add OpenDyslexic font */
+    @font-face {
+        font-family: 'OpenDyslexic';
+        src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic/OpenDyslexic-Regular.otf');
+    }
+
+    /* Add high contrast styles */
+    .high-contrast {
+        background-color: #000 !important;
+        color: #fff !important;
+    }
+
+    .high-contrast h1,
+    .high-contrast h2,
+    .high-contrast h3,
+    .high-contrast .subtitle,
+    .high-contrast .nav-btn,
+    .high-contrast button {
+        background-color: #000 !important;
+        color: #fff !important;
+        border: 2px solid #fff !important;
+    }
+
+    .high-contrast .dish-box,
+    .high-contrast .recipe,
+    .high-contrast main {
+        background-color: #000 !important;
+        border: 2px solid #fff !important;
+    }
+
+    .high-contrast #particles-js {
+        background-color: #000 !important;
+    }
+    
+    #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: #003B5C; /* Dark blue background */
+        background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        z-index: -1;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: #fff;
+        text-align: center;
+    }
+    
+    .content {
+        position: relative;
+        z-index: 1;
+        padding: 20px;
+    }
+    
+    header {
+        margin-bottom: 30px;
+        position: sticky;
+        top: 0;
+        background-color: rgba(0, 59, 92, 0.9);
+        padding: 20px;
+        z-index: 2;
+    }
+    
+    header a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    h1 {
+        font-family: 'Bungee Shade', cursive;
+        font-size: 4em;
+        margin: 0;
+        text-transform: uppercase;
+        color: #FFC72C;
+        text-shadow: 3px 3px 0px #CE0037;
+    }
+    
+    .subtitle {
+        font-size: 1.2em;
+        color: #FFC72C;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        font-weight: 300;
+        text-shadow: 1px 1px 0px #CE0037;
+    }
+    
+    nav {
+        margin-top: 20px;
+    }
+    
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    nav ul li {
+        margin: 10px;
+    }
+    
+    .nav-btn {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        background-color: #CE0037;
+        padding: 10px 20px;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .nav-btn:hover {
+        background-color: #FFC72C;
+        color: #003B5C;
+        transform: scale(1.1);
+    }
+    
+    main {
+        max-width: 1200px;
+        margin: 20px auto;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    
+    .question {
+        margin-bottom: 30px;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    
+    .question h2 {
+        color: #FFC72C;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    
+    .options {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    button {
+        background-color: #FFC72C;
+        border: none;
+        color: #003B5C;
+        padding: 12px 25px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-radius: 25px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    button:hover {
+        background-color: #CE0037;
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .slider-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .slider {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 15px;
+        border-radius: 10px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        transition: opacity .2s;
+        margin: 20px 0;
+    }
+    
+    .slider:hover {
+        opacity: 1;
+    }
+    
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #CE0037;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .slider::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+    }
+    
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #CE0037;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .slider::-moz-range-thumb:hover {
+        transform: scale(1.2);
+    }
+    
+    #result {
+        font-size: 1.2em;
+        margin-top: 20px;
+        color: #FFC72C;
+    }
+    
+    .done-btn {
+        margin-top: 15px;
+    }
+    
+    #recommended-dishes, #recipe-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 30px;
+    }
+    
+    .dish-box {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        width: calc(33.33% - 20px);
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+    }
+    
+    .dish-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .dish-box h3 {
+        color: #FFC72C;
+        margin-bottom: 10px;
+    }
+    
+    .dish-box p {
+        font-size: 0.9em;
+        color: #fff;
+    }
+
+    .dish-box img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+    
+    #result-container, #recipe-container {
+        background-color: rgba(0, 59, 92, 0.9);
+        padding: 20px;
+        margin-top: 30px;
+        border-radius: 15px;
+    }
+
+    .recipe {
+        text-align: left;
+        margin-top: 20px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    .recipe h3 {
+        color: #FFC72C;
+        margin-bottom: 10px;
+    }
+
+    .recipe ul, .recipe ol {
+        padding-left: 20px;
+    }
+
+    .recipe li {
+        margin-bottom: 5px;
+    }
+
+    .back-btn {
+        margin-top: 20px;
+    }
+
+    .arrow {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 30px solid #FFC72C;
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateX(-50%) translateY(0);
+        }
+        40% {
+            transform: translateX(-50%) translateY(-30px);
+        }
+        60% {
+            transform: translateX(-50%) translateY(-15px);
+        }
+    }
+
+    #search-container {
+        margin-bottom: 20px;
+    }
+
+    #search-input {
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 25px;
+        width: 70%;
+        max-width: 300px;
+    }
+
+    #documentation {
+        background-color: rgba(0, 59, 92, 0.9);
+        padding: 20px;
+        margin-top: 30px;
+        border-radius: 15px;
+        text-align: left;
+    }
+
+    #ddev-logs {
+        background-color: #000;
+        color: #00ff00;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    #questions-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .question-cube {
+        width: 200px;
+        height: 200px;
+        perspective: 1000px;
+        cursor: pointer;
+    }
+
+    .question-cube-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
+
+    .question-cube:hover .question-cube-inner {
+        transform: rotateY(180deg);
+    }
+
+    .question-cube-front, .question-cube-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 10px;
+    }
+
+    .question-cube-front {
+        background-color: rgba(255, 199, 44, 0.8);
+        color: #003B5C;
+    }
+
+    .question-cube-back {
+        background-color: rgba(206, 0, 55, 0.8);
+        color: #fff;
+        transform: rotateY(180deg);
+    }
+
+    @media (max-width: 900px) {
+        .dish-box {
+            width: calc(50% - 20px);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .dish-box {
+            width: 100%;
+        }
+    }
+
+    .accessibility-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background-color: #FFC72C;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        border: none;
+    }
+
+    .accessibility-menu {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        background-color: rgba(0, 59, 92, 0.95);
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 999;
+        width: 250px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        display: none;
+    }
+
+    .accessibility-menu.show {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .accessibility-menu h3 {
+        color: #FFC72C;
+        margin-top: 0;
+    }
+
+    .accessibility-option {
+        margin: 15px 0;
+    }
+
+    .accessibility-option label {
+        color: #fff;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .accessibility-option select,
+    .accessibility-option input[type="range"] {
+        width: 100%;
+        padding: 5px;
+        border-radius: 5px;
+        border: none;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #FFC72C;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #FFC72C;
+        border-radius: 4px;
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+    }
+
+    .form-group textarea {
+        height: 100px;
+        resize: vertical;
+    }
+
+    #question-form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background: rgba(0,0,0,0.2);
+        border-radius: 8px;
+    }
+
+    .chef-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+    .chef-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .chef-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .chef-avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        background: #FFC72C;
+        padding: 3px;
+    }
+
+    .chef-avatar svg {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: #003B5C;
+        padding: 1rem;
+    }
+
+    .chef-name {
+        color: #FFC72C;
+        font-size: 1.5em;
+        margin: 0.5rem 0;
+    }
+
+    .chef-title {
+        color: #fff;
+        font-size: 1em;
+        opacity: 0.8;
+    }
+
+    .chef-bio {
+        margin-top: 1rem;
+        font-size: 0.9em;
+        line-height: 1.4;
+    }
+    .language-selector {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+
+    .language-selector select {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 2px solid #FFC72C;
+        background: rgba(0,0,0,0.2);
+        color: #FFC72C;
+        font-size: 1em;
+        cursor: pointer;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 <body>
     <div id="particles-js"></div>
     <div class="content">
         <header>
-            <h1>Edible</h1>
+            <a href="#" onclick="resetSurvey(); return false;"><h1>Edible</h1></a>
+            <p class="subtitle">Culinary Adventures for Young Chefs</p>
             <nav>
                 <ul>
                     <li><button class="nav-btn" onclick="showSection('recipes')">Recipes</button></li>
                     <li><button class="nav-btn" onclick="showSection('cooks')">Cooks</button></li>
                     <li><button class="nav-btn" onclick="showSection('questions')">Questions</button></li>
+                    <li><button class="nav-btn" onclick="showDocumentation()">Documentation</button></li>
                 </ul>
             </nav>
+            <div class="language-selector">
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="es">Espa&#xf1;ol</option>
+                    <option value="zh-CN">&#x4e2d;&#x6587;</option>
+                    <option value="fr">Fran&#xe7;ais</option>
+                    <option value="hi">&#x939;&#x93f;&#x902;&#x926;&#x940;</option>
+                    <option value="ru">&#x420;&#x443;&#x441;&#x441;&#x43a;&#x438;&#x439;</option>
+                </select>
+            </div>
         </header>
         <main id="main-content">
             <div id="quiz">
@@ -69,11 +693,49 @@
             </div>
             <div id="cooks" style="display: none;">
                 <h2>Cooks</h2>
-                <p>My name</p>
+                <div class="chef-grid">
+                    <div class="chef-card">
+                        <div class="chef-avatar">
+                            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="chef-name">John Doe</h3>
+                        <p class="chef-title">Head Chef</p>
+                        <p class="chef-bio">John has been cooking for over 10 years and has a passion for creating new recipes.</p>
+                    </div>
+                    <div class="chef-card">
+                        <div class="chef-avatar">
+                            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="chef-name">Jane Doe</h3>
+                        <p class="chef-title">Sous Chef</p>
+                        <p class="chef-bio">Jane is a skilled chef with a focus on creating delicious and healthy meals.</p>
+                    </div>
+                </div>
             </div>
             <div id="questions" style="display: none;">
-                <h2>Questions</h2>
-                <p>Send an email to edible@gmail.com</p>
+                <h2>Questions Forum</h2>
+                <form id="question-form">
+                    <div class="form-group">
+                        <label for="name">Your Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">  
+                        <label for="email">Your Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="question">Your Question:</label>
+                        <textarea id="question" name="question" required></textarea>
+                    </div>
+                    <button type="submit" class="nav-btn">Send Email</button>
+                </form>
+            </div>
+            <div id="documentation" style="display: none;">
+                <!-- Content will be dynamically inserted here -->
             </div>
         </main>
         <div id="result-container" style="display: none;">
@@ -81,12 +743,620 @@
             <div id="recommended-dishes"></div>
         </div>
         <div id="recipe-container" style="display: none;">
-            
+            <!-- Selected recipe will be displayed here -->
         </div>
     </div>
+    <button class="accessibility-button" onclick="toggleAccessibilityMenu()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#003B5C">
+            <circle cx="12" cy="12" r="10" stroke="#003B5C" stroke-width="2" fill="none"/>
+            <circle cx="8" cy="9" r="1.5"/>
+            <circle cx="16" cy="9" r="1.5"/>
+            <path d="M7 14.5C7 14.5 9 17 12 17C15 17 17 14.5 17 14.5" stroke="#003B5C" stroke-width="2" fill="none"/>
+        </svg>
+    </button>
+
+    <div class="accessibility-menu" id="accessibility-menu">
+        <h3>Accessibility Options</h3>
+        
+        <div class="accessibility-option">
+            <label>Text-to-Speech</label>
+            <select id="tts-option" onchange="toggleTTS(this.value)">
+                <option value="off">Off</option>
+                <option value="on">On</option>
+            </select>
+        </div>
+        
+        <div class="accessibility-option">
+            <label>Font Type</label>
+            <select id="font-option" onchange="toggleDyslexicFont(this.value)">
+                <option value="regular">Regular</option>
+                <option value="dyslexic">Dyslexic Friendly</option>
+            </select>
+        </div>
+        
+        <div class="accessibility-option">
+            <label>High Contrast</label>
+            <select id="contrast-option" onchange="toggleHighContrast(this.value)">
+                <option value="normal">Normal</option>
+                <option value="high">High Contrast</option>
+            </select>
+        </div>
+        
+        <div class="accessibility-option">
+            <label>Text Size</label>
+            <input type="range" min="100" max="200" value="100" id="text-size" oninput="adjustTextSize(this.value)">
+        </div>
+    </div>
+
     <div class="arrow"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="script.js"></script>
+    <div id="google_translate_element" style="display:none;"></div>
+    <script>let currentQuestion = 1;
+let answers = {};
+let questions = [{
+  question: "How do I make perfect scrambled eggs?",
+  answer: "Use low heat and stir constantly for creamy eggs."
+}, {
+  question: "What's the secret to crispy fries?",
+  answer: "Double fry them! First at a lower temperature, then at a higher one."
+}, {
+  question: "How can I improve my knife skills?",
+  answer: "Practice proper grip and technique, and use a sharp knife."
+}, {
+  question: "What's an easy dessert for beginners?",
+  answer: "Try making a no-bake cheesecake or chocolate mousse."
+}];
+let recipes = [{
+  id: 'smoothie',
+  name: 'Fruit Smoothie', 
+  description: 'Refreshing fruit smoothie',
+  ingredients: ['Banana', 'Berries', 'Yogurt', 'Milk', 'Honey'],
+  instructions: ['Add fruits', 'Add yogurt and milk', 'Blend until smooth', 'Add honey to taste'],
+  image: 'assets/smoothie.jpeg'
+}, {
+  id: 'grilled-cheese',
+  name: 'Grilled Cheese',
+  description: 'Classic grilled cheese sandwich',
+  ingredients: ['Bread', 'Cheese', 'Butter'],
+  instructions: ['Butter bread', 'Add cheese', 'Grill until golden'],
+  image: 'assets/grilled-cheese.jpeg'
+}, {
+  id: 'scrambled-eggs',
+  name: 'Scrambled Eggs',
+  description: 'Perfect scrambled eggs',
+  ingredients: ['Eggs', 'Milk', 'Salt', 'Pepper', 'Butter'],
+  instructions: ['Beat eggs with milk', 'Heat pan', 'Add eggs', 'Stir until done'],
+  image: 'assets/eggs.jpeg'
+}, {
+  id: 'pasta',
+  name: 'Simple Pasta',
+  description: 'Easy pasta dish',
+  ingredients: ['Pasta', 'Sauce', 'Cheese'],
+  instructions: ['Boil pasta', 'Heat sauce', 'Combine', 'Add cheese'],
+  image: 'assets/pasta.jpeg'
+}, {
+  id: 'taco',
+  name: 'Basic Tacos',
+  description: 'Simple beef tacos',
+  ingredients: ['Tortillas', 'Ground beef', 'Lettuce', 'Cheese', 'Salsa'],
+  instructions: ['Cook beef', 'Warm tortillas', 'Assemble tacos'],
+  image: 'assets/taco.jpeg'
+}, {
+  id: 'cookies',
+  name: 'Chocolate Chip Cookies',
+  description: 'Classic chocolate chip cookies', 
+  ingredients: ['Flour', 'Sugar', 'Butter', 'Eggs', 'Chocolate chips'],
+  instructions: ['Mix ingredients', 'Make dough balls', 'Bake until golden'],
+  image: 'assets/cookies.jpeg'
+}, {
+  id: 'hamburger',
+  name: 'Classic Hamburger',
+  description: 'Juicy beef hamburger',
+  ingredients: ['Ground beef', 'Buns', 'Lettuce', 'Tomato', 'Onion'],
+  instructions: ['Form patty', 'Grill beef', 'Assemble burger'],
+  image: 'assets/burger.jpeg'
+}, {
+  id: 'steak',
+  name: 'Pan-Seared Steak',
+  description: 'Restaurant quality steak',
+  ingredients: ['Steak', 'Salt', 'Pepper', 'Butter', 'Herbs'],
+  instructions: ['Season steak', 'Heat pan', 'Sear both sides', 'Rest meat'],
+  image: 'assets/steak.jpeg'
+}, {
+  id: 'mac-cheese',
+  name: 'Homemade Mac & Cheese',
+  description: 'Creamy macaroni and cheese',
+  ingredients: ['Macaroni', 'Cheddar', 'Milk', 'Butter', 'Flour'],
+  instructions: ['Cook pasta', 'Make cheese sauce', 'Combine', 'Bake until bubbly'],
+  image: 'assets/mac.jpeg'
+}, {
+  id: 'pancakes',
+  name: 'Fluffy Pancakes',
+  description: 'Light and fluffy breakfast pancakes',
+  ingredients: ['Flour', 'Milk', 'Eggs', 'Baking powder', 'Sugar'],
+  instructions: ['Mix batter', 'Heat griddle', 'Cook until bubbles form', 'Flip and finish'],
+  image: 'assets/pancakes.jpeg'
+}, {
+  id: 'chicken-parm',
+  name: 'Chicken Parmesan',
+  description: 'Classic Italian-American dish',
+  ingredients: ['Chicken breast', 'Breadcrumbs', 'Marinara', 'Mozzarella', 'Parmesan'],
+  instructions: ['Bread chicken', 'Fry until golden', 'Add sauce and cheese', 'Bake until melted'],
+  image: 'assets/chicken-parm.jpeg'
+}, {
+  id: 'french-toast',
+  name: 'Cinnamon French Toast',
+  description: 'Sweet breakfast classic',
+  ingredients: ['Bread', 'Eggs', 'Milk', 'Cinnamon', 'Vanilla'],
+  instructions: ['Make egg mixture', 'Dip bread', 'Cook until golden', 'Top with syrup'],
+  image: 'assets/french-toast.jpeg'
+}];
+let currentLanguage = 'en';
+let translateInit = false;
+function nextQuestion(questionNumber, answer) {
+  answers[questionNumber] = answer;
+  gsap.to(`#q${questionNumber}`, {
+    opacity: 0,
+    y: -20,
+    duration: 0.5,
+    onComplete: () => {
+      document.querySelector(`#q${questionNumber}`).style.display = 'none';
+      if (questionNumber < 5) {
+        currentQuestion++;
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+  });
+}
+function showQuestion(questionNumber) {
+  let question = document.querySelector(`#q${questionNumber}`);
+  question.style.display = 'block';
+  gsap.fromTo(question, {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5
+  });
+  if (questionNumber >= 3) {
+    let slider = document.querySelector(`#q${questionNumber}-slider`);
+    let value = document.querySelector(`#q${questionNumber}-value`);
+    value.textContent = slider.value;
+  }
+}
+function updateSliderValue(questionNumber, value) {
+  document.querySelector(`#q${questionNumber}-value`).textContent = value;
+}
+function resetSurvey() {
+  currentQuestion = 1;
+  answers = {};
+  document.querySelectorAll('main > div').forEach(div => div.style.display = 'none');
+  document.querySelector('#quiz').style.display = 'block';
+  document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
+  showQuestion(1);
+}
+function showResult() {
+  let score = calculateScore();
+  let rating = getRating(score);
+  let result = document.querySelector('#result');
+  result.innerHTML = `<h2>Your Edible Rating</h2><p>You are a ${rating} chef!</p>`;
+  let recommendedDishes = document.querySelector('#recommended-dishes');
+  let filteredRecipes;
+  if (rating === 'Beginner') {
+    filteredRecipes = recipes.filter(recipe => ['smoothie', 'grilled-cheese', 'scrambled-eggs'].includes(recipe.id));
+  } else if (rating === 'Intermediate') {
+    filteredRecipes = recipes.filter(recipe => ['pasta', 'taco', 'cookies'].includes(recipe.id));
+  } else {
+    filteredRecipes = recipes.filter(recipe => ['hamburger', 'steak'].includes(recipe.id));
+  }
+  recommendedDishes.innerHTML = filteredRecipes.map(recipe => `
+                <div class="dish-box">
+                    <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
+                    <h3>${recipe.name}</h3>
+                    <p>${recipe.description}</p>
+                    <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
+                </div>
+            `).join('');
+  gsap.to('#quiz', {
+    opacity: 0,
+    y: -20,
+    duration: 0.5,
+    onComplete: () => {
+      document.querySelector('#quiz').style.display = 'none';
+    }
+  });
+  let resultContainer = document.querySelector('#result-container');
+  resultContainer.style.display = 'block';
+  gsap.fromTo(resultContainer, {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5
+  });
+  gsap.fromTo('.dish-box', {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.2,
+    delay: 0.5
+  });
+  resultContainer.scrollIntoView({
+    behavior: 'smooth'
+  });
+}
+function calculateScore() {
+  let score = 0;
+  if (answers[1] === 'yes') score += 2;
+  if (answers[2] === 'yes') score += 2;
+  score += parseInt(answers[3]) + parseInt(answers[4]) + parseInt(answers[5]);
+  return score;
+}
+function getRating(score) {
+  if (score < 10) return 'Beginner';
+  if (score < 20) return 'Intermediate';
+  return 'Master';
+}
+function showSection(sectionId) {
+  document.querySelectorAll('main > div, #result-container, #recipe-container, #documentation').forEach(div => div.style.display = 'none');
+  document.getElementById(sectionId).style.display = 'block';
+  if (sectionId === 'recipes') {
+    showRecipes();
+  } else if (sectionId === 'questions') {
+    showQuestions();
+  } else if (sectionId === 'cooks') {
+    showCooks();
+  }
+}
+function showDocumentation() {
+  showSection('documentation');
+  document.getElementById('documentation').innerHTML = `
+                <h2>Documentation</h2>
+                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRQVW5HriT-ggSWD8nPClE2x41raBzSf9JFR1fxUWqky7LrLL7tHankodr89jNXBUt-gOYzyGuJdty6/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+            `;
+}
+function showQuestions() {
+  const form = document.getElementById('question-form');
+  if (form) {
+    form.addEventListener('submit', handleFormSubmit);
+  }
+}
+function showRecipes() {
+  let recipesDiv = document.getElementById('recipe-list');
+  recipesDiv.innerHTML = recipes.map(recipe => `
+                <div class="dish-box">
+                    <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
+                    <h3>${recipe.name}</h3>
+                    <p>${recipe.description}</p>
+                    <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
+                </div>
+            `).join('');
+  gsap.fromTo('.dish-box', {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.2
+  });
+}
+function showRecipe(recipeId) {
+  let recipe = recipes.find(r => r.id === recipeId);
+  let recipeContent = `
+                <h3>${recipe.name}</h3>
+                <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="300" style="object-fit: cover; border-radius: 10px;">
+                <h4>Ingredients:</h4>
+                <ul>
+                    ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+                </ul>
+                <h4>Instructions:</h4>
+                <ol>
+                    ${recipe.instructions.map(instruction => `<li>${instruction}</li>`).join('')}
+                </ol>
+                <button class="nav-btn back-btn" onclick="hideRecipe()">Back to Recipes</button>
+            `;
+  let recipeContainer = document.querySelector('#recipe-container');
+  recipeContainer.innerHTML = `
+                <div class="recipe">
+                    ${recipeContent}
+                </div>
+            `;
+  recipeContainer.style.display = 'block';
+  gsap.fromTo(recipeContainer, {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5
+  });
+  recipeContainer.scrollIntoView({
+    behavior: 'smooth'
+  });
+}
+function hideRecipe() {
+  gsap.to('#recipe-container', {
+    opacity: 0,
+    y: 20,
+    duration: 0.5,
+    onComplete: () => {
+      document.querySelector('#recipe-container').style.display = 'none';
+      showRecipes();
+    }
+  });
+}
+function searchRecipes() {
+  let searchTerm = document.getElementById('search-input').value.toLowerCase();
+  let filteredRecipes = recipes.filter(recipe => recipe.name.toLowerCase().includes(searchTerm) || recipe.description.toLowerCase().includes(searchTerm));
+  let recipesDiv = document.getElementById('recipe-list');
+  recipesDiv.innerHTML = filteredRecipes.map(recipe => `
+                <div class="dish-box">
+                    <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
+                    <h3>${recipe.name}</h3>
+                    <p>${recipe.description}</p>
+                    <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
+                </div>
+            `).join('');
+  gsap.fromTo('.dish-box', {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.2
+  });
+}
+function toggleAccessibilityMenu() {
+  const menu = document.getElementById('accessibility-menu');
+  menu.classList.toggle('show');
+  const button = document.querySelector('.accessibility-button');
+  button.classList.toggle('active');
+}
+function toggleTTS(value) {
+  window.speechSynthesis.cancel();
+  if (value === 'on') {
+    document.querySelectorAll('p, h1, h2, h3, h4, button, a').forEach(element => {
+      element.onmouseenter = function () {
+        const utterance = new SpeechSynthesisUtterance(this.textContent);
+        utterance.lang = currentLanguage;
+        window.speechSynthesis.speak(utterance);
+      };
+      element.onmouseleave = function () {
+        window.speechSynthesis.cancel();
+      };
+      if (element.tagName === 'BUTTON' || element.tagName === 'A') {
+        element.onclick = function () {
+          const utterance = new SpeechSynthesisUtterance(this.textContent);
+          utterance.lang = currentLanguage;
+          window.speechSynthesis.speak(utterance);
+        };
+      }
+    });
+  } else {
+    document.querySelectorAll('p, h1, h2, h3, h4, button, a').forEach(element => {
+      element.onmouseenter = null;
+      element.onmouseleave = null;
+      element.onclick = null;
+    });
+  }
+}
+function toggleDyslexicFont(value) {
+  if (value === 'dyslexic') {
+    document.body.classList.add('dyslexic-font');
+  } else {
+    document.body.classList.remove('dyslexic-font');
+  }
+}
+function toggleHighContrast(value) {
+  if (value === 'high') {
+    document.body.classList.add('high-contrast');
+  } else {
+    document.body.classList.remove('high-contrast');
+  }
+}
+function adjustTextSize(value) {
+  document.body.style.fontSize = `${value}%`;
+}
+function handleFormSubmit(e) {
+  e.preventDefault();
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const question = document.getElementById('question').value;
+  const mailtoLink = `mailto:ediblecooking@cooking.com?subject=Question from ${name}&body=From: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AQuestion:%0D%0A${question}`;
+  window.location.href = mailtoLink;
+  e.target.reset();
+}
+function showCooks() {
+  const chefs = [{
+    name: "Remy",
+    title: "Head Chef",
+    bio: "A small rat with big dreams who revolutionized French cuisine. Known for his exceptional ratatouille.",
+    icon: `<svg viewBox="0 0 100 100" fill="currentColor">
+        <circle cx="50" cy="40" r="25"/>
+        <ellipse cx="50" cy="80" rx="25" ry="15"/>
+        <circle cx="40" cy="35" r="5" fill="#FFC72C"/>
+        <circle cx="60" cy="35" r="5" fill="#FFC72C"/>
+      </svg>`
+  }, {
+    name: "Gordon Ramsay",
+    title: "Executive Chef",
+    bio: "WHERE'S THE LAMB SAUCE?! Known for his passionate approach to cooking and colorful vocabulary.",
+    icon: `<svg viewBox="0 0 100 100" fill="currentColor">
+        <rect x="25" y="20" width="50" height="60" rx="5"/>
+        <circle cx="50" cy="35" r="15"/>
+        <rect x="35" y="60" width="30" height="5"/>
+      </svg>`
+  }, {
+    name: "Swedish Chef",
+    title: "Culinary Experimenter",
+    bio: "Bork bork bork! Turning kitchen chaos into culinary masterpieces, one flying ingredient at a time.",
+    icon: `<svg viewBox="0 0 100 100" fill="currentColor">
+        <circle cx="50" cy="35" r="20"/>
+        <rect x="30" y="55" width="40" height="30"/>
+        <rect x="25" y="15" width="50" height="15" rx="5"/>
+      </svg>`
+  }];
+  const cooksSection = document.getElementById('cooks');
+  const chefGrid = document.createElement('div');
+  chefGrid.className = 'chef-grid';
+  chefGrid.innerHTML = chefs.map(chef => `
+    <div class="chef-card">
+      <div class="chef-avatar">
+        ${chef.icon}
+      </div>
+      <h3 class="chef-name">${chef.name}</h3>
+      <div class="chef-title">${chef.title}</div>
+      <p class="chef-bio">${chef.bio}</p>
+    </div>
+  `).join('');
+  cooksSection.innerHTML = `
+    <h2>Meet Our Chefs</h2>
+    <p>The culinary masterminds behind our recipes!</p>
+  `;
+  cooksSection.appendChild(chefGrid);
+}
+function googleTranslateInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,zh-CN,fr,hi,ru',
+    autoDisplay: false
+  }, 'google_translate_element');
+  translateInit = true;
+}
+document.addEventListener('DOMContentLoaded', function () {
+  const script = document.createElement('script');
+  script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateInit';
+  document.body.appendChild(script);
+  document.getElementById('language-select').addEventListener('change', function (e) {
+    const lang = e.target.value;
+    if (translateInit) {
+      const selectElement = document.querySelector('.goog-te-combo');
+      if (selectElement) {
+        selectElement.value = lang;
+        selectElement.dispatchEvent(new Event('change'));
+        currentLanguage = lang;
+      }
+    }
+  });
+});
+showQuestion(1);
+particlesJS("particles-js", {
+  particles: {
+    number: {
+      value: 80,
+      density: {
+        enable: true,
+        value_area: 800
+      }
+    },
+    color: {
+      value: "#ffffff"
+    },
+    shape: {
+      type: "circle",
+      stroke: {
+        width: 0,
+        color: "#000000"
+      },
+      polygon: {
+        nb_sides: 5
+      },
+      image: {
+        src: "img/github.svg",
+        width: 100,
+        height: 100
+      }
+    },
+    opacity: {
+      value: 0.5,
+      random: false,
+      anim: {
+        enable: false,
+        speed: 1,
+        opacity_min: 0.1,
+        sync: false
+      }
+    },
+    size: {
+      value: 3,
+      random: true,
+      anim: {
+        enable: false,
+        speed: 40,
+        size_min: 0.1,
+        sync: false
+      }
+    },
+    line_linked: {
+      enable: true,
+      distance: 150,
+      color: "#ffffff",
+      opacity: 0.4,
+      width: 1
+    },
+    move: {
+      enable: true,
+      speed: 6,
+      direction: "none",
+      random: false,
+      straight: false,
+      out_mode: "out",
+      bounce: false,
+      attract: {
+        enable: false,
+        rotateX: 600,
+        rotateY: 1200
+      }
+    }
+  },
+  interactivity: {
+    detect_on: "canvas",
+    events: {
+      onhover: {
+        enable: true,
+        mode: "repulse"
+      },
+      onclick: {
+        enable: true,
+        mode: "push"
+      },
+      resize: true
+    },
+    modes: {
+      grab: {
+        distance: 400,
+        line_linked: {
+          opacity: 1
+        }
+      },
+      bubble: {
+        distance: 400,
+        size: 40,
+        duration: 2,
+        opacity: 8,
+        speed: 3
+      },
+      repulse: {
+        distance: 200,
+        duration: 0.4
+      },
+      push: {
+        particles_nb: 4
+      },
+      remove: {
+        particles_nb: 2
+      }
+    }
+  },
+  retina_detect: true
+});</script>
 </body>
 </html>
