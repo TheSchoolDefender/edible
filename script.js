@@ -1,17 +1,8 @@
 let currentQuestion = 1;
 let answers = {};
 let questions = [{
-  question: "How do I make perfect scrambled eggs?",
-  answer: "Use low heat and stir constantly for creamy eggs."
-}, {
-  question: "What's the secret to crispy fries?",
-  answer: "Double fry them! First at a lower temperature, then at a higher one."
-}, {
-  question: "How can I improve my knife skills?",
-  answer: "Practice proper grip and technique, and use a sharp knife."
-}, {
-  question: "What's an easy dessert for beginners?",
-  answer: "Try making a no-bake cheesecake or chocolate mousse."
+  question: "FAQ: So How do you like your cheese sir?",
+  answer: "drippy"
 }];
 let recipes = [{
   id: 'smoothie',
@@ -19,7 +10,7 @@ let recipes = [{
   description: 'Refreshing fruit smoothie',
   ingredients: ['Banana', 'Berries', 'Yogurt', 'Milk', 'Honey'],
   instructions: ['Add fruits', 'Add yogurt and milk', 'Blend until smooth', 'Add honey to taste'],
-  image: 'assets/smoothie.jpeg'
+  image: 'assets/smoothie.webp'
 }, {
   id: 'grilled-cheese',
   name: 'Grilled Cheese',
