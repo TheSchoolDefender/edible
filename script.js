@@ -136,42 +136,42 @@ let recipes = [{
   description: 'Moist and flavourful banana bread',
   ingredients: ['Bananas', 'Flour', 'Sugar', 'Butter', 'Eggs', 'Baking soda'],
   instructions: ['Mash bananas', 'Mix ingredients', 'Bake until golden'],
-  image: 'https://cdn.pixabay.com/photo/2020/11/27/13/42/banana-bread-5781814_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2015/08/14/19/41/minion-888797_1280.jpg'
 }, {
   id: 'fruit-salad',
   name: 'Fruit Salad',
   description: 'Fresh and healthy fruit mix',
   ingredients: ['Strawberries', 'Blueberries', 'Pineapple', 'Kiwi', 'Honey'],
   instructions: ['Chop fruits', 'Mix together', 'Drizzle with honey'],
-  image: 'https://cdn.pixabay.com/photo/2015/04/08/13/13/fruit-712428_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2017/05/11/19/44/fresh-fruits-2305192_1280.jpg'
 }, {
   id: 'carrot-cake',
   name: 'Carrot Cake',
   description: 'Spiced carrot cake with cream cheese frosting',
   ingredients: ['Flour', 'Carrots', 'Sugar', 'Eggs', 'Cinnamon', 'Cream cheese'],
   instructions: ['Mix ingredients', 'Bake cake layers', 'Frost with cream cheese frosting'],
-  image: 'https://cdn.pixabay.com/photo/2017/03/05/18/27/carrot-cake-2127498_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2016/11/23/00/22/carrots-1851424_1280.jpg'
 }, {
   id: 'donuts',
   name: 'Glazed Donuts',
   description: 'Sweet and fluffy homemade donuts',
   ingredients: ['Flour', 'Yeast', 'Sugar', 'Eggs', 'Milk', 'Glaze'],
   instructions: ['Prepare dough', 'Fry donuts', 'Dip in glaze'],
-  image: 'https://cdn.pixabay.com/photo/2018/03/26/18/30/donuts-3269191_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2023/01/09/05/55/bagel-7706691_1280.jpg'
 }, {
   id: 'churros',
   name: 'Cinnamon Churros',
   description: 'Crispy churros with cinnamon sugar',
   ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Cinnamon', 'Oil'],
   instructions: ['Make dough', 'Pipe and fry', 'Roll in cinnamon sugar'],
-  image: 'https://cdn.pixabay.com/photo/2019/05/14/16/29/churros-4200914_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2017/03/30/15/47/churros-2188871_1280.jpg'
 }, {
   id: 'tiramisu',
   name: 'Tiramisu',
   description: 'Classic Italian dessert',
   ingredients: ['Ladyfingers', 'Mascarpone', 'Coffee', 'Cocoa powder', 'Sugar', 'Eggs'],
   instructions: ['Make coffee mixture', 'Layer ingredients', 'Chill before serving'],
-  image: 'https://cdn.pixabay.com/photo/2019/10/01/16/48/tiramisu-4518950_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2024/01/12/04/09/tiramisu-8503073_1280.jpg'
 }];
 let currentLanguage = 'en';
 let translateInit = false;
