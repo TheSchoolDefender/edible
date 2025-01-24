@@ -244,7 +244,7 @@ let recipes = [{
   image: 'https://cdn.pixabay.com/photo/2021/05/08/16/13/shakshuka-6238787_1280.jpg'
 }, {
   id: 'waffles',
-  name: ’Waffles’,
+  name: 'Waffles',
   description: 'Fluffy on the inside and crispy on the outside',
   ingredients: ['Flour', 'Eggs', 'Butter', 'Sugar', 'Milk'],
   instructions: ['Mix all the ingredients','Open waffle maker and poor the mixture', 'Once finished, take your waffle out of the waffle maker and enjoy'],
