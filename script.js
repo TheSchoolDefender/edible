@@ -98,10 +98,10 @@ let recipes = [{
 }, {
   id: 'lemonade',
   name: 'Lemonade Kool-Aid',
-  description: 'Only black people drick this',
+  description: 'Nice Refreshing Beverage',
   ingredients: ['Kool Aid Powder', 'Water', 'Sugar'],
   instructions: ['Combine Kool Aid Powder and water', 'Combine sugar as well and serve'],
-  image: 'https://cdn.pixabay.com/photo/2015/08/26/15/07/first-aid-908591_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2020/06/14/14/44/drink-5298126_1280.jpg'
 }];
 let currentLanguage = 'en';
 let translateInit = false;
