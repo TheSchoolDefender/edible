@@ -95,6 +95,13 @@ let recipes = [{
   ingredients: ['Chicken Breasts', 'Eggs', 'Milk', 'Seasoning', 'Bread Crumbs', 'Oil'],
   instructions: ['Season chicken', 'Crack the egg and mix with milk', 'Boil Oil and dip the chicken into the sauce and put bread crumbs', 'Put the chicken into the boiling oil and cook'],
   image: 'https://cdn.pixabay.com/photo/2019/09/26/18/23/republic-of-korea-4506696_1280.jpg'
+}, {
+  id: 'lemonade',
+  name: 'Lemonade Kool-Aid',
+  description: 'Only black people drick this',
+  ingredients: ['Kool Aid Powder', 'Water', 'Sugar'],
+  instructions: ['Combine Kool Aid Powder and water', 'Combine sugar as well and serve'],
+  image: 'https://cdn.pixabay.com/photo/2015/08/26/15/07/first-aid-908591_1280.jpg'
 }];
 let currentLanguage = 'en';
 let translateInit = false;
