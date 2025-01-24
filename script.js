@@ -172,6 +172,76 @@ let recipes = [{
   ingredients: ['Ladyfingers', 'Mascarpone', 'Coffee', 'Cocoa powder', 'Sugar', 'Eggs'],
   instructions: ['Make coffee mixture', 'Layer ingredients', 'Chill before serving'],
   image: 'https://cdn.pixabay.com/photo/2024/01/12/04/09/tiramisu-8503073_1280.jpg'
+}, {
+  id: 'avocado-toast',
+  name: 'Avocado Toast',
+  description: 'Simple and delicious avocado toast',
+  ingredients: ['Bread', 'Avocado', 'Lemon', 'Salt', 'Pepper'],
+  instructions: ['Toast bread', 'Mash avocado', 'Spread on toast', 'Season with lemon, salt, and pepper'],
+  image: 'https://cdn.pixabay.com/photo/2021/02/13/11/05/toast-6011147_1280.jpg'
+}, {
+  id: 'breakfast-burrito',
+  name: 'Breakfast Burrito',
+  description: 'Hearty breakfast burrito',
+  ingredients: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Salsa'],
+  instructions: ['Scramble eggs', 'Cook sausage', 'Assemble ingredients in tortilla', 'Roll and serve'],
+  image: 'https://cdn.pixabay.com/photo/2017/06/29/20/09/mexican-2456038_1280.jpg'
+}, {
+  id: 'smoothie-bowl',
+  name: 'Smoothie Bowl',
+  description: 'Refreshing and healthy smoothie bowl',
+  ingredients: ['Frozen berries', 'Banana', 'Yogurt', 'Granola', 'Chia seeds'],
+  instructions: ['Blend berries, banana, and yogurt', 'Pour into bowl', 'Top with granola and chia seeds'],
+  image: 'https://cdn.pixabay.com/photo/2017/06/25/09/43/vegan-2440127_1280.jpg'
+}, {
+  id: 'omelette',
+  name: 'Vegetable Omelette',
+  description: 'Classic vegetable-stuffed omelette',
+  ingredients: ['Eggs', 'Onion', 'Bell pepper', 'Spinach', 'Cheese'],
+  instructions: ['Whisk eggs', 'Sauté vegetables', 'Cook eggs in pan', 'Add vegetables and fold'],
+  image: 'https://cdn.pixabay.com/photo/2018/11/16/13/20/egg-3819386_1280.jpg'
+}, {
+  id: 'breakfast-parfait',
+  name: 'Breakfast Parfait',
+  description: 'Layers of yogurt, granola, and fruit',
+  ingredients: ['Yogurt', 'Granola', 'Berries', 'Honey'],
+  instructions: ['Layer yogurt, granola, and berries in a glass', 'Drizzle with honey'],
+  image: 'https://cdn.pixabay.com/photo/2019/03/26/18/29/yogurt-4083358_1280.jpg'
+}, {
+  id: 'eggs-benedict',
+  name: 'Eggs Benedict',
+  description: 'Classic poached eggs with hollandaise sauce',
+  ingredients: ['English muffins', 'Eggs', 'Ham', 'Hollandaise sauce', 'Butter'],
+  instructions: ['Toast muffins', 'Poach eggs', 'Add ham and eggs on muffins', 'Top with hollandaise sauce'],
+  image: 'https://cdn.pixabay.com/photo/2017/10/12/00/13/cafe-2843009_1280.jpg'
+}, {
+  id: 'breakfast-pizza',
+  name: 'Breakfast Pizza',
+  description: 'Pizza topped with eggs, cheese, and bacon',
+  ingredients: ['Pizza dough', 'Eggs', 'Cheese', 'Bacon', 'Tomato sauce'],
+  instructions: ['Roll out dough', 'Spread tomato sauce', 'Add cheese, bacon, and cracked eggs', 'Bake until set'],
+  image: 'https://cdn.pixabay.com/photo/2020/06/08/16/49/pizza-5275191_1280.jpg'
+}, {
+  id: 'hash-browns',
+  name: 'Crispy Hash Browns',
+  description: 'Golden, crispy hash browns',
+  ingredients: ['Potatoes', 'Salt', 'Pepper', 'Oil'],
+  instructions: ['Grate potatoes', 'Season with salt and pepper', 'Fry until crispy'],
+  image: 'https://cdn.pixabay.com/photo/2017/03/16/23/01/english-breakfast-2150514_1280.jpg'
+}, {
+  id: 'granola-bars',
+  name: 'Homemade Granola Bars',
+  description: 'Healthy and chewy granola bars',
+  ingredients: ['Oats', 'Honey', 'Peanut butter', 'Dried fruit', 'Nuts'],
+  instructions: ['Mix ingredients', 'Press into pan', 'Chill and slice'],
+  image: 'https://cdn.pixabay.com/photo/2017/04/04/17/31/food-2202344_1280.jpg'
+}, {
+  id: 'shakshuka',
+  name: 'Shakshuka',
+  description: 'Spicy eggs poached in tomato sauce',
+  ingredients: ['Eggs', 'Tomatoes', 'Onion', 'Garlic', 'Spices'],
+  instructions: ['Sauté onion and garlic', 'Add tomatoes and spices', 'Crack eggs into sauce', 'Cook until eggs set'],
+  image: 'https://cdn.pixabay.com/photo/2021/05/08/16/13/shakshuka-6238787_1280.jpg'
 }];
 let currentLanguage = 'en';
 let translateInit = false;
