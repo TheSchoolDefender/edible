@@ -108,28 +108,28 @@ let recipes = [{
   description: 'Rich and fudgy brownies',
   ingredients: ['Flour', 'Cocoa powder', 'Butter', 'Sugar', 'Eggs', 'Vanilla'],
   instructions: ['Mix dry ingredients', 'Add wet ingredients', 'Bake until set'],
-  image: 'https://cdn.pixabay.com/photo/2016/11/29/04/19/brownie-1867457_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2017/08/07/12/49/dessert-2603520_1280.jpg'
 }, {
   id: 'cheesecake',
   name: 'Classic Cheesecake',
   description: 'Creamy and smooth cheesecake',
   ingredients: ['Cream cheese', 'Sugar', 'Eggs', 'Graham crackers', 'Butter', 'Vanilla'],
   instructions: ['Make crust', 'Mix filling', 'Bake in water bath'],
-  image: 'https://cdn.pixabay.com/photo/2022/05/16/17/36/cheesecake-7198663_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2023/02/17/16/24/cake-7796383_1280.jpg'
 }, {
   id: 'cupcakes',
   name: 'Vanilla Cupcakes',
   description: 'Soft and moist cupcakes',
   ingredients: ['Flour', 'Sugar', 'Eggs', 'Butter', 'Milk', 'Vanilla'],
   instructions: ['Mix batter', 'Fill liners', 'Bake and frost'],
-  image: 'https://cdn.pixabay.com/photo/2016/03/05/20/01/cupcake-1238438_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2017/08/06/04/16/cupcake-2588646_1280.jpg'
 }, {
   id: 'ice-cream',
   name: 'Homemade Ice Cream',
   description: 'No-churn vanilla ice cream',
   ingredients: ['Heavy cream', 'Condensed milk', 'Vanilla'],
   instructions: ['Whip cream', 'Fold in condensed milk', 'Freeze until set'],
-  image: 'https://cdn.pixabay.com/photo/2016/03/05/22/48/ice-cream-1238716_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2019/11/07/13/05/waffle-4608843_1280.jpg'
 }, {
   id: 'banana-bread',
   name: 'Banana Bread',
