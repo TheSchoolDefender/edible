@@ -88,6 +88,13 @@ let recipes = [{
   ingredients: ['Bread', 'Eggs', 'Milk', 'Cinnamon', 'Vanilla'],
   instructions: ['Make egg mixture', 'Dip bread', 'Cook until golden', 'Top with syrup'],
   image: 'https://cdn.pixabay.com/photo/2020/11/21/08/46/french-toast-5763429_1280.jpg'
+}, {
+  id: 'fried-chicken',
+  name: 'Fried Chicken',
+  description: 'I would eat this chicken if it was the best thing on earth',
+  ingredients: ['Chicken Breasts', 'Eggs', 'Milk', 'Seasoning', 'Bread Crumbs', 'Oil'],
+  instructions: ['Season chicken', 'Crack the egg and mix with milk', 'Boil Oil and dip the chicken into the sauce and put bread crumbs', 'Put the chicken into the boiling oil and cook'],
+  image: 'https://cdn.pixabay.com/photo/2019/09/26/18/23/republic-of-korea-4506696_1280.jpg'
 }];
 let currentLanguage = 'en';
 let translateInit = false;
