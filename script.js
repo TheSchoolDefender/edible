@@ -242,6 +242,118 @@ let recipes = [{
   ingredients: ['Eggs', 'Tomatoes', 'Onion', 'Garlic', 'Spices'],
   instructions: ['Sauté onion and garlic', 'Add tomatoes and spices', 'Crack eggs into sauce', 'Cook until eggs set'],
   image: 'https://cdn.pixabay.com/photo/2021/05/08/16/13/shakshuka-6238787_1280.jpg'
+}, {
+  id: 'waffles',
+  name: ’Waffles’,
+  description: 'Fluffy on the inside and crispy on the outside',
+  ingredients: ['Flour', 'Eggs', 'Butter', 'Sugar', 'Milk'],
+  instructions: ['Mix all the ingredients','Open waffle maker and poor the mixture', 'Once finished, take your waffle out of the waffle maker and enjoy'],
+  image: 'https://cdn.pixabay.com/photo/2015/07/27/20/29/food-863484_1280.jpg'
+}, {
+ id: ‘mashed-potatoes’,
+ name: ‘Mashed Potatoes’,
+ description: ‘Creamy and buttery potatoes’,
+ ingredients: [‘Potatoes’, "Butter’, ‘Milk’, ‘Salt’, ‘Pepper’],
+ instructions’: [‘Boil potatoes until soft’, ‘Mash with butter and milk’, ‘Season with salt and pepper’]
+  image: 'https://cdn.pixabay.com/photo/2014/09/09/11/16/mashed-potatoes-439976_1280.jpg'
+}, {
+ id: 'spaghetti',
+ name: 'Spaghetti',
+ description: 'Classic pasta with rich tomato sauce',
+ ingredients: ['Spaghetti', 'Tomato Sauce', 'Garlic', 'Olive Oil', 'Parmesan'],
+ instructions: ['Boil spaghetti until soft', 'Heat sauce in a pan', 'Mix pasta with sauce and serve']
+  image: 'https://cdn.pixabay.com/photo/2021/02/04/12/49/food-5981250_1280.jpg’
+}, {
+ id: 'garlic-bread',
+ name: 'Garlic Bread',
+ description: 'Crispy bread with buttery garlic flavor',
+ ingredients: ['Bread', 'Butter', 'Garlic', 'Parsley'],
+ instructions: ['Mix butter and garlic', 'Spread on bread', 'Bake until golden and crispy']
+  image: 'https://cdn.pixabay.com/photo/2022/08/02/07/30/garlic-bread-7359756_1280.jpg’
+}, {
+ id: 'quesadilla',
+ name: 'Quesadilla',
+ description: 'Melted cheese inside a toasted tortilla',
+ ingredients: ['Tortilla', 'Cheese', 'Butter'],
+ instructions: ['Butter a pan and heat tortilla', 'Add cheese and fold', 'Cook until golden and crispy']
+  image: 'https://cdn.pixabay.com/photo/2020/08/14/10/51/quesadilla-5487578_1280.jpg’
+}, {
+ id: grilled-chicken,
+ name: Grilled Chicken,
+ description: Juicy and flavorful chicken breast,
+ ingredients: [Chicken Breast, Olive Oil, Salt, Pepper, Garlic Powder],
+ instructions: [Season chicken with salt, pepper, and garlic powder, Heat oil in a pan, Cook chicken until golden brown and fully cooked]
+  image: 'https://cdn.pixabay.com/photo/2022/07/25/20/15/grilled-chicken-7344499_1280.jpg’
+}, {
+id: fried-rice,
+ name: Fried Rice,
+ description: Savory rice stir-fried with vegetables and eggs,
+ ingredients: [Rice, Eggs, Carrots, Peas, Soy Sauce],
+ instructions: [Cook rice and let cool, Scramble eggs in a pan, Add rice, vegetables, and soy sauce, then stir-fry]
+  image: 'https://cdn.pixabay.com/photo/2016/10/23/09/37/fried-rice-1762493_1280.jpg’
+}, {
+id: garlic-shrimp,
+ name: Garlic Shrimp,
+ description: Juicy shrimp sautéed with garlic and butter,
+ ingredients: [Shrimp, Butter, Garlic, Salt, Lemon Juice],
+ instructions: [Melt butter in a pan, Add garlic and shrimp, Cook until shrimp is pink and tender]
+  image: 'https://cdn.pixabay.com/photo/2021/07/25/18/55/shrimp-6492587_640.jpg’
+}, {
+id: meatballs,
+ name: Meatballs,
+ description: Juicy and flavorful meatballs in sauce,
+ ingredients: [Ground Beef, Bread Crumbs, Egg, Garlic, Tomato Sauce],
+ instructions: [Mix ingredients and form meatballs, Cook in a pan, Simmer in tomato sauce]
+  image: 'https://cdn.pixabay.com/photo/2020/06/15/11/59/meatballs-5301512_1280.jpg’
+}, {
+id: bbq-ribs,
+ name: BBQ Ribs,
+ description: Tender ribs coated in smoky barbecue sauce,
+ ingredients: [Pork Ribs, BBQ Sauce, Garlic Powder, Salt, Pepper],
+ instructions: [Season ribs, Slow-cook until tender, Coat with BBQ sauce and bake]
+  image: 'https://cdn.pixabay.com/photo/2020/06/25/21/24/spare-ribs-5340942_1280.jpg’
+}, {
+id: blueberry-muffins,
+ name: Blueberry Muffins,
+ description: Soft and fluffy muffins filled with blueberries,
+ ingredients: [Flour, Sugar, Blueberries, Egg, Baking Powder],
+ instructions: [Mix ingredients, Fill muffin tin, Bake until golden]
+  image: 'https://cdn.pixabay.com/photo/2017/03/12/10/30/blueberry-2136750_1280.jpg’
+}, {
+id: corn-on-the-cob,
+ name: Corn on the Cob,
+ description: Sweet and juicy corn boiled or grilled to perfection,
+ ingredients: [Corn, Butter, Salt, Water],
+ instructions: [Boil or grill corn, Spread butter on top, Sprinkle with salt and serve]
+  image: 'https://cdn.pixabay.com/photo/2023/05/15/04/45/corn-7994121_1280.jpg’
+}, {
+id: baked-potatoes,
+ name: Baked Potatoes,
+ description: Fluffy potatoes with a crispy skin, perfect with toppings,
+ ingredients: [Potatoes, Butter, Salt, Sour Cream, Cheese],
+ instructions: [Bake potatoes until tender, Cut open and add butter, Top with sour cream and cheese]
+  image: 'https://cdn.pixabay.com/photo/2020/01/27/16/46/potato-4797670_1280.jpg’
+}, {
+id: greek-salad,
+ name: Greek Salad,
+ description: A refreshing salad with cucumbers, tomatoes, and feta cheese,
+ ingredients: [Cucumber, Tomato, Feta Cheese, Olives, Olive Oil],
+ instructions: [Chop vegetables, Add feta and olives, Drizzle with olive oil and serve]
+  image: 'https://cdn.pixabay.com/photo/2014/12/28/13/18/feta-cheese-581848_1280.jpg’
+}, {
+id: ratatouille,
+ name: Ratatouille,
+ description: A colorful French vegetable dish baked to perfection,
+ ingredients: [Zucchini, Eggplant, Tomato, Bell Pepper, Olive Oil],
+ instructions: [Slice vegetables, Layer in a baking dish, Drizzle with olive oil and bake]
+  image: 'https://cdn.pixabay.com/photo/2020/06/19/08/25/ratatouille-5316194_1280.jpg’
+}, {
+id: miso-soup,
+ name: Miso Soup,
+ description: A light and savory Japanese soup with tofu and seaweed,
+ ingredients: [Miso Paste, Tofu, Green Onion, Seaweed, Dashi],
+ instructions: [Dissolve miso in dashi, Add tofu and seaweed, Simmer and serve]
+  image: 'https://cdn.pixabay.com/photo/2015/05/02/01/04/miso-soup-749368_1280.jpg’
 }];
 let currentLanguage = 'en';
 let translateInit = false;
