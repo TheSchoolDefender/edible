@@ -17,77 +17,77 @@ let recipes = [{
   description: 'Classic grilled cheese sandwich',
   ingredients: ['Bread', 'Cheese', 'Butter'],
   instructions: ['Butter bread', 'Add cheese', 'Grill until golden'],
-  image: 'assets/grilled-cheese.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2021/04/05/14/48/cheese-platter-6153716_1280.jpg'
 }, {
   id: 'scrambled-eggs',
   name: 'Scrambled Eggs',
   description: 'Perfect scrambled eggs',
   ingredients: ['Eggs', 'Milk', 'Salt', 'Pepper', 'Butter'],
   instructions: ['Beat eggs with milk', 'Heat pan', 'Add eggs', 'Stir until done'],
-  image: 'assets/eggs.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2021/08/29/11/00/scrambled-eggs-6582990_1280.jpg'
 }, {
   id: 'pasta',
   name: 'Simple Pasta',
   description: 'Easy pasta dish',
   ingredients: ['Pasta', 'Sauce', 'Cheese'],
   instructions: ['Boil pasta', 'Heat sauce', 'Combine', 'Add cheese'],
-  image: 'assets/pasta.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2018/07/18/19/12/pasta-3547078_1280.jpg'
 }, {
   id: 'taco',
   name: 'Basic Tacos',
   description: 'Simple beef tacos',
   ingredients: ['Tortillas', 'Ground beef', 'Lettuce', 'Cheese', 'Salsa'],
   instructions: ['Cook beef', 'Warm tortillas', 'Assemble tacos'],
-  image: 'assets/taco.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2019/12/20/21/17/taco-4709325_1280.jpg'
 }, {
   id: 'cookies',
   name: 'Chocolate Chip Cookies',
   description: 'Classic chocolate chip cookies',
   ingredients: ['Flour', 'Sugar', 'Butter', 'Eggs', 'Chocolate chips'],
   instructions: ['Mix ingredients', 'Make dough balls', 'Bake until golden'],
-  image: 'assets/cookies.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2023/06/22/22/29/cookies-8082386_1280.jpg'
 }, {
   id: 'hamburger',
   name: 'Classic Hamburger',
   description: 'Juicy beef hamburger',
   ingredients: ['Ground beef', 'Buns', 'Lettuce', 'Tomato', 'Onion'],
   instructions: ['Form patty', 'Grill beef', 'Assemble burger'],
-  image: 'assets/burger.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2023/09/23/15/56/ai-generated-8271284_1280.jpg'
 }, {
   id: 'steak',
   name: 'Pan-Seared Steak',
   description: 'Restaurant quality steak',
   ingredients: ['Steak', 'Salt', 'Pepper', 'Butter', 'Herbs'],
   instructions: ['Season steak', 'Heat pan', 'Sear both sides', 'Rest meat'],
-  image: 'assets/steak.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2018/08/29/19/03/steak-3640560_1280.jpg'
 }, {
   id: 'mac-cheese',
   name: 'Homemade Mac & Cheese',
   description: 'Creamy macaroni and cheese',
   ingredients: ['Macaroni', 'Cheddar', 'Milk', 'Butter', 'Flour'],
   instructions: ['Cook pasta', 'Make cheese sauce', 'Combine', 'Bake until bubbly'],
-  image: 'assets/mac.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2020/05/03/13/23/cheese-5125021_1280.jpg'
 }, {
   id: 'pancakes',
   name: 'Fluffy Pancakes',
   description: 'Light and fluffy breakfast pancakes',
   ingredients: ['Flour', 'Milk', 'Eggs', 'Baking powder', 'Sugar'],
   instructions: ['Mix batter', 'Heat griddle', 'Cook until bubbles form', 'Flip and finish'],
-  image: 'assets/pancakes.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2017/09/19/08/52/pancake-2764589_1280.jpg'
 }, {
   id: 'chicken-parm',
   name: 'Chicken Parmesan',
   description: 'Classic Italian-American dish',
   ingredients: ['Chicken breast', 'Breadcrumbs', 'Marinara', 'Mozzarella', 'Parmesan'],
   instructions: ['Bread chicken', 'Fry until golden', 'Add sauce and cheese', 'Bake until melted'],
-  image: 'assets/chicken-parm.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2020/02/15/04/19/chicken-4849979_1280.jpg'
 }, {
   id: 'french-toast',
   name: 'Cinnamon French Toast',
   description: 'Sweet breakfast classic',
   ingredients: ['Bread', 'Eggs', 'Milk', 'Cinnamon', 'Vanilla'],
   instructions: ['Make egg mixture', 'Dip bread', 'Cook until golden', 'Top with syrup'],
-  image: 'assets/french-toast.jpeg'
+  image: 'https://cdn.pixabay.com/photo/2020/11/21/08/46/french-toast-5763429_1280.jpg'
 }];
 let currentLanguage = 'en';
 let translateInit = false;
