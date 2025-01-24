@@ -102,6 +102,76 @@ let recipes = [{
   ingredients: ['Kool Aid Powder', 'Water', 'Sugar'],
   instructions: ['Combine Kool Aid Powder and water', 'Combine sugar as well and serve'],
   image: 'https://cdn.pixabay.com/photo/2020/06/14/14/44/drink-5298126_1280.jpg'
+}, {
+  id: 'brownies',
+  name: 'Chocolate Brownies',
+  description: 'Rich and fudgy brownies',
+  ingredients: ['Flour', 'Cocoa powder', 'Butter', 'Sugar', 'Eggs', 'Vanilla'],
+  instructions: ['Mix dry ingredients', 'Add wet ingredients', 'Bake until set'],
+  image: 'https://cdn.pixabay.com/photo/2016/11/29/04/19/brownie-1867457_1280.jpg'
+}, {
+  id: 'cheesecake',
+  name: 'Classic Cheesecake',
+  description: 'Creamy and smooth cheesecake',
+  ingredients: ['Cream cheese', 'Sugar', 'Eggs', 'Graham crackers', 'Butter', 'Vanilla'],
+  instructions: ['Make crust', 'Mix filling', 'Bake in water bath'],
+  image: 'https://cdn.pixabay.com/photo/2022/05/16/17/36/cheesecake-7198663_1280.jpg'
+}, {
+  id: 'cupcakes',
+  name: 'Vanilla Cupcakes',
+  description: 'Soft and moist cupcakes',
+  ingredients: ['Flour', 'Sugar', 'Eggs', 'Butter', 'Milk', 'Vanilla'],
+  instructions: ['Mix batter', 'Fill liners', 'Bake and frost'],
+  image: 'https://cdn.pixabay.com/photo/2016/03/05/20/01/cupcake-1238438_1280.jpg'
+}, {
+  id: 'ice-cream',
+  name: 'Homemade Ice Cream',
+  description: 'No-churn vanilla ice cream',
+  ingredients: ['Heavy cream', 'Condensed milk', 'Vanilla'],
+  instructions: ['Whip cream', 'Fold in condensed milk', 'Freeze until set'],
+  image: 'https://cdn.pixabay.com/photo/2016/03/05/22/48/ice-cream-1238716_1280.jpg'
+}, {
+  id: 'banana-bread',
+  name: 'Banana Bread',
+  description: 'Moist and flavourful banana bread',
+  ingredients: ['Bananas', 'Flour', 'Sugar', 'Butter', 'Eggs', 'Baking soda'],
+  instructions: ['Mash bananas', 'Mix ingredients', 'Bake until golden'],
+  image: 'https://cdn.pixabay.com/photo/2020/11/27/13/42/banana-bread-5781814_1280.jpg'
+}, {
+  id: 'fruit-salad',
+  name: 'Fruit Salad',
+  description: 'Fresh and healthy fruit mix',
+  ingredients: ['Strawberries', 'Blueberries', 'Pineapple', 'Kiwi', 'Honey'],
+  instructions: ['Chop fruits', 'Mix together', 'Drizzle with honey'],
+  image: 'https://cdn.pixabay.com/photo/2015/04/08/13/13/fruit-712428_1280.jpg'
+}, {
+  id: 'carrot-cake',
+  name: 'Carrot Cake',
+  description: 'Spiced carrot cake with cream cheese frosting',
+  ingredients: ['Flour', 'Carrots', 'Sugar', 'Eggs', 'Cinnamon', 'Cream cheese'],
+  instructions: ['Mix ingredients', 'Bake cake layers', 'Frost with cream cheese frosting'],
+  image: 'https://cdn.pixabay.com/photo/2017/03/05/18/27/carrot-cake-2127498_1280.jpg'
+}, {
+  id: 'donuts',
+  name: 'Glazed Donuts',
+  description: 'Sweet and fluffy homemade donuts',
+  ingredients: ['Flour', 'Yeast', 'Sugar', 'Eggs', 'Milk', 'Glaze'],
+  instructions: ['Prepare dough', 'Fry donuts', 'Dip in glaze'],
+  image: 'https://cdn.pixabay.com/photo/2018/03/26/18/30/donuts-3269191_1280.jpg'
+}, {
+  id: 'churros',
+  name: 'Cinnamon Churros',
+  description: 'Crispy churros with cinnamon sugar',
+  ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Cinnamon', 'Oil'],
+  instructions: ['Make dough', 'Pipe and fry', 'Roll in cinnamon sugar'],
+  image: 'https://cdn.pixabay.com/photo/2019/05/14/16/29/churros-4200914_1280.jpg'
+}, {
+  id: 'tiramisu',
+  name: 'Tiramisu',
+  description: 'Classic Italian dessert',
+  ingredients: ['Ladyfingers', 'Mascarpone', 'Coffee', 'Cocoa powder', 'Sugar', 'Eggs'],
+  instructions: ['Make coffee mixture', 'Layer ingredients', 'Chill before serving'],
+  image: 'https://cdn.pixabay.com/photo/2019/10/01/16/48/tiramisu-4518950_1280.jpg'
 }];
 let currentLanguage = 'en';
 let translateInit = false;
