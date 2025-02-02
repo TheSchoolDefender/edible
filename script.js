@@ -319,6 +319,86 @@ let recipes = [{
   ingredients: ['Miso Paste', 'Tofu', 'Green Onion', 'Seaweed', 'Dashi'],
   instructions: ['Dissolve miso in dashi', 'Add tofu and seaweed', 'Simmer and serve'],
   image: 'https://cdn.pixabay.com/photo/2015/05/02/01/04/miso-soup-749368_1280.jpg'
+}, {
+  id: 'enchiladas',
+  name: 'Chicken Enchiladas',
+  description: 'Cheesy and saucy enchiladas',
+  ingredients: ['Tortillas', 'Chicken', 'Cheese', 'Enchilada sauce', 'Sour cream'],
+  instructions: ['Cook chicken', 'Fill tortillas with chicken and cheese', 'Roll and place in dish', 'Top with enchilada sauce and more cheese', 'Bake until bubbly'],
+  image: 'https://cdn.pixabay.com/photo/2017/08/03/19/56/mexican-2575124_1280.jpg'
+},
+{
+  id: 'pozole',
+  name: 'Red Pozole',
+  description: 'Traditional Mexican soup with hominy and pork',
+  ingredients: ['Pork', 'Hominy', 'Red chiles', 'Onion', 'Garlic', 'Spices'],
+  instructions: ['Cook pork until tender', 'Prepare red chile sauce', 'Combine with hominy and spices', 'Simmer until flavours meld', 'Serve with toppings like cabbage and lime'],
+  image: 'https://cdn.pixabay.com/photo/2021/11/07/23/03/pozole-6779458_1280.jpg'
+},
+{
+  id: 'tamales',
+  name: 'Tamales',
+  description: 'Classic corn dough with savoury fillings',
+  ingredients: ['Corn husks', 'Masa harina', 'Lard', 'Chicken', 'Salsa'],
+  instructions: ['Soak corn husks', 'Prepare masa', 'Fill husks with masa and chicken salsa', 'Steam until cooked'],
+  image: 'https://cdn.pixabay.com/photo/2020/01/19/22/11/tamale-4778151_1280.jpg'
+},
+{
+  id: 'sopes',
+  name: 'Sopes',
+  description: 'Thick corn dough topped with beans and meat',
+  ingredients: ['Masa harina', 'Beans', 'Meat', 'Lettuce', 'Cheese', 'Salsa'],
+  instructions: ['Shape masa into thick discs', 'Cook on griddle', 'Top with beans, meat, and toppings'],
+  image: 'https://cdn.pixabay.com/photo/2018/10/06/15/59/sopes-3730107_1280.jpg'
+},
+{
+  id: 'chiles-rellenos',
+  name: 'Chiles Rellenos',
+  description: 'Stuffed poblano peppers in tomato sauce',
+  ingredients: ['Poblano peppers', 'Cheese', 'Eggs', 'Tomato sauce', 'Flour'],
+  instructions: ['Roast and peel peppers', 'Stuff with cheese', 'Dip in egg batter and fry', 'Serve with tomato sauce'],
+  image: 'https://cdn.pixabay.com/photo/2019/04/17/19/49/chiles-rellenos-4133814_1280.jpg'
+},
+{
+  id: 'guacamole',
+  name: 'Guacamole',
+  description: 'Creamy avocado dip',
+  ingredients: ['Avocado', 'Tomato', 'Onion', 'Lime', 'Cilantro', 'Salt'],
+  instructions: ['Mash avocados', 'Mix in diced tomatoes, onions, and lime juice', 'Season and serve'],
+  image: 'https://cdn.pixabay.com/photo/2016/11/22/23/05/avocado-1851421_1280.jpg'
+},
+{
+  id: 'flan',
+  name: 'Flan',
+  description: 'Creamy caramel custard dessert',
+  ingredients: ['Eggs', 'Milk', 'Sugar', 'Vanilla', 'Caramel'],
+  instructions: ['Prepare caramel', 'Mix custard ingredients', 'Pour into moulds and bake in water bath', 'Chill before serving'],
+  image: 'https://cdn.pixabay.com/photo/2018/01/03/22/12/dessert-3058476_1280.jpg'
+},
+{
+  id: 'mole',
+  name: 'Chicken Mole',
+  description: 'Rich and flavourful chocolate-based sauce',
+  ingredients: ['Chicken', 'Mole paste', 'Chicken broth', 'Chocolate', 'Tortillas'],
+  instructions: ['Cook chicken', 'Prepare mole sauce with broth and chocolate', 'Simmer chicken in sauce', 'Serve with tortillas'],
+  image: 'https://cdn.pixabay.com/photo/2020/06/13/18/11/mole-5294413_1280.jpg'
+},
+{
+  id: 'fajitas',
+  name: 'Beef Fajitas',
+  description: 'Sizzling beef with vegetables',
+  ingredients: ['Beef', 'Bell peppers', 'Onions', 'Tortillas', 'Seasoning'],
+  instructions: ['Marinate beef', 'Cook beef and vegetables', 'Serve with warm tortillas'],
+  image: 'https://cdn.pixabay.com/photo/2016/03/05/22/07/fajitas-1236708_1280.jpg'
+},
+{
+  id: 'tostadas',
+  name: 'Tostadas',
+  description: 'Crispy tortillas topped with beans, meat, and veggies',
+  ingredients: ['Tostadas', 'Beans', 'Meat', 'Lettuce', 'Cheese', 'Salsa'],
+  instructions: ['Spread beans on tostadas', 'Add meat and toppings', 'Serve immediately'],
+  image: 'https://cdn.pixabay.com/photo/2018/09/11/01/46/mexican-food-3669965_1280.jpg'
+}];
 }];
 
 let currentLanguage = 'en';
