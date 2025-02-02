@@ -399,7 +399,6 @@ let recipes = [{
   instructions: ['Spread beans on tostadas', 'Add meat and toppings', 'Serve immediately'],
   image: 'https://cdn.pixabay.com/photo/2018/09/11/01/46/mexican-food-3669965_1280.jpg'
 }];
-}];
 
 let currentLanguage = 'en';
 let translateInit = false;
