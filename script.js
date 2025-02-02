@@ -556,7 +556,7 @@ let recipes = [{
     ingredients: ['Milk powder', 'Flour', 'Sugar', 'Cardamom', 'Ghee'],
     instructions: ['Make dough', 'Shape and fry dumplings', 'Soak in sugar syrup', 'Serve warm'],
     image: 'https://cdn.pixabay.com/photo/2017/05/06/19/20/indian-2290593_1280.jpg'
-  }, {
+}, {
     id: 'spaghetti-carbonara',
     name: 'Spaghetti Carbonara',
     description: 'Classic pasta with eggs, cheese, pancetta, and black pepper',
@@ -627,7 +627,7 @@ let recipes = [{
     ingredients: ['Heavy cream', 'Sugar', 'Gelatin', 'Vanilla'],
     instructions: ['Heat cream and sugar', 'Dissolve gelatin', 'Pour into moulds and chill', 'Serve with fruit sauce'],
     image: 'https://cdn.pixabay.com/photo/2017/06/18/18/49/panna-cotta-2416749_1280.jpg'
-  }, {
+}, {
     id: 'coq-au-vin',
     name: 'Coq au Vin',
     description: 'Chicken braised in red wine with mushrooms, bacon, and onions',
@@ -698,7 +698,7 @@ let recipes = [{
     ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Vanilla', 'Lemon zest'],
     instructions: ['Mix batter', 'Chill and fill moulds', 'Bake until golden', 'Serve with tea'],
     image: 'https://cdn.pixabay.com/photo/2015/03/21/14/31/madeleine-683743_1280.jpg'
-  }, {
+}, {
     id: 'koolaid-glazed-chicken',
     name: 'Kool-Aid Glazed Fried Chicken with Watermelon Salad',
     description: 'A sweet and tangy twist on fried chicken served with a refreshing watermelon salad.',
@@ -729,6 +729,63 @@ let recipes = [{
 
 let currentLanguage = 'en';
 let translateInit = false;
+
+let foodQuizQuestions = [
+  {
+    question: "Which country is known for originating sushi?",
+    choices: ["China", "Japan", "South Korea", "Thailand"],
+    correctAnswer: 1
+  },
+  {
+    question: "What is the primary ingredient in guacamole?",
+    choices: ["Tomato", "Avocado", "Lime", "Onion"],
+    correctAnswer: 1
+  },
+  {
+    question: "What type of pasta is traditionally used in a classic spaghetti bolognese?",
+    choices: ["Penne", "Spaghetti", "Fusilli", "Farfalle"],
+    correctAnswer: 1
+  },
+  {
+    question: "Which fruit is known as the \"king of fruits\" and has a very strong smell?",
+    choices: ["Durian", "Mango", "Pineapple", "Banana"],
+    correctAnswer: 0
+  },
+  {
+    question: "What does the French term \"mirepoix\" refer to?",
+    choices: ["A type of sauce", "A vegetable-based stock", "A combination of onions, carrots, and celery", "A way to cook fish"],
+    correctAnswer: 2
+  },
+  {
+    question: "Which country is the birthplace of the croissant?",
+    choices: ["France", "Austria", "Italy", "Germany"],
+    correctAnswer: 1
+  },
+  {
+    question: "What is the main ingredient in the Italian dish \"risotto\"?",
+    choices: ["Rice", "Pasta", "Polenta", "Bread"],
+    correctAnswer: 0
+  },
+  {
+    question: "Which type of cheese is traditionally used in a Greek salad?",
+    choices: ["Mozzarella", "Feta", "Cheddar", "Gouda"],
+    correctAnswer: 1
+  },
+  {
+    question: "What is the key flavor in the Indian dish \"curry\"?",
+    choices: ["Garlic", "Cinnamon", "Turmeric", "Ginger"],
+    correctAnswer: 2
+  },
+  {
+    question: "In which country would you find the dish \"paella\"?",
+    choices: ["Mexico", "Italy", "Spain", "Greece"],
+    correctAnswer: 2
+  }
+];
+
+let currentQuizQuestion = 0;
+let foodQuizScore = 0;
+
 function nextQuestion(questionNumber, answer) {
   answers[questionNumber] = answer;
   gsap.to(`#q${questionNumber}`, {
@@ -746,6 +803,7 @@ function nextQuestion(questionNumber, answer) {
     }
   });
 }
+
 function showQuestion(questionNumber) {
   let question = document.querySelector(`#q${questionNumber}`);
   question.style.display = 'block';
@@ -763,9 +821,11 @@ function showQuestion(questionNumber) {
     value.textContent = slider.value;
   }
 }
+
 function updateSliderValue(questionNumber, value) {
   document.querySelector(`#q${questionNumber}-value`).textContent = value;
 }
+
 function resetSurvey() {
   currentQuestion = 1;
   answers = {};
@@ -774,106 +834,79 @@ function resetSurvey() {
   document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
   showQuestion(1);
 }
-function showResult() {
-  let score = calculateScore();
-  let rating = getRating(score);
-  let result = document.querySelector('#result');
-  result.innerHTML = `<h2>Your Edible Rating</h2><p>You are a ${rating} chef!</p>`;
-  let recommendedDishes = document.querySelector('#recommended-dishes');
-  let filteredRecipes;
-  if (rating === 'Beginner') {
-    filteredRecipes = recipes.filter(recipe => ['smoothie', 'grilled-cheese', 'scrambled-eggs'].includes(recipe.id));
-  } else if (rating === 'Intermediate') {
-    filteredRecipes = recipes.filter(recipe => ['pasta', 'taco', 'cookies'].includes(recipe.id));
-  } else {
-    filteredRecipes = recipes.filter(recipe => ['hamburger', 'steak'].includes(recipe.id));
+
+function generateIngredientCheckboxes() {
+  const allIngredients = new Set();
+  recipes.forEach(recipe => {
+    recipe.ingredients.forEach(ingredient => {
+      allIngredients.add(ingredient);
+    });
+  });
+
+  const ingredientContainer = document.getElementById('ingredient-checkboxes');
+  ingredientContainer.innerHTML = Array.from(allIngredients)
+    .sort()
+    .map(ingredient => `
+      <label>
+        <input type="checkbox" name="ingredient" value="${ingredient}">
+        ${ingredient}
+      </label>
+    `).join('');
+}
+
+function searchRecipes() {
+  const searchTerm = document.getElementById('search-input').value.toLowerCase();
+  const skillLevelFilter = document.getElementById('skill-level-filter').value;
+  const sortFilter = document.getElementById('sort-filter').value;
+
+  const selectedIngredients = Array.from(
+    document.querySelectorAll('input[name="ingredient"]:checked')
+  ).map(checkbox => checkbox.value);
+
+  let filteredRecipes = recipes.filter(recipe => {
+    const nameMatch = recipe.name.toLowerCase().includes(searchTerm) || 
+                      recipe.description.toLowerCase().includes(searchTerm);
+
+    const skillLevelMatch = !skillLevelFilter || 
+        getRecipeSkillLevel(recipe) === skillLevelFilter;
+
+    const ingredientMatch = selectedIngredients.length === 0 || 
+        selectedIngredients.every(ing => recipe.ingredients.includes(ing));
+
+    return nameMatch && skillLevelMatch && ingredientMatch;
+  });
+
+  // Sort recipes
+  switch(sortFilter) {
+    case 'name':
+      filteredRecipes.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    case 'difficulty':
+      filteredRecipes.sort((a, b) => {
+        const difficultyOrder = {
+          'Beginner': 1,
+          'Intermediate': 2,
+          'Master': 3
+        };
+        return difficultyOrder[getRecipeSkillLevel(a)] - difficultyOrder[getRecipeSkillLevel(b)];
+      });
+      break;
+    case 'ingredients':
+      filteredRecipes.sort((a, b) => a.ingredients.length - b.ingredients.length);
+      break;
   }
-  recommendedDishes.innerHTML = filteredRecipes.map(recipe => `
-                <div class="dish-box">
-                    <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
-                    <h3>${recipe.name}</h3>
-                    <p>${recipe.description}</p>
-                    <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
-                </div>
-            `).join('');
-  gsap.to('#quiz', {
-    opacity: 0,
-    y: -20,
-    duration: 0.5,
-    onComplete: () => {
-      document.querySelector('#quiz').style.display = 'none';
-    }
-  });
-  let resultContainer = document.querySelector('#result-container');
-  resultContainer.style.display = 'block';
-  gsap.fromTo(resultContainer, {
-    opacity: 0,
-    y: 20
-  }, {
-    opacity: 1,
-    y: 0,
-    duration: 0.5
-  });
-  gsap.fromTo('.dish-box', {
-    opacity: 0,
-    y: 20
-  }, {
-    opacity: 1,
-    y: 0,
-    duration: 0.5,
-    stagger: 0.2,
-    delay: 0.5
-  });
-  resultContainer.scrollIntoView({
-    behavior: 'smooth'
-  });
-}
-function calculateScore() {
-  let score = 0;
-  if (answers[1] === 'yes') score += 2;
-  if (answers[2] === 'yes') score += 2;
-  score += parseInt(answers[3]) + parseInt(answers[4]) + parseInt(answers[5]);
-  return score;
-}
-function getRating(score) {
-  if (score < 10) return 'Beginner';
-  if (score < 20) return 'Intermediate';
-  return 'Master';
-}
-function showSection(sectionId) {
-  document.querySelectorAll('main > div, #result-container, #recipe-container, #documentation').forEach(div => div.style.display = 'none');
-  document.getElementById(sectionId).style.display = 'block';
-  if (sectionId === 'recipes') {
-    showRecipes();
-  } else if (sectionId === 'questions') {
-    showQuestions();
-  } else if (sectionId === 'cooks') {
-    showCooks();
-  }
-}
-function showDocumentation() {
-  showSection('documentation');
-  document.getElementById('documentation').innerHTML = `
-                <h2>Documentation</h2>
-                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRQVW5HriT-ggSWD8nPClE2x41raBzSf9JFR1fxUWqky7LrLL7tHankodr89jNXBUt-gOYzyGuJdty6/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-            `;
-}
-function showQuestions() {
-  const form = document.getElementById('question-form');
-  if (form) {
-    form.addEventListener('submit', handleFormSubmit);
-  }
-}
-function showRecipes() {
-  let recipesDiv = document.getElementById('recipe-list');
-  recipesDiv.innerHTML = recipes.map(recipe => `
-                <div class="dish-box">
-                    <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
-                    <h3>${recipe.name}</h3>
-                    <p>${recipe.description}</p>
-                    <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
-                </div>
-            `).join('');
+
+  const recipesDiv = document.getElementById('recipe-list');
+  recipesDiv.innerHTML = filteredRecipes.map(recipe => `
+    <div class="dish-box">
+      <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
+      <h3>${recipe.name}</h3>
+      <p>${recipe.description}</p>
+      <p><strong>Skill Level:</strong> ${getRecipeSkillLevel(recipe)}</p>
+      <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
+    </div>
+  `).join('');
+
   gsap.fromTo('.dish-box', {
     opacity: 0,
     y: 20
@@ -884,27 +917,65 @@ function showRecipes() {
     stagger: 0.2
   });
 }
+
+function getRecipeSkillLevel(recipe) {
+  const ingredientCount = recipe.ingredients.length;
+  const instructionComplexity = recipe.instructions.reduce((complexity, instruction) => {
+    return complexity + (instruction.split(' ').length > 5 ? 1 : 0);
+  }, 0);
+
+  if (ingredientCount <= 3 && instructionComplexity <= 1) return 'Beginner';
+  if (ingredientCount <= 6 && instructionComplexity <= 3) return 'Intermediate';
+  return 'Master';
+}
+
+function showRecipes() {
+  generateIngredientCheckboxes(); 
+
+  let recipesDiv = document.getElementById('recipe-list');
+  recipesDiv.innerHTML = recipes.map(recipe => `
+    <div class="dish-box">
+      <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
+      <h3>${recipe.name}</h3>
+      <p>${recipe.description}</p>
+      <p><strong>Skill Level:</strong> ${getRecipeSkillLevel(recipe)}</p>
+      <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
+    </div>
+  `).join('');
+
+  gsap.fromTo('.dish-box', {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.2
+  });
+}
+
 function showRecipe(recipeId) {
   let recipe = recipes.find(r => r.id === recipeId);
   let recipeContent = `
-                <h3>${recipe.name}</h3>
-                <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="300" style="object-fit: cover; border-radius: 10px;">
-                <h4>Ingredients:</h4>
-                <ul>
-                    ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
-                </ul>
-                <h4>Instructions:</h4>
-                <ol>
-                    ${recipe.instructions.map(instruction => `<li>${instruction}</li>`).join('')}
-                </ol>
-                <button class="nav-btn back-btn" onclick="hideRecipe()">Back to Recipes</button>
-            `;
+    <h3>${recipe.name}</h3>
+    <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="300" style="object-fit: cover; border-radius: 10px;">
+    <p><strong>Skill Level:</strong> ${getRecipeSkillLevel(recipe)}</p>
+    <h4>Ingredients:</h4>
+    <ul>
+      ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+    </ul>
+    <h4>Instructions:</h4>
+    <ol>
+      ${recipe.instructions.map(instruction => `<li>${instruction}</li>`).join('')}
+    </ol>
+    <button class="nav-btn back-btn" onclick="hideRecipe()">Back to Recipes</button>
+  `;
   let recipeContainer = document.querySelector('#recipe-container');
   recipeContainer.innerHTML = `
-                <div class="recipe">
-                    ${recipeContent}
-                </div>
-            `;
+    <div class="recipe">
+      ${recipeContent}
+    </div>
+  `;
   recipeContainer.style.display = 'block';
   gsap.fromTo(recipeContainer, {
     opacity: 0,
@@ -918,6 +989,7 @@ function showRecipe(recipeId) {
     behavior: 'smooth'
   });
 }
+
 function hideRecipe() {
   gsap.to('#recipe-container', {
     opacity: 0,
@@ -929,62 +1001,65 @@ function hideRecipe() {
     }
   });
 }
-function searchRecipes() {
-  let searchTerm = document.getElementById('search-input').value.toLowerCase();
-  let filteredRecipes = recipes.filter(recipe => recipe.name.toLowerCase().includes(searchTerm) || recipe.description.toLowerCase().includes(searchTerm));
-  let recipesDiv = document.getElementById('recipe-list');
-  recipesDiv.innerHTML = filteredRecipes.map(recipe => `
-                <div class="dish-box">
-                    <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
-                    <h3>${recipe.name}</h3>
-                    <p>${recipe.description}</p>
-                    <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
-                </div>
-            `).join('');
-  gsap.fromTo('.dish-box', {
-    opacity: 0,
-    y: 20
-  }, {
-    opacity: 1,
-    y: 0,
-    duration: 0.5,
-    stagger: 0.2
-  });
+
+function showSection(sectionId) {
+  document.querySelectorAll('main > div, #result-container, #recipe-container, #documentation').forEach(div => div.style.display = 'none');
+  document.getElementById(sectionId).style.display = 'block';
+  if (sectionId === 'recipes') {
+    showRecipes();
+  } else if (sectionId === 'questions') {
+    showQuestions();
+  } else if (sectionId === 'cooks') {
+    showCooks();
+  }
 }
+
+function showDocumentation() {
+  showSection('documentation');
+  document.getElementById('documentation').innerHTML = `
+    <h2>Documentation</h2>
+    <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRQVW5HriT-ggSWD8nPClE2x41raBzSf9JFR1fxUWqky7LrLL7tHankodr89jNXBUt-gOYzyGuJdty6/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+  `;
+}
+
+function showQuestions() {
+  const form = document.getElementById('question-form');
+  if (form) {
+    form.addEventListener('submit', handleFormSubmit);
+  }
+}
+
 function toggleAccessibilityMenu() {
   const menu = document.getElementById('accessibility-menu');
   menu.classList.toggle('show');
   const button = document.querySelector('.accessibility-button');
   button.classList.toggle('active');
 }
+
 function toggleTTS(value) {
-  window.speechSynthesis.cancel();
-  if (value === 'on') {
+  if (value === 'off') {
     document.querySelectorAll('p, h1, h2, h3, h4, button, a').forEach(element => {
-      element.onmouseenter = function() {
-        const utterance = new SpeechSynthesisUtterance(this.textContent);
-        utterance.lang = currentLanguage;
-        window.speechSynthesis.speak(utterance);
-      };
-      element.onmouseleave = function() {
-        window.speechSynthesis.cancel();
-      };
-      if (element.tagName === 'BUTTON' || element.tagName === 'A') {
-        element.onclick = function() {
-          const utterance = new SpeechSynthesisUtterance(this.textContent);
-          utterance.lang = currentLanguage;
-          window.speechSynthesis.speak(utterance);
-        };
-      }
+      element.removeEventListener('mouseenter', speakText);
+      element.removeEventListener('mouseleave', stopSpeaking);
     });
   } else {
     document.querySelectorAll('p, h1, h2, h3, h4, button, a').forEach(element => {
-      element.onmouseenter = null;
-      element.onmouseleave = null;
-      element.onclick = null;
+      element.addEventListener('mouseenter', speakText);
+      element.addEventListener('mouseleave', stopSpeaking);
     });
   }
 }
+
+function speakText(event) {
+  const utterance = new SpeechSynthesisUtterance(event.target.textContent);
+  utterance.lang = currentLanguage;
+  window.speechSynthesis.speak(utterance);
+}
+
+function stopSpeaking() {
+  window.speechSynthesis.cancel();
+}
+
 function toggleDyslexicFont(value) {
   if (value === 'dyslexic') {
     document.body.classList.add('dyslexic-font');
@@ -992,82 +1067,34 @@ function toggleDyslexicFont(value) {
     document.body.classList.remove('dyslexic-font');
   }
 }
-function toggleHighContrast(value) {
-  if (value === 'high') {
-    document.body.classList.add('high-contrast');
-  } else {
-    document.body.classList.remove('high-contrast');
-  }
-}
-function adjustTextSize(value) {
-  document.body.style.fontSize = `${value}%`;
-}
-function handleFormSubmit(e) {
-  e.preventDefault();
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const question = document.getElementById('question').value;
-  const mailtoLink = `mailto:ediblecooking@cooking.com?subject=Question from ${name}&body=From: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AQuestion:%0D%0A${question}`;
-  window.location.href = mailtoLink;
-  e.target.reset();
-}
-function showCooks() {
-  const chefs = [{
-    name: "Remy",
-    title: "Head Chef",
-    bio: "A small rat with big dreams who revolutionized French cuisine. Known for his exceptional ratatouille.",
-    icon: `<svg viewBox="0 0 100 100" fill="currentColor">
-        <circle cx="50" cy="40" r="25"/>
-        <ellipse cx="50" cy="80" rx="25" ry="15"/>
-        <circle cx="40" cy="35" r="5" fill="#FFC72C"/>
-        <circle cx="60" cy="35" r="5" fill="#FFC72C"/>
-      </svg>`
-  }, {
-    name: "Gordon Ramsay",
-    title: "Executive Chef",
-    bio: "WHERE'S THE LAMB SAUCE?! Known for his passionate approach to cooking and colorful vocabulary.",
-    icon: `<svg viewBox="0 0 100 100" fill="currentColor">
-        <rect x="25" y="20" width="50" height="60" rx="5"/>
-        <circle cx="50" cy="35" r="15"/>
-        <rect x="35" y="60" width="30" height="5"/>
-      </svg>`
-  }, {
-    name: "Swedish Chef",
-    title: "Culinary Experimenter",
-    bio: "Bork bork bork! Turning kitchen chaos into culinary masterpieces, one flying ingredient at a time.",
-    icon: `<svg viewBox="0 0 100 100" fill="currentColor">
-        <circle cx="50" cy="35" r="20"/>
-        <rect x="30" y="55" width="40" height="30"/>
-        <rect x="25" y="15" width="50" height="15" rx="5"/>
-      </svg>`
-  }];
-  const cooksSection = document.getElementById('cooks');
-  const chefGrid = document.createElement('div');
-  chefGrid.className = 'chef-grid';
-  chefGrid.innerHTML = chefs.map(chef => `
-    <div class="chef-card">
-      <div class="chef-avatar">
-        ${chef.icon}
-      </div>
-      <h3 class="chef-name">${chef.name}</h3>
-      <div class="chef-title">${chef.title}</div>
-      <p class="chef-bio">${chef.bio}</p>
-    </div>
-  `).join('');
-  cooksSection.innerHTML = `
-    <h2>Meet Our Chefs</h2>
-    <p>The culinary masterminds behind our recipes!</p>
+
+function showRecommend() {
+  const recommendSection = document.getElementById('recommend');
+  recommendSection.innerHTML = `
+    <h2>Recommend a Recipe</h2>
+    <iframe 
+      src="https://docs.google.com/forms/d/e/1FAIpQLSeaer09DQu7nZCriGD82-cs4-ZG6b1LHCwOOYHxjjersEn2QA/viewform?embedded=true" 
+      width="100%" 
+      height="800" 
+      frameborder="0" 
+      marginheight="0" 
+      marginwidth="0">
+      Loading…
+    </iframe>
   `;
-  cooksSection.appendChild(chefGrid);
+  showSection('recommend');
 }
-function googleTranslateInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'en',
-    includedLanguages: 'en,es,zh-CN,fr,hi,ru',
-    autoDisplay: false
-  }, 'google_translate_element');
-  translateInit = true;
+
+function toggleFilterSidebar() {
+  const sidebar = document.getElementById('filter-sidebar');
+  sidebar.classList.toggle('open');
 }
+
+function applyFilters() {
+  searchRecipes();
+  toggleFilterSidebar();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   const script = document.createElement('script');
   script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateInit';
@@ -1084,7 +1111,183 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
+function showResult() {
+  let adventurousness = parseInt(answers[3] || 5);
+  let cookingLikelihood = parseInt(answers[4] || 5);
+  let confidence = parseInt(answers[5] || 5);
+
+  let totalScore = adventurousness + cookingLikelihood + confidence;
+  
+  let skillLevels = {
+    0: 'Beginner',
+    15: 'Novice',
+    25: 'Intermediate', 
+    35: 'Advanced',
+    45: 'Master',
+    55: 'GOD'
+  };
+
+  let userSkillLevel = Object.keys(skillLevels)
+    .reverse()
+    .find(threshold => totalScore >= parseInt(threshold)) || 'Beginner';
+
+  let recommendedRecipes = recipes.filter(recipe => 
+    getRecipeSkillLevel(recipe) === skillLevels[Object.keys(skillLevels).find(threshold => 
+      userSkillLevel === skillLevels[threshold]
+    )]
+  );
+
+  recommendedRecipes = recommendedRecipes.slice(0, 5);
+
+  let resultContainer = document.getElementById('result-container');
+  let resultDiv = document.getElementById('result');
+  let recommendedDishesDiv = document.getElementById('recommended-dishes');
+
+  resultDiv.innerHTML = `
+    <h2>Your Cooking Skill Level: ${userSkillLevel}</h2>
+    <p>Based on your survey results, here are some recommended recipes:</p>
+  `;
+
+  recommendedDishesDiv.innerHTML = recommendedRecipes.map(recipe => `
+    <div class="dish-box">
+      <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
+      <h3>${recipe.name}</h3>
+      <p>${recipe.description}</p>
+      <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
+    </div>
+  `).join('');
+
+  document.querySelectorAll('main > div').forEach(div => div.style.display = 'none');
+  resultContainer.style.display = 'block';
+
+  gsap.fromTo('.dish-box', {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.2
+  });
+
+  resultDiv.innerHTML += `
+    <button class="nav-btn" onclick="startFoodQuiz()">Take Food Quiz</button>
+  `;
+}
+
+function startFoodQuiz() {
+  const quizContainer = document.getElementById('result-container');
+  quizContainer.innerHTML = `
+    <div id="food-quiz">
+      <h2>Food Quiz</h2>
+      <div id="quiz-question"></div>
+      <div id="quiz-choices"></div>
+      <div id="quiz-feedback"></div>
+    </div>
+  `;
+  
+  currentQuizQuestion = 0;
+  foodQuizScore = 0;
+  showFoodQuizQuestion();
+}
+
+function showFoodQuizQuestion() {
+  const quizQuestion = foodQuizQuestions[currentQuizQuestion];
+  const questionDiv = document.getElementById('quiz-question');
+  const choicesDiv = document.getElementById('quiz-choices');
+  
+  questionDiv.innerHTML = `<h3>${quizQuestion.question}</h3>`;
+  
+  choicesDiv.innerHTML = quizQuestion.choices.map((choice, index) => `
+    <button class="quiz-choice-btn" onclick="checkFoodQuizAnswer(${index})">
+      ${choice}
+    </button>
+  `).join('');
+}
+
+function checkFoodQuizAnswer(selectedIndex) {
+  const quizQuestion = foodQuizQuestions[currentQuizQuestion];
+  const feedbackDiv = document.getElementById('quiz-feedback');
+  
+  if (selectedIndex === quizQuestion.correctAnswer) {
+    foodQuizScore++;
+    feedbackDiv.innerHTML = `<p style="color: green;">Correct!</p>`;
+  } else {
+    feedbackDiv.innerHTML = `<p style="color: red;">Incorrect. The correct answer is: ${quizQuestion.choices[quizQuestion.correctAnswer]}</p>`;
+  }
+  
+  currentQuizQuestion++;
+  
+  if (currentQuizQuestion < foodQuizQuestions.length) {
+    setTimeout(() => {
+      feedbackDiv.innerHTML = '';
+      showFoodQuizQuestion();
+    }, 2000);
+  } else {
+    setTimeout(completeFoodQuiz, 2000);
+  }
+}
+
+function completeFoodQuiz() {
+  const quizContainer = document.getElementById('food-quiz');
+  const maxScore = foodQuizQuestions.length;
+  const scorePercentage = (foodQuizScore / maxScore) * 100;
+  
+  let userSkillLevel = 'Beginner';
+  
+  if (scorePercentage === 100) {
+    userSkillLevel = 'GOD';
+  } else if (scorePercentage >= 80) {
+    userSkillLevel = 'Master';
+  } else if (scorePercentage >= 60) {
+    userSkillLevel = 'Advanced';
+  } else if (scorePercentage >= 40) {
+    userSkillLevel = 'Intermediate';
+  } else if (scorePercentage >= 20) {
+    userSkillLevel = 'Novice';
+  }
+  
+  quizContainer.innerHTML = `
+    <h2>Food Quiz Results</h2>
+    <p>You scored ${foodQuizScore} out of ${maxScore}</p>
+    <p>Your Culinary Knowledge Level: ${userSkillLevel}</p>
+    <button class="nav-btn" onclick="showRecommendedRecipes('${userSkillLevel}')">See Recommended Recipes</button>
+  `;
+}
+
+function showRecommendedRecipes(skillLevel) {
+  let recommendedRecipes = recipes.filter(recipe => 
+    getRecipeSkillLevel(recipe) === skillLevel
+  );
+  
+  recommendedRecipes = recommendedRecipes.slice(0, 5);
+  
+  const recipesContainer = document.getElementById('result-container');
+  const recommendedDiv = document.getElementById('recommended-dishes');
+  
+  recommendedDiv.innerHTML = recommendedRecipes.map(recipe => `
+    <div class="dish-box">
+      <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
+      <h3>${recipe.name}</h3>
+      <p>${recipe.description}</p>
+      <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
+    </div>
+  `).join('');
+  
+  gsap.fromTo('.dish-box', {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.2
+  });
+}
+
 showQuestion(1);
+
 particlesJS("particles-js", {
   particles: {
     number: {
