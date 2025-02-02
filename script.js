@@ -714,7 +714,6 @@ let recipes = [{
     ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Vanilla', 'Lemon zest'],
     instructions: ['Mix batter', 'Chill and fill moulds', 'Bake until golden', 'Serve with tea'],
     image: 'https://cdn.pixabay.com/photo/2021/01/25/18/14/madeleines-5947462_1280.jpg'
-  }
 }];
 
 let currentLanguage = 'en';
