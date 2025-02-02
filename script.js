@@ -255,28 +255,28 @@ let recipes = [{
   description: 'Quick stir-fried rice',
   ingredients: ['Rice', 'Vegetables', 'Soy sauce', 'Eggs', 'Garlic'],
   instructions: ['Cook rice', 'Stir-fry vegetables', 'Add rice and sauce'],
-  image: 'https://cdn.pixabay.com/photo/2021/04/20/10/14/fried-rice-6183903_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2021/01/16/09/05/meal-5921491_1280.jpg'
 }, {
   id: 'garlic-shrimp',
   name: 'Garlic Shrimp',
   description: 'Garlic-flavored shrimp',
   ingredients: ['Shrimp', 'Garlic', 'Butter', 'Lemon', 'Parsley'],
   instructions: ['Sauté garlic', 'Add shrimp', 'Cook until pink'],
-  image: 'https://cdn.pixabay.com/photo/2020/07/28/14/45/garlic-shrimp-5443733_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2020/03/21/04/00/shrimp-4952607_1280.jpg'
 }, {
   id: 'meatballs',
   name: 'Spaghetti and Meatballs',
   description: 'Classic spaghetti with meatballs',
   ingredients: ['Spaghetti', 'Ground beef', 'Tomato sauce', 'Garlic', 'Parmesan'],
   instructions: ['Form meatballs', 'Cook spaghetti', 'Simmer meatballs in sauce'],
-  image: 'https://cdn.pixabay.com/photo/2016/01/05/15/21/spaghetti-1120892_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2017/06/29/21/14/meatball-2456234_1280.jpg'
 }, {
   id: 'bbq-ribs',
   name: 'BBQ Ribs',
   description: 'Tender BBQ ribs',
   ingredients: ['Ribs', 'BBQ sauce', 'Spices'],
   instructions: ['Season ribs', 'Grill or bake with sauce'],
-  image: 'https://cdn.pixabay.com/photo/2020/06/23/03/03/barbecue-5339043_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2017/06/05/18/46/pork-ribs-2374889_1280.jpg'
 }, {
   id: 'blueberry-muffins',
   name: 'Blueberry Muffins',
@@ -325,7 +325,7 @@ let recipes = [{
   description: 'Cheesy and saucy enchiladas',
   ingredients: ['Tortillas', 'Chicken', 'Cheese', 'Enchilada sauce', 'Sour cream'],
   instructions: ['Cook chicken', 'Fill tortillas with chicken and cheese', 'Roll and place in dish', 'Top with enchilada sauce and more cheese', 'Bake until bubbly'],
-  image: 'https://cdn.pixabay.com/photo/2017/08/03/19/56/mexican-2575124_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2014/01/14/22/13/mexican-245240_1280.jpg'
 },
 {
   id: 'pozole',
@@ -333,7 +333,7 @@ let recipes = [{
   description: 'Traditional Mexican soup with hominy and pork',
   ingredients: ['Pork', 'Hominy', 'Red chiles', 'Onion', 'Garlic', 'Spices'],
   instructions: ['Cook pork until tender', 'Prepare red chile sauce', 'Combine with hominy and spices', 'Simmer until flavours meld', 'Serve with toppings like cabbage and lime'],
-  image: 'https://cdn.pixabay.com/photo/2021/11/07/23/03/pozole-6779458_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2019/01/04/02/44/cominda-christmas-3912359_1280.jpg'
 },
 {
   id: 'tamales',
@@ -341,7 +341,7 @@ let recipes = [{
   description: 'Classic corn dough with savoury fillings',
   ingredients: ['Corn husks', 'Masa harina', 'Lard', 'Chicken', 'Salsa'],
   instructions: ['Soak corn husks', 'Prepare masa', 'Fill husks with masa and chicken salsa', 'Steam until cooked'],
-  image: 'https://cdn.pixabay.com/photo/2020/01/19/22/11/tamale-4778151_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2020/01/10/18/22/food-4755914_1280.jpg'
 },
 {
   id: 'sopes',
@@ -349,7 +349,7 @@ let recipes = [{
   description: 'Thick corn dough topped with beans and meat',
   ingredients: ['Masa harina', 'Beans', 'Meat', 'Lettuce', 'Cheese', 'Salsa'],
   instructions: ['Shape masa into thick discs', 'Cook on griddle', 'Top with beans, meat, and toppings'],
-  image: 'https://cdn.pixabay.com/photo/2018/10/06/15/59/sopes-3730107_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2020/02/08/10/35/soap-4829708_1280.jpg'
 },
 {
   id: 'chiles-rellenos',
@@ -357,7 +357,7 @@ let recipes = [{
   description: 'Stuffed poblano peppers in tomato sauce',
   ingredients: ['Poblano peppers', 'Cheese', 'Eggs', 'Tomato sauce', 'Flour'],
   instructions: ['Roast and peel peppers', 'Stuff with cheese', 'Dip in egg batter and fry', 'Serve with tomato sauce'],
-  image: 'https://cdn.pixabay.com/photo/2019/04/17/19/49/chiles-rellenos-4133814_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2017/09/23/18/54/cayenne-peppers-2779828_1280.jpg'
 },
 {
   id: 'guacamole',
@@ -365,7 +365,7 @@ let recipes = [{
   description: 'Creamy avocado dip',
   ingredients: ['Avocado', 'Tomato', 'Onion', 'Lime', 'Cilantro', 'Salt'],
   instructions: ['Mash avocados', 'Mix in diced tomatoes, onions, and lime juice', 'Season and serve'],
-  image: 'https://cdn.pixabay.com/photo/2016/11/22/23/05/avocado-1851421_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2020/02/03/02/38/chips-and-guacamole-4814576_1280.jpg'
 },
 {
   id: 'flan',
@@ -373,7 +373,7 @@ let recipes = [{
   description: 'Creamy caramel custard dessert',
   ingredients: ['Eggs', 'Milk', 'Sugar', 'Vanilla', 'Caramel'],
   instructions: ['Prepare caramel', 'Mix custard ingredients', 'Pour into moulds and bake in water bath', 'Chill before serving'],
-  image: 'https://cdn.pixabay.com/photo/2018/01/03/22/12/dessert-3058476_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2014/08/08/11/24/flan-413223_1280.jpg'
 },
 {
   id: 'mole',
@@ -381,7 +381,7 @@ let recipes = [{
   description: 'Rich and flavourful chocolate-based sauce',
   ingredients: ['Chicken', 'Mole paste', 'Chicken broth', 'Chocolate', 'Tortillas'],
   instructions: ['Cook chicken', 'Prepare mole sauce with broth and chocolate', 'Simmer chicken in sauce', 'Serve with tortillas'],
-  image: 'https://cdn.pixabay.com/photo/2020/06/13/18/11/mole-5294413_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2020/02/13/23/57/mexican-food-4847184_1280.jpg'
 },
 {
   id: 'fajitas',
@@ -389,7 +389,7 @@ let recipes = [{
   description: 'Sizzling beef with vegetables',
   ingredients: ['Beef', 'Bell peppers', 'Onions', 'Tortillas', 'Seasoning'],
   instructions: ['Marinate beef', 'Cook beef and vegetables', 'Serve with warm tortillas'],
-  image: 'https://cdn.pixabay.com/photo/2016/03/05/22/07/fajitas-1236708_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2020/06/01/15/37/tortilla-5247120_1280.jpg'
 },
 {
   id: 'tostadas',
@@ -397,14 +397,14 @@ let recipes = [{
   description: 'Crispy tortillas topped with beans, meat, and veggies',
   ingredients: ['Tostadas', 'Beans', 'Meat', 'Lettuce', 'Cheese', 'Salsa'],
   instructions: ['Spread beans on tostadas', 'Add meat and toppings', 'Serve immediately'],
-  image: 'https://cdn.pixabay.com/photo/2018/09/11/01/46/mexican-food-3669965_1280.jpg'
+  image: 'https://cdn.pixabay.com/photo/2018/12/05/00/46/avocado-toast-3856950_1280.jpg'
 }, {
     id: 'kung-pao-chicken',
     name: 'Kung Pao Chicken',
     description: 'Spicy stir-fried chicken with peanuts',
     ingredients: ['Chicken', 'Peanuts', 'Bell peppers', 'Soy sauce', 'Chili peppers', 'Garlic'],
     instructions: ['Marinate chicken', 'Sauté garlic and peppers', 'Add chicken and sauce', 'Mix in peanuts and serve'],
-    image: 'https://cdn.pixabay.com/photo/2020/09/28/16/45/chicken-5611691_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2019/03/14/19/03/chicken-4055653_1280.jpg'
   },
   {
     id: 'sweet-sour-pork',
@@ -412,7 +412,7 @@ let recipes = [{
     description: 'Tangy pork with pineapple',
     ingredients: ['Pork', 'Pineapple', 'Bell peppers', 'Vinegar', 'Sugar', 'Ketchup'],
     instructions: ['Fry pork', 'Make sauce with vinegar, sugar, and ketchup', 'Combine with pineapple and peppers', 'Simmer and serve'],
-    image: 'https://cdn.pixabay.com/photo/2019/10/21/14/01/food-4567131_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2022/10/12/21/28/roast-pork-7517549_1280.jpg'
   },
   {
     id: 'mapo-tofu',
@@ -420,7 +420,7 @@ let recipes = [{
     description: 'Spicy tofu in a Sichuan-style sauce',
     ingredients: ['Tofu', 'Ground pork', 'Sichuan peppercorns', 'Chili paste', 'Garlic', 'Soy sauce'],
     instructions: ['Fry pork with garlic', 'Add tofu and spices', 'Simmer in sauce', 'Serve hot'],
-    image: 'https://cdn.pixabay.com/photo/2021/08/24/18/37/tofu-6569286_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/08/02/06/51/mapo-tofu-2570173_1280.jpg'
   },
   {
     id: 'fried-rice',
@@ -428,7 +428,7 @@ let recipes = [{
     description: 'Classic Chinese-style fried rice',
     ingredients: ['Rice', 'Shrimp', 'Eggs', 'Peas', 'Soy sauce', 'Carrots'],
     instructions: ['Cook rice', 'Scramble eggs', 'Stir-fry shrimp and vegetables', 'Mix with rice and soy sauce'],
-    image: 'https://cdn.pixabay.com/photo/2019/08/16/23/12/fried-rice-4411932_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2014/01/09/10/14/kimchi-fried-rice-241051_1280.jpg'
   },
   {
     id: 'hot-sour-soup',
@@ -436,7 +436,7 @@ let recipes = [{
     description: 'Spicy and tangy Chinese soup',
     ingredients: ['Chicken broth', 'Mushrooms', 'Tofu', 'Soy sauce', 'Vinegar', 'Chili oil'],
     instructions: ['Heat broth', 'Add mushrooms, tofu, and seasonings', 'Simmer and serve hot'],
-    image: 'https://cdn.pixabay.com/photo/2017/02/23/14/01/soup-2090022_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2021/08/29/08/03/soup-6582610_1280.jpg'
   },
   {
     id: 'spring-rolls',
@@ -444,7 +444,7 @@ let recipes = [{
     description: 'Crispy Chinese appetiser',
     ingredients: ['Spring roll wrappers', 'Cabbage', 'Carrots', 'Soy sauce', 'Oil'],
     instructions: ['Prepare filling with vegetables', 'Wrap in spring roll wrappers', 'Fry until golden'],
-    image: 'https://cdn.pixabay.com/photo/2017/10/01/19/39/spring-rolls-2802325_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2018/03/15/12/16/food-3228057_1280.jpg'
   },
   {
     id: 'char-siu',
@@ -452,7 +452,7 @@ let recipes = [{
     description: 'Chinese-style barbecue pork',
     ingredients: ['Pork', 'Hoisin sauce', 'Honey', 'Soy sauce', 'Five-spice powder'],
     instructions: ['Marinate pork', 'Roast in oven', 'Brush with honey glaze and serve'],
-    image: 'https://cdn.pixabay.com/photo/2020/06/08/17/41/char-siu-5275158_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2020/04/01/17/34/char-siu-4992042_1280.jpg'
   },
   {
     id: 'dumplings',
@@ -460,7 +460,7 @@ let recipes = [{
     description: 'Savory dumplings with pork and vegetable filling',
     ingredients: ['Dumpling wrappers', 'Ground pork', 'Cabbage', 'Garlic', 'Soy sauce', 'Ginger'],
     instructions: ['Prepare filling', 'Wrap in dumpling wrappers', 'Steam, boil, or fry until cooked'],
-    image: 'https://cdn.pixabay.com/photo/2017/02/17/11/31/dumplings-2076973_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/06/11/17/03/dumplings-2392893_1280.jpg'
   },
   {
     id: 'beef-broccoli',
@@ -468,7 +468,7 @@ let recipes = [{
     description: 'Stir-fried beef and broccoli in savoury sauce',
     ingredients: ['Beef', 'Broccoli', 'Soy sauce', 'Garlic', 'Oyster sauce', 'Cornstarch'],
     instructions: ['Marinate beef', 'Stir-fry beef and broccoli', 'Add sauce and simmer'],
-    image: 'https://cdn.pixabay.com/photo/2020/06/15/10/54/beef-5300912_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/09/03/15/12/brocolli-2710624_1280.jpg'
   },
   {
     id: 'lo-mein',
@@ -476,14 +476,14 @@ let recipes = [{
     description: 'Chinese stir-fried noodles',
     ingredients: ['Noodles', 'Carrots', 'Cabbage', 'Soy sauce', 'Garlic', 'Sesame oil'],
     instructions: ['Cook noodles', 'Stir-fry vegetables and garlic', 'Combine with noodles and sauce'],
-    image: 'https://cdn.pixabay.com/photo/2020/01/06/13/40/noodles-4745708_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2020/03/31/01/57/beef-4985993_1280.jpg'
   }, {
     id: 'butter-chicken',
     name: 'Butter Chicken',
     description: 'Creamy and rich chicken curry',
     ingredients: ['Chicken', 'Tomato puree', 'Cream', 'Butter', 'Garlic', 'Garam masala'],
     instructions: ['Marinate chicken', 'Cook tomato-based sauce', 'Add chicken and cream', 'Simmer and serve with naan'],
-    image: 'https://cdn.pixabay.com/photo/2020/03/18/17/28/indian-food-4943840_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2021/07/14/09/29/food-6465556_1280.jpg'
   },
   {
     id: 'palak-paneer',
@@ -491,7 +491,7 @@ let recipes = [{
     description: 'Cottage cheese in spinach curry',
     ingredients: ['Spinach', 'Paneer', 'Garlic', 'Onion', 'Cream', 'Spices'],
     instructions: ['Blanch spinach', 'Blend into a puree', 'Cook with spices', 'Add paneer and simmer'],
-    image: 'https://cdn.pixabay.com/photo/2017/08/28/20/07/indian-food-2687276_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2022/03/02/12/42/paneer-7043097_1280.jpg'
   },
   {
     id: 'biryani',
@@ -499,7 +499,7 @@ let recipes = [{
     description: 'Flavourful rice dish with spices and chicken',
     ingredients: ['Chicken', 'Rice', 'Yogurt', 'Spices', 'Onion', 'Ghee'],
     instructions: ['Marinate chicken', 'Cook rice with spices', 'Layer chicken and rice', 'Steam and serve'],
-    image: 'https://cdn.pixabay.com/photo/2021/01/28/19/33/biryani-5958446_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2021/09/25/18/54/dish-6655595_1280.jpg'
   },
   {
     id: 'dal-tadka',
@@ -507,7 +507,7 @@ let recipes = [{
     description: 'Lentils tempered with aromatic spices',
     ingredients: ['Yellow lentils', 'Garlic', 'Onion', 'Tomato', 'Cumin', 'Ghee'],
     instructions: ['Cook lentils', 'Prepare tempering with ghee and spices', 'Combine with lentils and simmer'],
-    image: 'https://cdn.pixabay.com/photo/2020/04/26/07/30/dal-5093774_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2013/07/25/12/03/chana-166987_1280.jpg'
   },
   {
     id: 'samosa',
@@ -515,7 +515,7 @@ let recipes = [{
     description: 'Deep-fried pastry filled with spiced potatoes',
     ingredients: ['Potatoes', 'Peas', 'Flour', 'Spices', 'Oil'],
     instructions: ['Prepare dough', 'Make spiced potato filling', 'Shape and fry samosas', 'Serve with chutney'],
-    image: 'https://cdn.pixabay.com/photo/2021/02/15/14/29/samosa-6017697_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2023/10/09/04/19/samosa-8303211_1280.jpg'
   },
   {
     id: 'tandoori-chicken',
@@ -523,7 +523,7 @@ let recipes = [{
     description: 'Chicken marinated in yogurt and spices, grilled to perfection',
     ingredients: ['Chicken', 'Yogurt', 'Spices', 'Lemon juice', 'Garlic', 'Ginger'],
     instructions: ['Marinate chicken', 'Cook in tandoor or oven', 'Serve with mint chutney'],
-    image: 'https://cdn.pixabay.com/photo/2020/06/01/20/09/tandoori-chicken-5249332_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2016/06/26/22/45/india-1481494_1280.jpg'
   },
   {
     id: 'chole',
@@ -531,7 +531,7 @@ let recipes = [{
     description: 'Spiced chickpea curry',
     ingredients: ['Chickpeas', 'Onion', 'Tomato', 'Garlic', 'Ginger', 'Spices'],
     instructions: ['Cook chickpeas', 'Make gravy with onion, tomato, and spices', 'Combine and simmer'],
-    image: 'https://cdn.pixabay.com/photo/2021/08/26/06/29/chickpeas-6576760_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2016/03/21/21/33/chana-masala-1271639_1280.jpg'
   },
   {
     id: 'naan',
@@ -539,7 +539,7 @@ let recipes = [{
     description: 'Soft and fluffy Indian flatbread',
     ingredients: ['Flour', 'Yogurt', 'Yeast', 'Milk', 'Ghee'],
     instructions: ['Prepare dough', 'Roll and cook on tawa or oven', 'Brush with ghee and serve'],
-    image: 'https://cdn.pixabay.com/photo/2016/11/21/16/02/naan-1840944_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2022/04/25/06/10/pakistani-plain-naan-7155154_1280.jpg'
   },
   {
     id: 'pav-bhaji',
@@ -547,7 +547,7 @@ let recipes = [{
     description: 'Spiced mashed vegetables served with buttery bread',
     ingredients: ['Potatoes', 'Tomatoes', 'Peas', 'Capsicum', 'Butter', 'Pav buns'],
     instructions: ['Cook and mash vegetables', 'Prepare masala', 'Serve with buttered pav'],
-    image: 'https://cdn.pixabay.com/photo/2020/04/28/06/01/pav-bhaji-5102980_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2024/06/03/10/18/bhaji-8806044_1280.jpg'
   },
   {
     id: 'gulab-jamun',
@@ -555,7 +555,7 @@ let recipes = [{
     description: 'Sweet fried dumplings soaked in sugar syrup',
     ingredients: ['Milk powder', 'Flour', 'Sugar', 'Cardamom', 'Ghee'],
     instructions: ['Make dough', 'Shape and fry dumplings', 'Soak in sugar syrup', 'Serve warm'],
-    image: 'https://cdn.pixabay.com/photo/2019/11/20/13/34/gulab-jamun-4641158_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/05/06/19/20/indian-2290593_1280.jpg'
   }, {
     id: 'spaghetti-carbonara',
     name: 'Spaghetti Carbonara',
@@ -636,14 +636,6 @@ let recipes = [{
     instructions: ['Heat cream and sugar', 'Dissolve gelatin', 'Pour into moulds and chill', 'Serve with fruit sauce'],
     image: 'https://cdn.pixabay.com/photo/2019/11/17/20/52/dessert-4633976_1280.jpg'
   }, {
-    id: 'ratatouille',
-    name: 'Ratatouille',
-    description: 'Rustic vegetable stew with zucchini, eggplant, and tomatoes',
-    ingredients: ['Zucchini', 'Eggplant', 'Tomatoes', 'Onions', 'Garlic', 'Olive oil', 'Herbs de Provence'],
-    instructions: ['Slice vegetables', 'Sauté onions and garlic', 'Layer vegetables in a dish', 'Bake until tender', 'Serve warm'],
-    image: 'https://cdn.pixabay.com/photo/2015/07/28/16/29/ratatouille-865512_1280.jpg'
-  },
-  {
     id: 'coq-au-vin',
     name: 'Coq au Vin',
     description: 'Chicken braised in red wine with mushrooms, bacon, and onions',
@@ -714,6 +706,33 @@ let recipes = [{
     ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Vanilla', 'Lemon zest'],
     instructions: ['Mix batter', 'Chill and fill moulds', 'Bake until golden', 'Serve with tea'],
     image: 'https://cdn.pixabay.com/photo/2021/01/25/18/14/madeleines-5947462_1280.jpg'
+  }, {
+    id: 'koolaid-glazed-chicken',
+    name: 'Kool-Aid Glazed Fried Chicken with Watermelon Salad',
+    description: 'A sweet and tangy twist on fried chicken served with a refreshing watermelon salad.',
+    ingredients: [
+      'Chicken drumsticks',
+      'Buttermilk',
+      'Flour',
+      'Seasonings (salt, pepper, paprika, garlic powder)',
+      'Oil for frying',
+      'Grape Kool-Aid powder',
+      'Sugar',
+      'Water',
+      'Watermelon (cubed)',
+      'Cucumber (sliced)',
+      'Mint leaves',
+      'Lime juice'
+    ],
+    instructions: [
+      'Marinate chicken in buttermilk and seasonings for 4 hours.',
+      'Coat chicken in seasoned flour and fry until golden and crispy.',
+      'Make the Kool-Aid glaze by dissolving grape Kool-Aid powder and sugar in water and reducing it to a syrup.',
+      'Brush the glaze over the fried chicken.',
+      'Prepare the watermelon salad by tossing watermelon, cucumber, mint leaves, and lime juice.',
+      'Serve glazed chicken alongside the salad for a sweet and savoury combination.'
+    ],
+    image: 'https://cdn.pixabay.com/photo/2014/01/24/04/05/fried-chicken-250863_1280.jpg'
 }];
 
 let currentLanguage = 'en';
