@@ -649,7 +649,7 @@ let recipes = [{
     description: 'Traditional Provençal fish stew with a rich saffron broth',
     ingredients: ['Assorted fish', 'Shellfish', 'Tomatoes', 'Garlic', 'Fennel', 'Saffron', 'Olive oil'],
     instructions: ['Sauté garlic and fennel', 'Add tomatoes and saffron', 'Simmer with fish and shellfish', 'Serve with crusty bread'],
-    image: 'https://cdn.pixabay.com/photo/2018/06/18/10/42/bouillabaisse-3480838_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2016/04/15/09/03/food-1330531_1280.jpg'
   },
   {
     id: 'croque-monsieur',
@@ -657,7 +657,7 @@ let recipes = [{
     description: 'Toasted ham and cheese sandwich with béchamel sauce',
     ingredients: ['Bread', 'Ham', 'Gruyère cheese', 'Butter', 'Flour', 'Milk', 'Nutmeg'],
     instructions: ['Make béchamel', 'Assemble sandwich with ham and cheese', 'Toast in oven', 'Serve hot'],
-    image: 'https://cdn.pixabay.com/photo/2021/08/17/16/37/croque-monsieur-6553075_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2016/10/05/05/46/bread-1716102_1280.jpg'
   },
   {
     id: 'souffle-au-chocolat',
@@ -665,7 +665,7 @@ let recipes = [{
     description: 'Fluffy and rich chocolate dessert',
     ingredients: ['Dark chocolate', 'Eggs', 'Sugar', 'Butter', 'Flour', 'Cream'],
     instructions: ['Melt chocolate', 'Whisk egg whites to stiff peaks', 'Fold into chocolate mixture', 'Bake until risen'],
-    image: 'https://cdn.pixabay.com/photo/2016/03/05/22/06/souffle-1238390_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/08/01/02/10/dark-2562840_1280.jpg'
   },
   {
     id: 'boeuf-bourguignon',
@@ -673,7 +673,7 @@ let recipes = [{
     description: 'Beef slow-cooked in red wine with carrots, onions, and mushrooms',
     ingredients: ['Beef', 'Red wine', 'Carrots', 'Onions', 'Mushrooms', 'Garlic', 'Thyme'],
     instructions: ['Brown beef', 'Sauté vegetables', 'Simmer with wine and herbs', 'Cook until tender'],
-    image: 'https://cdn.pixabay.com/photo/2018/01/12/19/39/boeuf-bourguignon-3077076_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/08/27/14/18/winter-2686120_1280.jpg'
   },
   {
     id: 'tarte-tatin',
@@ -681,7 +681,7 @@ let recipes = [{
     description: 'Upside-down caramelised apple tart',
     ingredients: ['Apples', 'Sugar', 'Butter', 'Puff pastry'],
     instructions: ['Caramelise apples with sugar and butter', 'Cover with pastry', 'Bake and flip to serve'],
-    image: 'https://cdn.pixabay.com/photo/2017/12/23/09/28/tarte-tatin-3039875_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2016/03/27/19/23/tart-1283822_1280.jpg'
   },
   {
     id: 'crepes',
@@ -689,7 +689,7 @@ let recipes = [{
     description: 'Thin French pancakes, perfect for sweet or savoury fillings',
     ingredients: ['Flour', 'Milk', 'Eggs', 'Butter', 'Sugar', 'Salt'],
     instructions: ['Mix batter', 'Cook thin layers in a pan', 'Fill with desired toppings', 'Fold and serve'],
-    image: 'https://cdn.pixabay.com/photo/2015/01/30/11/33/crepes-617250_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2019/07/07/12/45/crepe-4322435_1280.jpg'
   },
   {
     id: 'madeleines',
@@ -697,7 +697,7 @@ let recipes = [{
     description: 'Small shell-shaped sponge cakes',
     ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Vanilla', 'Lemon zest'],
     instructions: ['Mix batter', 'Chill and fill moulds', 'Bake until golden', 'Serve with tea'],
-    image: 'https://cdn.pixabay.com/photo/2021/01/25/18/14/madeleines-5947462_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2015/03/21/14/31/madeleine-683743_1280.jpg'
   }, {
     id: 'koolaid-glazed-chicken',
     name: 'Kool-Aid Glazed Fried Chicken with Watermelon Salad',
