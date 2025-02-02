@@ -244,12 +244,83 @@ let recipes = [{
   image: 'https://cdn.pixabay.com/photo/2021/05/08/16/13/shakshuka-6238787_1280.jpg'
 }, {
   id: 'waffles',
-  name: 'Waffles',
+  name:'Waffles',
   description: 'Fluffy on the inside and crispy on the outside',
   ingredients: ['Flour', 'Eggs', 'Butter', 'Sugar', 'Milk'],
-  instructions: ['Mix all the ingredients','Open waffle maker and poor the mixture', 'Once finished, take your waffle out of the waffle maker and enjoy'],
+  instructions: ['Mix all the ingredients','Open waffle maker and poor the mixture', 'Once finished,grab our waffle out of the waffle maker and enjoy'],
   image: 'https://cdn.pixabay.com/photo/2015/07/27/20/29/food-863484_1280.jpg'
+}, {
+  id: 'fried-rice',
+  name: 'Fried Rice',
+  description: 'Quick stir-fried rice',
+  ingredients: ['Rice', 'Vegetables', 'Soy sauce', 'Eggs', 'Garlic'],
+  instructions: ['Cook rice', 'Stir-fry vegetables', 'Add rice and sauce'],
+  image: 'https://cdn.pixabay.com/photo/2021/04/20/10/14/fried-rice-6183903_1280.jpg'
+}, {
+  id: 'garlic-shrimp',
+  name: 'Garlic Shrimp',
+  description: 'Garlic-flavored shrimp',
+  ingredients: ['Shrimp', 'Garlic', 'Butter', 'Lemon', 'Parsley'],
+  instructions: ['Sauté garlic', 'Add shrimp', 'Cook until pink'],
+  image: 'https://cdn.pixabay.com/photo/2020/07/28/14/45/garlic-shrimp-5443733_1280.jpg'
+}, {
+  id: 'meatballs',
+  name: 'Spaghetti and Meatballs',
+  description: 'Classic spaghetti with meatballs',
+  ingredients: ['Spaghetti', 'Ground beef', 'Tomato sauce', 'Garlic', 'Parmesan'],
+  instructions: ['Form meatballs', 'Cook spaghetti', 'Simmer meatballs in sauce'],
+  image: 'https://cdn.pixabay.com/photo/2016/01/05/15/21/spaghetti-1120892_1280.jpg'
+}, {
+  id: 'bbq-ribs',
+  name: 'BBQ Ribs',
+  description: 'Tender BBQ ribs',
+  ingredients: ['Ribs', 'BBQ sauce', 'Spices'],
+  instructions: ['Season ribs', 'Grill or bake with sauce'],
+  image: 'https://cdn.pixabay.com/photo/2020/06/23/03/03/barbecue-5339043_1280.jpg'
+}, {
+  id: 'blueberry-muffins',
+  name: 'Blueberry Muffins',
+  description: 'Soft and fluffy muffins filled with blueberries',
+  ingredients: ['Flour', 'Sugar', 'Blueberries', 'Egg', 'Baking Powder'],
+  instructions: ['Mix ingredients', 'Fill muffin tin', 'Bake until golden'],
+  image: 'https://cdn.pixabay.com/photo/2017/03/12/10/30/blueberry-2136750_1280.jpg'
+}, {
+  id: 'corn-on-the-cob',
+  name: 'Corn on the Cob',
+  description: 'Sweet and juicy corn boiled or grilled to perfection',
+  ingredients: ['Corn', 'Butter', 'Salt', 'Water'],
+  instructions: ['Boil or grill corn', 'Spread butter on top', 'Sprinkle with salt and serve'],
+  image: 'https://cdn.pixabay.com/photo/2023/05/15/04/45/corn-7994121_1280.jpg'
+}, {
+  id: 'baked-potatoes',
+  name: 'Baked Potatoes',
+  description: 'Fluffy potatoes with a crispy skin, perfect with toppings',
+  ingredients: ['Potatoes', 'Butter', 'Salt', 'Sour Cream', 'Cheese'],
+  instructions: ['Bake potatoes until tender', 'Cut open and add butter', 'Top with sour cream and cheese'],
+  image: 'https://cdn.pixabay.com/photo/2020/01/27/16/46/potato-4797670_1280.jpg'
+}, {
+  id: 'greek-salad',
+  name: 'Greek Salad',
+  description: 'A refreshing salad with cucumbers, tomatoes, and feta cheese',
+  ingredients: ['Cucumber', 'Tomato', 'Feta Cheese', 'Olives', 'Olive Oil'],
+  instructions: ['Chop vegetables', 'Add feta and olives', 'Drizzle with olive oil and serve'],
+  image: 'https://cdn.pixabay.com/photo/2014/12/28/13/18/feta-cheese-581848_1280.jpg'
+}, {
+  id: 'ratatouille',
+  name: 'Ratatouille',
+  description: 'A colorful French vegetable dish baked to perfection',
+  ingredients: ['Zucchini', 'Eggplant', 'Tomato', 'Bell Pepper', 'Olive Oil'],
+  instructions: ['Slice vegetables', 'Layer in a baking dish', 'Drizzle with olive oil and bake'],
+  image: 'https://cdn.pixabay.com/photo/2020/06/19/08/25/ratatouille-5316194_1280.jpg'
+}, {
+  id: 'miso-soup',
+  name: 'Miso Soup',
+  description: 'A light and savory Japanese soup with tofu and seaweed',
+  ingredients: ['Miso Paste', 'Tofu', 'Green Onion', 'Seaweed', 'Dashi'],
+  instructions: ['Dissolve miso in dashi', 'Add tofu and seaweed', 'Simmer and serve'],
+  image: 'https://cdn.pixabay.com/photo/2015/05/02/01/04/miso-soup-749368_1280.jpg'
 }];
+
 let currentLanguage = 'en';
 let translateInit = false;
 function nextQuestion(questionNumber, answer) {
