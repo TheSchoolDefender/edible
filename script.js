@@ -398,6 +398,323 @@ let recipes = [{
   ingredients: ['Tostadas', 'Beans', 'Meat', 'Lettuce', 'Cheese', 'Salsa'],
   instructions: ['Spread beans on tostadas', 'Add meat and toppings', 'Serve immediately'],
   image: 'https://cdn.pixabay.com/photo/2018/09/11/01/46/mexican-food-3669965_1280.jpg'
+}, {
+    id: 'kung-pao-chicken',
+    name: 'Kung Pao Chicken',
+    description: 'Spicy stir-fried chicken with peanuts',
+    ingredients: ['Chicken', 'Peanuts', 'Bell peppers', 'Soy sauce', 'Chili peppers', 'Garlic'],
+    instructions: ['Marinate chicken', 'Sauté garlic and peppers', 'Add chicken and sauce', 'Mix in peanuts and serve'],
+    image: 'https://cdn.pixabay.com/photo/2020/09/28/16/45/chicken-5611691_1280.jpg'
+  },
+  {
+    id: 'sweet-sour-pork',
+    name: 'Sweet and Sour Pork',
+    description: 'Tangy pork with pineapple',
+    ingredients: ['Pork', 'Pineapple', 'Bell peppers', 'Vinegar', 'Sugar', 'Ketchup'],
+    instructions: ['Fry pork', 'Make sauce with vinegar, sugar, and ketchup', 'Combine with pineapple and peppers', 'Simmer and serve'],
+    image: 'https://cdn.pixabay.com/photo/2019/10/21/14/01/food-4567131_1280.jpg'
+  },
+  {
+    id: 'mapo-tofu',
+    name: 'Mapo Tofu',
+    description: 'Spicy tofu in a Sichuan-style sauce',
+    ingredients: ['Tofu', 'Ground pork', 'Sichuan peppercorns', 'Chili paste', 'Garlic', 'Soy sauce'],
+    instructions: ['Fry pork with garlic', 'Add tofu and spices', 'Simmer in sauce', 'Serve hot'],
+    image: 'https://cdn.pixabay.com/photo/2021/08/24/18/37/tofu-6569286_1280.jpg'
+  },
+  {
+    id: 'fried-rice',
+    name: 'Yangzhou Fried Rice',
+    description: 'Classic Chinese-style fried rice',
+    ingredients: ['Rice', 'Shrimp', 'Eggs', 'Peas', 'Soy sauce', 'Carrots'],
+    instructions: ['Cook rice', 'Scramble eggs', 'Stir-fry shrimp and vegetables', 'Mix with rice and soy sauce'],
+    image: 'https://cdn.pixabay.com/photo/2019/08/16/23/12/fried-rice-4411932_1280.jpg'
+  },
+  {
+    id: 'hot-sour-soup',
+    name: 'Hot and Sour Soup',
+    description: 'Spicy and tangy Chinese soup',
+    ingredients: ['Chicken broth', 'Mushrooms', 'Tofu', 'Soy sauce', 'Vinegar', 'Chili oil'],
+    instructions: ['Heat broth', 'Add mushrooms, tofu, and seasonings', 'Simmer and serve hot'],
+    image: 'https://cdn.pixabay.com/photo/2017/02/23/14/01/soup-2090022_1280.jpg'
+  },
+  {
+    id: 'spring-rolls',
+    name: 'Spring Rolls',
+    description: 'Crispy Chinese appetiser',
+    ingredients: ['Spring roll wrappers', 'Cabbage', 'Carrots', 'Soy sauce', 'Oil'],
+    instructions: ['Prepare filling with vegetables', 'Wrap in spring roll wrappers', 'Fry until golden'],
+    image: 'https://cdn.pixabay.com/photo/2017/10/01/19/39/spring-rolls-2802325_1280.jpg'
+  },
+  {
+    id: 'char-siu',
+    name: 'Char Siu',
+    description: 'Chinese-style barbecue pork',
+    ingredients: ['Pork', 'Hoisin sauce', 'Honey', 'Soy sauce', 'Five-spice powder'],
+    instructions: ['Marinate pork', 'Roast in oven', 'Brush with honey glaze and serve'],
+    image: 'https://cdn.pixabay.com/photo/2020/06/08/17/41/char-siu-5275158_1280.jpg'
+  },
+  {
+    id: 'dumplings',
+    name: 'Chinese Dumplings',
+    description: 'Savory dumplings with pork and vegetable filling',
+    ingredients: ['Dumpling wrappers', 'Ground pork', 'Cabbage', 'Garlic', 'Soy sauce', 'Ginger'],
+    instructions: ['Prepare filling', 'Wrap in dumpling wrappers', 'Steam, boil, or fry until cooked'],
+    image: 'https://cdn.pixabay.com/photo/2017/02/17/11/31/dumplings-2076973_1280.jpg'
+  },
+  {
+    id: 'beef-broccoli',
+    name: 'Beef and Broccoli',
+    description: 'Stir-fried beef and broccoli in savoury sauce',
+    ingredients: ['Beef', 'Broccoli', 'Soy sauce', 'Garlic', 'Oyster sauce', 'Cornstarch'],
+    instructions: ['Marinate beef', 'Stir-fry beef and broccoli', 'Add sauce and simmer'],
+    image: 'https://cdn.pixabay.com/photo/2020/06/15/10/54/beef-5300912_1280.jpg'
+  },
+  {
+    id: 'lo-mein',
+    name: 'Vegetable Lo Mein',
+    description: 'Chinese stir-fried noodles',
+    ingredients: ['Noodles', 'Carrots', 'Cabbage', 'Soy sauce', 'Garlic', 'Sesame oil'],
+    instructions: ['Cook noodles', 'Stir-fry vegetables and garlic', 'Combine with noodles and sauce'],
+    image: 'https://cdn.pixabay.com/photo/2020/01/06/13/40/noodles-4745708_1280.jpg'
+  }, {
+    id: 'butter-chicken',
+    name: 'Butter Chicken',
+    description: 'Creamy and rich chicken curry',
+    ingredients: ['Chicken', 'Tomato puree', 'Cream', 'Butter', 'Garlic', 'Garam masala'],
+    instructions: ['Marinate chicken', 'Cook tomato-based sauce', 'Add chicken and cream', 'Simmer and serve with naan'],
+    image: 'https://cdn.pixabay.com/photo/2020/03/18/17/28/indian-food-4943840_1280.jpg'
+  },
+  {
+    id: 'palak-paneer',
+    name: 'Palak Paneer',
+    description: 'Cottage cheese in spinach curry',
+    ingredients: ['Spinach', 'Paneer', 'Garlic', 'Onion', 'Cream', 'Spices'],
+    instructions: ['Blanch spinach', 'Blend into a puree', 'Cook with spices', 'Add paneer and simmer'],
+    image: 'https://cdn.pixabay.com/photo/2017/08/28/20/07/indian-food-2687276_1280.jpg'
+  },
+  {
+    id: 'biryani',
+    name: 'Chicken Biryani',
+    description: 'Flavourful rice dish with spices and chicken',
+    ingredients: ['Chicken', 'Rice', 'Yogurt', 'Spices', 'Onion', 'Ghee'],
+    instructions: ['Marinate chicken', 'Cook rice with spices', 'Layer chicken and rice', 'Steam and serve'],
+    image: 'https://cdn.pixabay.com/photo/2021/01/28/19/33/biryani-5958446_1280.jpg'
+  },
+  {
+    id: 'dal-tadka',
+    name: 'Dal Tadka',
+    description: 'Lentils tempered with aromatic spices',
+    ingredients: ['Yellow lentils', 'Garlic', 'Onion', 'Tomato', 'Cumin', 'Ghee'],
+    instructions: ['Cook lentils', 'Prepare tempering with ghee and spices', 'Combine with lentils and simmer'],
+    image: 'https://cdn.pixabay.com/photo/2020/04/26/07/30/dal-5093774_1280.jpg'
+  },
+  {
+    id: 'samosa',
+    name: 'Samosa',
+    description: 'Deep-fried pastry filled with spiced potatoes',
+    ingredients: ['Potatoes', 'Peas', 'Flour', 'Spices', 'Oil'],
+    instructions: ['Prepare dough', 'Make spiced potato filling', 'Shape and fry samosas', 'Serve with chutney'],
+    image: 'https://cdn.pixabay.com/photo/2021/02/15/14/29/samosa-6017697_1280.jpg'
+  },
+  {
+    id: 'tandoori-chicken',
+    name: 'Tandoori Chicken',
+    description: 'Chicken marinated in yogurt and spices, grilled to perfection',
+    ingredients: ['Chicken', 'Yogurt', 'Spices', 'Lemon juice', 'Garlic', 'Ginger'],
+    instructions: ['Marinate chicken', 'Cook in tandoor or oven', 'Serve with mint chutney'],
+    image: 'https://cdn.pixabay.com/photo/2020/06/01/20/09/tandoori-chicken-5249332_1280.jpg'
+  },
+  {
+    id: 'chole',
+    name: 'Chole',
+    description: 'Spiced chickpea curry',
+    ingredients: ['Chickpeas', 'Onion', 'Tomato', 'Garlic', 'Ginger', 'Spices'],
+    instructions: ['Cook chickpeas', 'Make gravy with onion, tomato, and spices', 'Combine and simmer'],
+    image: 'https://cdn.pixabay.com/photo/2021/08/26/06/29/chickpeas-6576760_1280.jpg'
+  },
+  {
+    id: 'naan',
+    name: 'Naan',
+    description: 'Soft and fluffy Indian flatbread',
+    ingredients: ['Flour', 'Yogurt', 'Yeast', 'Milk', 'Ghee'],
+    instructions: ['Prepare dough', 'Roll and cook on tawa or oven', 'Brush with ghee and serve'],
+    image: 'https://cdn.pixabay.com/photo/2016/11/21/16/02/naan-1840944_1280.jpg'
+  },
+  {
+    id: 'pav-bhaji',
+    name: 'Pav Bhaji',
+    description: 'Spiced mashed vegetables served with buttery bread',
+    ingredients: ['Potatoes', 'Tomatoes', 'Peas', 'Capsicum', 'Butter', 'Pav buns'],
+    instructions: ['Cook and mash vegetables', 'Prepare masala', 'Serve with buttered pav'],
+    image: 'https://cdn.pixabay.com/photo/2020/04/28/06/01/pav-bhaji-5102980_1280.jpg'
+  },
+  {
+    id: 'gulab-jamun',
+    name: 'Gulab Jamun',
+    description: 'Sweet fried dumplings soaked in sugar syrup',
+    ingredients: ['Milk powder', 'Flour', 'Sugar', 'Cardamom', 'Ghee'],
+    instructions: ['Make dough', 'Shape and fry dumplings', 'Soak in sugar syrup', 'Serve warm'],
+    image: 'https://cdn.pixabay.com/photo/2019/11/20/13/34/gulab-jamun-4641158_1280.jpg'
+  }, {
+    id: 'spaghetti-carbonara',
+    name: 'Spaghetti Carbonara',
+    description: 'Classic pasta with eggs, cheese, pancetta, and black pepper',
+    ingredients: ['Spaghetti', 'Egg yolks', 'Parmesan cheese', 'Pancetta', 'Black pepper'],
+    instructions: ['Cook spaghetti', 'Fry pancetta', 'Mix eggs and cheese', 'Combine with pasta and pancetta', 'Serve with black pepper'],
+    image: 'https://cdn.pixabay.com/photo/2017/12/10/14/47/spaghetti-3013582_1280.jpg'
+  },
+  {
+    id: 'margherita-pizza',
+    name: 'Margherita Pizza',
+    description: 'Simple and fresh pizza with tomato, mozzarella, and basil',
+    ingredients: ['Pizza dough', 'Tomato sauce', 'Mozzarella', 'Fresh basil', 'Olive oil'],
+    instructions: ['Prepare dough', 'Spread tomato sauce', 'Add mozzarella and basil', 'Bake in oven', 'Drizzle with olive oil'],
+    image: 'https://cdn.pixabay.com/photo/2017/03/27/13/27/pizza-2178747_1280.jpg'
+  },
+  {
+    id: 'lasagna',
+    name: 'Lasagna',
+    description: 'Layers of pasta, meat sauce, and creamy béchamel',
+    ingredients: ['Lasagna sheets', 'Minced beef', 'Tomato sauce', 'Béchamel sauce', 'Parmesan cheese'],
+    instructions: ['Cook meat sauce', 'Prepare béchamel', 'Layer pasta, sauces, and cheese', 'Bake in oven', 'Serve hot'],
+    image: 'https://cdn.pixabay.com/photo/2020/02/06/20/01/lasagna-4825609_1280.jpg'
+  },
+  {
+    id: 'risotto-alla-milanese',
+    name: 'Risotto alla Milanese',
+    description: 'Creamy risotto flavoured with saffron',
+    ingredients: ['Arborio rice', 'Saffron', 'Chicken stock', 'Butter', 'Parmesan cheese'],
+    instructions: ['Sauté rice in butter', 'Add stock gradually', 'Mix in saffron and cheese', 'Cook until creamy'],
+    image: 'https://cdn.pixabay.com/photo/2017/03/27/14/44/risotto-2179017_1280.jpg'
+  },
+  {
+    id: 'bruschetta',
+    name: 'Bruschetta',
+    description: 'Toasted bread topped with fresh tomato, garlic, and basil',
+    ingredients: ['Bread', 'Tomatoes', 'Garlic', 'Basil', 'Olive oil'],
+    instructions: ['Toast bread', 'Mix chopped tomatoes with garlic and basil', 'Top bread with mixture', 'Drizzle with olive oil'],
+    image: 'https://cdn.pixabay.com/photo/2016/11/20/09/06/bruschetta-1842067_1280.jpg'
+  },
+  {
+    id: 'tiramisu',
+    name: 'Tiramisu',
+    description: 'Classic Italian dessert with coffee-soaked ladyfingers and mascarpone cream',
+    ingredients: ['Ladyfingers', 'Mascarpone cheese', 'Eggs', 'Sugar', 'Coffee', 'Cocoa powder'],
+    instructions: ['Dip ladyfingers in coffee', 'Layer with mascarpone mixture', 'Repeat layers', 'Dust with cocoa and chill'],
+    image: 'https://cdn.pixabay.com/photo/2015/03/26/09/45/tiramisu-690254_1280.jpg'
+  },
+  {
+    id: 'fettuccine-alfredo',
+    name: 'Fettuccine Alfredo',
+    description: 'Creamy pasta with butter and Parmesan cheese',
+    ingredients: ['Fettuccine', 'Butter', 'Parmesan cheese', 'Heavy cream'],
+    instructions: ['Cook pasta', 'Melt butter in a pan', 'Add cream and cheese', 'Toss with pasta', 'Serve warm'],
+    image: 'https://cdn.pixabay.com/photo/2017/07/05/16/49/alfredo-2471937_1280.jpg'
+  },
+  {
+    id: 'caprese-salad',
+    name: 'Caprese Salad',
+    description: 'Fresh salad with tomatoes, mozzarella, and basil',
+    ingredients: ['Tomatoes', 'Mozzarella', 'Basil', 'Olive oil', 'Balsamic glaze'],
+    instructions: ['Slice tomatoes and mozzarella', 'Layer with basil', 'Drizzle with olive oil and balsamic glaze'],
+    image: 'https://cdn.pixabay.com/photo/2016/08/06/20/46/tomato-mozzarella-1575066_1280.jpg'
+  },
+  {
+    id: 'osso-buco',
+    name: 'Osso Buco',
+    description: 'Braised veal shanks in a rich tomato sauce',
+    ingredients: ['Veal shanks', 'Carrots', 'Celery', 'Tomato paste', 'White wine', 'Stock'],
+    instructions: ['Sear veal shanks', 'Cook vegetables', 'Simmer with wine, stock, and tomato', 'Serve with gremolata'],
+    image: 'https://cdn.pixabay.com/photo/2017/01/16/19/04/veal-1987634_1280.jpg'
+  },
+  {
+    id: 'panna-cotta',
+    name: 'Panna Cotta',
+    description: 'Silky dessert made with cream and vanilla',
+    ingredients: ['Heavy cream', 'Sugar', 'Gelatin', 'Vanilla'],
+    instructions: ['Heat cream and sugar', 'Dissolve gelatin', 'Pour into moulds and chill', 'Serve with fruit sauce'],
+    image: 'https://cdn.pixabay.com/photo/2019/11/17/20/52/dessert-4633976_1280.jpg'
+  }, {
+    id: 'ratatouille',
+    name: 'Ratatouille',
+    description: 'Rustic vegetable stew with zucchini, eggplant, and tomatoes',
+    ingredients: ['Zucchini', 'Eggplant', 'Tomatoes', 'Onions', 'Garlic', 'Olive oil', 'Herbs de Provence'],
+    instructions: ['Slice vegetables', 'Sauté onions and garlic', 'Layer vegetables in a dish', 'Bake until tender', 'Serve warm'],
+    image: 'https://cdn.pixabay.com/photo/2015/07/28/16/29/ratatouille-865512_1280.jpg'
+  },
+  {
+    id: 'coq-au-vin',
+    name: 'Coq au Vin',
+    description: 'Chicken braised in red wine with mushrooms, bacon, and onions',
+    ingredients: ['Chicken', 'Red wine', 'Mushrooms', 'Onions', 'Bacon', 'Garlic', 'Thyme'],
+    instructions: ['Brown chicken', 'Cook bacon and vegetables', 'Simmer with wine and herbs', 'Serve with crusty bread'],
+    image: 'https://cdn.pixabay.com/photo/2019/11/06/16/21/coq-au-vin-4606661_1280.jpg'
+  },
+  {
+    id: 'quiche-lorraine',
+    name: 'Quiche Lorraine',
+    description: 'Savory tart with eggs, cream, bacon, and cheese',
+    ingredients: ['Pie crust', 'Eggs', 'Heavy cream', 'Bacon', 'Gruyère cheese', 'Nutmeg'],
+    instructions: ['Prepare crust', 'Cook bacon', 'Mix eggs, cream, and cheese', 'Pour into crust and bake'],
+    image: 'https://cdn.pixabay.com/photo/2021/09/24/12/08/quiche-6651550_1280.jpg'
+  },
+  {
+    id: 'bouillabaisse',
+    name: 'Bouillabaisse',
+    description: 'Traditional Provençal fish stew with a rich saffron broth',
+    ingredients: ['Assorted fish', 'Shellfish', 'Tomatoes', 'Garlic', 'Fennel', 'Saffron', 'Olive oil'],
+    instructions: ['Sauté garlic and fennel', 'Add tomatoes and saffron', 'Simmer with fish and shellfish', 'Serve with crusty bread'],
+    image: 'https://cdn.pixabay.com/photo/2018/06/18/10/42/bouillabaisse-3480838_1280.jpg'
+  },
+  {
+    id: 'croque-monsieur',
+    name: 'Croque Monsieur',
+    description: 'Toasted ham and cheese sandwich with béchamel sauce',
+    ingredients: ['Bread', 'Ham', 'Gruyère cheese', 'Butter', 'Flour', 'Milk', 'Nutmeg'],
+    instructions: ['Make béchamel', 'Assemble sandwich with ham and cheese', 'Toast in oven', 'Serve hot'],
+    image: 'https://cdn.pixabay.com/photo/2021/08/17/16/37/croque-monsieur-6553075_1280.jpg'
+  },
+  {
+    id: 'souffle-au-chocolat',
+    name: 'Soufflé au Chocolat',
+    description: 'Fluffy and rich chocolate dessert',
+    ingredients: ['Dark chocolate', 'Eggs', 'Sugar', 'Butter', 'Flour', 'Cream'],
+    instructions: ['Melt chocolate', 'Whisk egg whites to stiff peaks', 'Fold into chocolate mixture', 'Bake until risen'],
+    image: 'https://cdn.pixabay.com/photo/2016/03/05/22/06/souffle-1238390_1280.jpg'
+  },
+  {
+    id: 'boeuf-bourguignon',
+    name: 'Boeuf Bourguignon',
+    description: 'Beef slow-cooked in red wine with carrots, onions, and mushrooms',
+    ingredients: ['Beef', 'Red wine', 'Carrots', 'Onions', 'Mushrooms', 'Garlic', 'Thyme'],
+    instructions: ['Brown beef', 'Sauté vegetables', 'Simmer with wine and herbs', 'Cook until tender'],
+    image: 'https://cdn.pixabay.com/photo/2018/01/12/19/39/boeuf-bourguignon-3077076_1280.jpg'
+  },
+  {
+    id: 'tarte-tatin',
+    name: 'Tarte Tatin',
+    description: 'Upside-down caramelised apple tart',
+    ingredients: ['Apples', 'Sugar', 'Butter', 'Puff pastry'],
+    instructions: ['Caramelise apples with sugar and butter', 'Cover with pastry', 'Bake and flip to serve'],
+    image: 'https://cdn.pixabay.com/photo/2017/12/23/09/28/tarte-tatin-3039875_1280.jpg'
+  },
+  {
+    id: 'crepes',
+    name: 'Crêpes',
+    description: 'Thin French pancakes, perfect for sweet or savoury fillings',
+    ingredients: ['Flour', 'Milk', 'Eggs', 'Butter', 'Sugar', 'Salt'],
+    instructions: ['Mix batter', 'Cook thin layers in a pan', 'Fill with desired toppings', 'Fold and serve'],
+    image: 'https://cdn.pixabay.com/photo/2015/01/30/11/33/crepes-617250_1280.jpg'
+  },
+  {
+    id: 'madeleines',
+    name: 'Madeleines',
+    description: 'Small shell-shaped sponge cakes',
+    ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Vanilla', 'Lemon zest'],
+    instructions: ['Mix batter', 'Chill and fill moulds', 'Bake until golden', 'Serve with tea'],
+    image: 'https://cdn.pixabay.com/photo/2021/01/25/18/14/madeleines-5947462_1280.jpg'
+  }
 }];
 
 let currentLanguage = 'en';
