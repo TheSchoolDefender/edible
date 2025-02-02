@@ -423,7 +423,7 @@ let recipes = [{
     image: 'https://cdn.pixabay.com/photo/2017/08/02/06/51/mapo-tofu-2570173_1280.jpg'
   },
   {
-    id: 'fried-rice',
+    id: 'egg-fried-rice',
     name: 'Yangzhou Fried Rice',
     description: 'Classic Chinese-style fried rice',
     ingredients: ['Rice', 'Shrimp', 'Eggs', 'Peas', 'Soy sauce', 'Carrots'],
@@ -562,7 +562,7 @@ let recipes = [{
     description: 'Classic pasta with eggs, cheese, pancetta, and black pepper',
     ingredients: ['Spaghetti', 'Egg yolks', 'Parmesan cheese', 'Pancetta', 'Black pepper'],
     instructions: ['Cook spaghetti', 'Fry pancetta', 'Mix eggs and cheese', 'Combine with pasta and pancetta', 'Serve with black pepper'],
-    image: 'https://cdn.pixabay.com/photo/2017/12/10/14/47/spaghetti-3013582_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2016/08/19/09/24/spaghetti-1604836_1280.jpg'
   },
   {
     id: 'margherita-pizza',
@@ -570,7 +570,7 @@ let recipes = [{
     description: 'Simple and fresh pizza with tomato, mozzarella, and basil',
     ingredients: ['Pizza dough', 'Tomato sauce', 'Mozzarella', 'Fresh basil', 'Olive oil'],
     instructions: ['Prepare dough', 'Spread tomato sauce', 'Add mozzarella and basil', 'Bake in oven', 'Drizzle with olive oil'],
-    image: 'https://cdn.pixabay.com/photo/2017/03/27/13/27/pizza-2178747_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_1280.jpg'
   },
   {
     id: 'lasagna',
@@ -578,7 +578,7 @@ let recipes = [{
     description: 'Layers of pasta, meat sauce, and creamy béchamel',
     ingredients: ['Lasagna sheets', 'Minced beef', 'Tomato sauce', 'Béchamel sauce', 'Parmesan cheese'],
     instructions: ['Cook meat sauce', 'Prepare béchamel', 'Layer pasta, sauces, and cheese', 'Bake in oven', 'Serve hot'],
-    image: 'https://cdn.pixabay.com/photo/2020/02/06/20/01/lasagna-4825609_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/02/15/15/17/meal-2069021_1280.jpg'
   },
   {
     id: 'risotto-alla-milanese',
@@ -586,7 +586,7 @@ let recipes = [{
     description: 'Creamy risotto flavoured with saffron',
     ingredients: ['Arborio rice', 'Saffron', 'Chicken stock', 'Butter', 'Parmesan cheese'],
     instructions: ['Sauté rice in butter', 'Add stock gradually', 'Mix in saffron and cheese', 'Cook until creamy'],
-    image: 'https://cdn.pixabay.com/photo/2017/03/27/14/44/risotto-2179017_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2019/09/06/19/29/rice-4457143_1280.jpg'
   },
   {
     id: 'bruschetta',
@@ -594,15 +594,7 @@ let recipes = [{
     description: 'Toasted bread topped with fresh tomato, garlic, and basil',
     ingredients: ['Bread', 'Tomatoes', 'Garlic', 'Basil', 'Olive oil'],
     instructions: ['Toast bread', 'Mix chopped tomatoes with garlic and basil', 'Top bread with mixture', 'Drizzle with olive oil'],
-    image: 'https://cdn.pixabay.com/photo/2016/11/20/09/06/bruschetta-1842067_1280.jpg'
-  },
-  {
-    id: 'tiramisu',
-    name: 'Tiramisu',
-    description: 'Classic Italian dessert with coffee-soaked ladyfingers and mascarpone cream',
-    ingredients: ['Ladyfingers', 'Mascarpone cheese', 'Eggs', 'Sugar', 'Coffee', 'Cocoa powder'],
-    instructions: ['Dip ladyfingers in coffee', 'Layer with mascarpone mixture', 'Repeat layers', 'Dust with cocoa and chill'],
-    image: 'https://cdn.pixabay.com/photo/2015/03/26/09/45/tiramisu-690254_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2020/10/01/22/39/gourmet-5619887_1280.jpg'
   },
   {
     id: 'fettuccine-alfredo',
@@ -610,7 +602,7 @@ let recipes = [{
     description: 'Creamy pasta with butter and Parmesan cheese',
     ingredients: ['Fettuccine', 'Butter', 'Parmesan cheese', 'Heavy cream'],
     instructions: ['Cook pasta', 'Melt butter in a pan', 'Add cream and cheese', 'Toss with pasta', 'Serve warm'],
-    image: 'https://cdn.pixabay.com/photo/2017/07/05/16/49/alfredo-2471937_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2020/09/17/12/38/pasta-5579058_1280.jpg'
   },
   {
     id: 'caprese-salad',
@@ -618,7 +610,7 @@ let recipes = [{
     description: 'Fresh salad with tomatoes, mozzarella, and basil',
     ingredients: ['Tomatoes', 'Mozzarella', 'Basil', 'Olive oil', 'Balsamic glaze'],
     instructions: ['Slice tomatoes and mozzarella', 'Layer with basil', 'Drizzle with olive oil and balsamic glaze'],
-    image: 'https://cdn.pixabay.com/photo/2016/08/06/20/46/tomato-mozzarella-1575066_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2020/06/03/08/53/mozzarella-5254110_1280.jpg'
   },
   {
     id: 'osso-buco',
@@ -626,7 +618,7 @@ let recipes = [{
     description: 'Braised veal shanks in a rich tomato sauce',
     ingredients: ['Veal shanks', 'Carrots', 'Celery', 'Tomato paste', 'White wine', 'Stock'],
     instructions: ['Sear veal shanks', 'Cook vegetables', 'Simmer with wine, stock, and tomato', 'Serve with gremolata'],
-    image: 'https://cdn.pixabay.com/photo/2017/01/16/19/04/veal-1987634_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/07/24/13/08/meat-2534580_1280.jpg'
   },
   {
     id: 'panna-cotta',
@@ -634,14 +626,14 @@ let recipes = [{
     description: 'Silky dessert made with cream and vanilla',
     ingredients: ['Heavy cream', 'Sugar', 'Gelatin', 'Vanilla'],
     instructions: ['Heat cream and sugar', 'Dissolve gelatin', 'Pour into moulds and chill', 'Serve with fruit sauce'],
-    image: 'https://cdn.pixabay.com/photo/2019/11/17/20/52/dessert-4633976_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/06/18/18/49/panna-cotta-2416749_1280.jpg'
   }, {
     id: 'coq-au-vin',
     name: 'Coq au Vin',
     description: 'Chicken braised in red wine with mushrooms, bacon, and onions',
     ingredients: ['Chicken', 'Red wine', 'Mushrooms', 'Onions', 'Bacon', 'Garlic', 'Thyme'],
     instructions: ['Brown chicken', 'Cook bacon and vegetables', 'Simmer with wine and herbs', 'Serve with crusty bread'],
-    image: 'https://cdn.pixabay.com/photo/2019/11/06/16/21/coq-au-vin-4606661_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/09/03/00/53/cream-2709035_1280.jpg'
   },
   {
     id: 'quiche-lorraine',
@@ -649,7 +641,7 @@ let recipes = [{
     description: 'Savory tart with eggs, cream, bacon, and cheese',
     ingredients: ['Pie crust', 'Eggs', 'Heavy cream', 'Bacon', 'Gruyère cheese', 'Nutmeg'],
     instructions: ['Prepare crust', 'Cook bacon', 'Mix eggs, cream, and cheese', 'Pour into crust and bake'],
-    image: 'https://cdn.pixabay.com/photo/2021/09/24/12/08/quiche-6651550_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2017/11/09/16/43/food-2934024_1280.jpg'
   },
   {
     id: 'bouillabaisse',
