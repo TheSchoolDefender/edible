@@ -699,32 +699,31 @@ let recipes = [{
     instructions: ['Mix batter', 'Chill and fill moulds', 'Bake until golden', 'Serve with tea'],
     image: 'https://cdn.pixabay.com/photo/2015/03/21/14/31/madeleine-683743_1280.jpg'
 }, {
-    id: 'koolaid-glazed-chicken',
-    name: 'Kool-Aid Glazed Fried Chicken with Watermelon Salad',
-    description: 'A sweet and tangy twist on fried chicken served with a refreshing watermelon salad.',
+    id: 'sandwich-and-dishes',
+    name: 'How to Make a Sandwich and Wash Dishes',
+    description: 'A simple guide to making a delicious sandwich and cleaning up afterward.',
     ingredients: [
-      'Chicken drumsticks',
-      'Buttermilk',
-      'Flour',
-      'Seasonings (salt, pepper, paprika, garlic powder)',
-      'Oil for frying',
-      'Grape Kool-Aid powder',
-      'Sugar',
-      'Water',
-      'Watermelon (cubed)',
-      'Cucumber (sliced)',
-      'Mint leaves',
-      'Lime juice'
+      'Bread slices',
+      'Choice of protein (ham, turkey, tuna, etc.)',
+      'Cheese',
+      'Lettuce',
+      'Tomato (sliced)',
+      'Condiments (mayonnaise, mustard, etc.)',
+      'Butter (optional)'
     ],
     instructions: [
-      'Marinate chicken in buttermilk and seasonings for 4 hours.',
-      'Coat chicken in seasoned flour and fry until golden and crispy.',
-      'Make the Kool-Aid glaze by dissolving grape Kool-Aid powder and sugar in water and reducing it to a syrup.',
-      'Brush the glaze over the fried chicken.',
-      'Prepare the watermelon salad by tossing watermelon, cucumber, mint leaves, and lime juice.',
-      'Serve glazed chicken alongside the salad for a sweet and savoury combination.'
+      'Lay out two slices of bread on a clean surface.',
+      'Spread condiments on one or both slices as desired.',
+      'Add protein, cheese, lettuce, and tomato between the slices.',
+      'Optionally, toast the sandwich in a pan with butter for a crispy texture.',
+      'Cut the sandwich in half and serve.',
+      'After eating, scrape food residue off plates into the bin or disposal.',
+      'Rinse dishes under warm water to remove loose debris.',
+      'Apply dish soap to a sponge and scrub each dish thoroughly.',
+      'Rinse dishes with clean water and place them on a drying rack or dry with a towel.',
+      'Wipe down countertops and sink to complete the cleanup.'
     ],
-    image: 'https://cdn.pixabay.com/photo/2014/01/24/04/05/fried-chicken-250863_1280.jpg'
+    image: 'https://cdn.pixabay.com/photo/2021/10/29/14/58/dirt-6752127_1280.jpg'
 }];
 
 let currentLanguage = 'en';
