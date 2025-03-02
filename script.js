@@ -698,32 +698,7 @@ let recipes = [{
     ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Vanilla', 'Lemon zest'],
     instructions: ['Mix batter', 'Chill and fill moulds', 'Bake until golden', 'Serve with tea'],
     image: 'https://cdn.pixabay.com/photo/2015/03/21/14/31/madeleine-683743_1280.jpg'
-}, {
-    id: 'sandwich-and-dishes',
-    name: 'How to Make a Sandwich and Wash Dishes',
-    description: 'A simple guide to making a delicious sandwich and cleaning up afterward.',
-    ingredients: [
-      'Bread slices',
-      'Choice of protein (ham, turkey, tuna, etc.)',
-      'Cheese',
-      'Lettuce',
-      'Tomato (sliced)',
-      'Condiments (mayonnaise, mustard, etc.)',
-      'Butter (optional)'
-    ],
-    instructions: [
-      'Lay out two slices of bread on a clean surface.',
-      'Spread condiments on one or both slices as desired.',
-      'Add protein, cheese, lettuce, and tomato between the slices.',
-      'Optionally, toast the sandwich in a pan with butter for a crispy texture.',
-      'Cut the sandwich in half and serve.',
-      'After eating, scrape food residue off plates into the bin or disposal.',
-      'Rinse dishes under warm water to remove loose debris.',
-      'Apply dish soap to a sponge and scrub each dish thoroughly.',
-      'Rinse dishes with clean water and place them on a drying rack or dry with a towel.',
-      'Wipe down countertops and sink to complete the cleanup.'
-    ],
-    image: 'https://cdn.pixabay.com/photo/2021/10/29/14/58/dirt-6752127_1280.jpg'
+
 }];
 
 let currentLanguage = 'en';
