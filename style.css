@@ -642,6 +642,47 @@ button:hover {
   border: none;
 }
 
+.accessibility-option.music-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accessibility-option.music-option label {
+  margin-right: 10px;
+}
+
+#background-music-toggle {
+  appearance: none;
+  width: 50px;
+  height: 25px;
+  background-color: #d3d3d3;
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#background-music-toggle::before {
+  content: '';
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background-color: white;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s;
+}
+
+#background-music-toggle:checked {
+  background-color: #4CAF50;
+}
+
+#background-music-toggle:checked::before {
+  transform: translateX(25px);
+}
+
 .form-group {
   margin-bottom: 20px;
   text-align: left;
@@ -744,4 +785,48 @@ button:hover {
   color: #FFC72C;
   font-size: 1em;
   cursor: pointer;
+}
+
+.cooking-tips-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background-color: rgba(0, 59, 92, 0.95);
+  border-radius: 15px;
+  padding: 30px;
+  max-width: 400px;
+  width: 90%;
+  z-index: 1100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cooking-tips-popup.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.cooking-tips-content {
+  position: relative;
+}
+
+.close-tips-popup {
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  background: #CE0037;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
