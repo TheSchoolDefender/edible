@@ -11,8 +11,15 @@
     <!-- Link to external CSS for styles -->
     <link rel="stylesheet" href="style.css">
 
+    <!-- Add print stylesheet -->
+    <link rel="stylesheet" href="print.css" media="print">
+
     <!-- Link to external JavaScript file -->
     <script src="script.js" defer></script>
+
+    <!-- Add jsPDF library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <div id="particles-js"></div>
@@ -247,9 +254,25 @@
             <label>Text Size</label>
             <input type="range" min="100" max="200" value="100" id="text-size" oninput="adjustTextSize(this.value)">
         </div>
+        <div class="accessibility-option">
+            <label>Cooking Tips</label>
+            <input type="checkbox" id="cooking-tips-toggle" checked>
+        </div>
+
+        <div class="accessibility-option music-option">
+            <label>Background Music</label>
+            <input type="checkbox" id="background-music-toggle">
+        </div>
     </div>
 
     <div class="arrow"></div>
     <div id="google_translate_element" style="display:none;"></div>
+    <div id="cooking-tips-popup" class="cooking-tips-popup">
+        <div class="cooking-tips-content">
+            <button class="close-tips-popup">&times;</button>
+            <h3>Cooking Tip of the Day!</h3>
+            <p id="cooking-tip-text"></p>
+        </div>
+    </div>
 </body>
 </html>
