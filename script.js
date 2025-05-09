@@ -1,3 +1,88 @@
+// Cooking Tips Array
+const cookingTips = [
+  "Always read the entire recipe before starting to cook.",
+  "Use a sharp knife for better and safer cutting.",
+  "Let meat rest after cooking to retain its juices.",
+  "Preheat your oven or pan before cooking.",
+  "Season your food in layers for more depth of flavor.",
+  "Keep your workspace clean as you cook.",
+  "Use a meat thermometer to ensure proper cooking temperature.",
+  "Rest your dough when making bread or pastries.",
+  "Use fresh ingredients whenever possible.",
+  "Learn to balance flavors: sweet, sour, salty, bitter, and umami."
+];
+
+// Background Music Functionality
+let backgroundMusic = null;
+
+function toggleBackgroundMusic(isEnabled) {
+  if (isEnabled) {
+    if (!backgroundMusic) {
+      backgroundMusic = new Audio('https://ediblefood.vercel.app/soundtrack/soundtraporiginal1.mp3');
+      backgroundMusic.loop = true;
+    }
+    backgroundMusic.play().catch(error => {
+      console.error('Error playing background music:', error);
+    });
+  } else {
+    if (backgroundMusic) {
+      backgroundMusic.pause();
+    }
+  }
+}
+
+// Cooking Tips Popup Functionality
+function showCookingTip() {
+  // Check if tips are enabled in accessibility settings
+  const tipsEnabled = localStorage.getItem('cookingTipsEnabled') !== 'false';
+  
+  if (tipsEnabled) {
+    const tipPopup = document.getElementById('cooking-tips-popup');
+    const tipText = document.getElementById('cooking-tip-text');
+    
+    // Select a random tip
+    const randomTip = cookingTips[Math.floor(Math.random() * cookingTips.length)];
+    tipText.textContent = randomTip;
+    
+    tipPopup.classList.add('show');
+    
+    // Automatically hide after 10 seconds
+    setTimeout(() => {
+      tipPopup.classList.remove('show');
+    }, 10000);
+  }
+}
+
+// Update accessibility menu initialization
+function initializeAccessibilityOptions() {
+  // Cooking Tips Toggle
+  const cookingTipsToggle = document.getElementById('cooking-tips-toggle');
+  cookingTipsToggle.checked = localStorage.getItem('cookingTipsEnabled') !== 'false';
+  cookingTipsToggle.addEventListener('change', function() {
+    localStorage.setItem('cookingTipsEnabled', this.checked);
+  });
+
+  // Background Music Toggle
+  const backgroundMusicToggle = document.getElementById('background-music-toggle');
+  backgroundMusicToggle.addEventListener('change', function() {
+    toggleBackgroundMusic(this.checked);
+  });
+
+  // Close Popup Button
+  const closeTipsPopup = document.querySelector('.close-tips-popup');
+  closeTipsPopup.addEventListener('click', () => {
+    document.getElementById('cooking-tips-popup').classList.remove('show');
+  });
+}
+
+// Modify existing initialization to include new functions
+document.addEventListener('DOMContentLoaded', function() {
+  initializeAccessibilityOptions();
+  
+  // Show cooking tip when page loads
+  showCookingTip();
+});
+
 let currentQuestion = 1;
 let answers = {};
 let questions = [{
@@ -371,8 +456,8 @@ let recipes = [{
   id: 'flan',
   name: 'Flan',
   description: 'Creamy caramel custard dessert',
-  ingredients: ['Eggs', 'Milk', 'Sugar', 'Vanilla', 'Caramel'],
-  instructions: ['Prepare caramel', 'Mix custard ingredients', 'Pour into moulds and bake in water bath', 'Chill before serving'],
+  ingredients: ['Milk powder', 'Flour', 'Sugar', 'Cardamom', 'Ghee'],
+  instructions: ['Make dough', 'Shape and fry dumplings', 'Soak in sugar syrup', 'Serve warm'],
   image: 'https://cdn.pixabay.com/photo/2014/08/08/11/24/flan-413223_1280.jpg'
 },
 {
@@ -760,6 +845,71 @@ let foodQuizQuestions = [
 let currentQuizQuestion = 0;
 let foodQuizScore = 0;
 
+function initializeTranslationAndAccessibility() {
+  // Initialize language selector
+  const languageSelect = document.getElementById('language-select');
+  if (languageSelect) {
+    languageSelect.addEventListener('change', function() {
+      currentLanguage = this.value;
+      // Add translation logic here if needed
+    });
+  }
+
+  // Initialize accessibility options
+  const fontOption = document.getElementById('font-option');
+  if (fontOption) {
+    fontOption.addEventListener('change', function() {
+      toggleDyslexicFont(this.value);
+    });
+  }
+
+  const contrastOption = document.getElementById('contrast-option');
+  if (contrastOption) {
+    contrastOption.addEventListener('change', function() {
+      toggleHighContrast(this.value);
+    });
+  }
+
+  const textSizeOption = document.getElementById('text-size');
+  if (textSizeOption) {
+    textSizeOption.addEventListener('input', function() {
+      adjustTextSize(this.value);
+    });
+  }
+
+  // Add any other initialization logic for translation or accessibility
+}
+
+function toggleDyslexicFont(fontType) {
+  const body = document.body;
+  if (fontType === 'dyslexic') {
+    body.classList.add('dyslexic-font');
+  } else {
+    body.classList.remove('dyslexic-font');
+  }
+}
+
+function toggleHighContrast(contrastMode) {
+  const body = document.body;
+  if (contrastMode === 'high') {
+    body.classList.add('high-contrast');
+  } else {
+    body.classList.remove('high-contrast');
+  }
+}
+
+function adjustTextSize(size) {
+  document.body.style.fontSize = `${size}%`;
+}
+
+// Ensure the function is called when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', initializeTranslationAndAccessibility);
+
+// Call initialization on page load
+document.addEventListener('DOMContentLoaded', function() {
+  showQuestion(1);
+});
+
 function nextQuestion(questionNumber, answer) {
   answers[questionNumber] = answer;
   gsap.to(`#q${questionNumber}`, {
@@ -996,95 +1146,100 @@ function showDocumentation() {
   `;
 }
 
-function showQuestions() {
-  const form = document.getElementById('question-form');
-  if (form) {
-    form.addEventListener('submit', handleFormSubmit);
-  }
-}
-
 function toggleAccessibilityMenu() {
   const menu = document.getElementById('accessibility-menu');
-  menu.classList.toggle('show');
   const button = document.querySelector('.accessibility-button');
-  button.classList.toggle('active');
+  
+  if (menu.classList.contains('show')) {
+    menu.classList.remove('show');
+    button.classList.remove('active');
+  } else {
+    menu.classList.add('show');
+    button.classList.add('active');
+  }
 }
 
 function toggleTTS(value) {
-  if (value === 'off') {
-    document.querySelectorAll('p, h1, h2, h3, h4, button, a').forEach(element => {
-      element.removeEventListener('mouseenter', speakText);
-      element.removeEventListener('mouseleave', stopSpeaking);
+  const ttsElements = document.querySelectorAll('p, h1, h2, h3, h4, button, a, li');
+  
+  if (value === 'on') {
+    ttsElements.forEach(element => {
+      element.addEventListener('mouseover', (event) => {
+        speakTextWithGoogle(event.target.textContent, currentLanguage);
+      });
+      
+      // Add click event for interactive elements
+      if (element.tagName === 'BUTTON' || element.tagName === 'A') {
+        element.addEventListener('click', handleTTSClick);
+      }
     });
   } else {
-    document.querySelectorAll('p, h1, h2, h3, h4, button, a').forEach(element => {
-      element.addEventListener('mouseenter', speakText);
-      element.addEventListener('mouseleave', stopSpeaking);
+    ttsElements.forEach(element => {
+      element.removeEventListener('mouseover', speakTextWithGoogle);
+      
+      if (element.tagName === 'BUTTON' || element.tagName === 'A') {
+        element.removeEventListener('click', handleTTSClick);
+      }
     });
   }
 }
 
-function speakText(event) {
-  const utterance = new SpeechSynthesisUtterance(event.target.textContent);
+function handleTTSClick(event) {
+  const utterance = new SpeechSynthesisUtterance(`You clicked on ${event.target.textContent}`);
   utterance.lang = currentLanguage;
   window.speechSynthesis.speak(utterance);
-}
-
-function stopSpeaking() {
-  window.speechSynthesis.cancel();
-}
-
-function toggleDyslexicFont(value) {
-  if (value === 'dyslexic') {
-    document.body.classList.add('dyslexic-font');
-  } else {
-    document.body.classList.remove('dyslexic-font');
+  
+  // Preserve original click functionality
+  if (event.target.onclick) {
+    event.target.onclick(event);
   }
 }
 
-function showRecommend() {
-  const recommendSection = document.getElementById('recommend');
-  recommendSection.innerHTML = `
-    <h2>Recommend a Recipe</h2>
-    <iframe 
-      src="https://docs.google.com/forms/d/e/1FAIpQLSeaer09DQu7nZCriGD82-cs4-ZG6b1LHCwOOYHxjjersEn2QA/viewform?embedded=true" 
-      width="100%" 
-      height="800" 
-      frameborder="0" 
-      marginheight="0" 
-      marginwidth="0">
-      Loading…
-    </iframe>
-  `;
-  showSection('recommend');
-}
+function speakTextWithGoogle(text, language = 'en') {
+  // Fallback to browser speech synthesis if Google API fails
+  function fallbackTextToSpeech(text, language) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = language;
+    window.speechSynthesis.speak(utterance);
+  }
 
-function toggleFilterSidebar() {
-  const sidebar = document.getElementById('filter-sidebar');
-  sidebar.classList.toggle('open');
-}
+  // Check for Google Cloud Text-to-Speech API key
+  const apiKey = 'YOUR_API_KEY'; // Replace with actual key
+  if (!apiKey || apiKey === 'YOUR_API_KEY') {
+    console.warn('No valid Google TTS API key. Using browser speech synthesis.');
+    fallbackTextToSpeech(text, language);
+    return;
+  }
 
-function applyFilters() {
-  searchRecipes();
-  toggleFilterSidebar();
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  const script = document.createElement('script');
-  script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateInit';
-  document.body.appendChild(script);
-  document.getElementById('language-select').addEventListener('change', function(e) {
-    const lang = e.target.value;
-    if (translateInit) {
-      const selectElement = document.querySelector('.goog-te-combo');
-      if (selectElement) {
-        selectElement.value = lang;
-        selectElement.dispatchEvent(new Event('change'));
-        currentLanguage = lang;
-      }
+  const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
+  
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      input: { text: text },
+      voice: { languageCode: language, ssmlGender: 'NEUTRAL' },
+      audioConfig: { audioEncoding: 'MP3' }
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('TTS API request failed');
     }
+    return response.json();
+  })
+  .then(data => {
+    const audioContent = data.audioContent;
+    const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
+    audio.play().catch(error => {
+      console.warn('Audio playback failed, using fallback:', error);
+      fallbackTextToSpeech(text, language);
+    });
+  })
+  .catch(error => {
+    console.error('TTS API error:', error);
+    fallbackTextToSpeech(text, language);
   });
-});
+}
 
 function showResult() {
   let adventurousness = parseInt(answers[3] || 5);
@@ -1248,7 +1403,7 @@ function showRecommendedRecipes(skillLevel) {
       <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
     </div>
   `).join('');
-  
+
   gsap.fromTo('.dish-box', {
     opacity: 0,
     y: 20
@@ -1260,7 +1415,11 @@ function showRecommendedRecipes(skillLevel) {
   });
 }
 
-showQuestion(1);
+window.addEventListener('unhandledrejection', function(event) {
+  console.error('Unhandled Promise Rejection:', event.reason);
+  // Optionally show a user-friendly error message
+  alert('An unexpected error occurred. Please try again later.');
+});
 
 particlesJS("particles-js", {
   particles: {
