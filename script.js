@@ -1,3 +1,24 @@
+// Add at the top of script.js
+document.addEventListener('DOMContentLoaded', function() {
+  // Auto-show survey on page load
+  setTimeout(() => {
+    resetSurvey();
+  }, 1000);
+
+  // Initialize favorites from localStorage
+  initializeFavorites();
+});
+
+function initializeFavorites() {
+  // Retrieve favorites from localStorage, or initialize an empty array
+  window.favorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+  
+  // Optional: Ensure favorites is always an array
+  if (!Array.isArray(window.favorites)) {
+    window.favorites = [];
+  }
+}
+
 // Cooking Tips Array
 const cookingTips = [
   "Always read the entire recipe before starting to cook.",
@@ -10,6 +31,30 @@ const cookingTips = [
   "Rest your dough when making bread or pastries.",
   "Use fresh ingredients whenever possible.",
   "Learn to balance flavors: sweet, sour, salty, bitter, and umami."
+];
+
+// Expanded Jokes Array
+const cookingJokes = [
+  "Why did the tomato blush? Because it saw the salad dressing!",
+  "What do you call a fake noodle? An impasta!",
+  "Why did the cookie go to the doctor? Because it was feeling crumbly!",
+  "What do you call a sad strawberry? A blueberry!",
+  "Why did the banana go to the doctor? Because it wasn't peeling well!",
+  "What do you call a cheese that isn't yours? Nacho cheese!",
+  "Why did the egg go to the doctor? Because it was feeling scrambled!",
+  "What do you call a sad fruit? A blue berry!",
+  "Why did the potato chip go to the party? To get crispy!",
+  "What do you call a sad coffee? A depresso!",
+  "Why don't scientists trust atoms? Because they make up everything!",
+  "I told my wife she was drawing her eyebrows too high. She looked surprised.",
+  "What do you call a boomerang that doesn't come back? A stick.",
+  "Why did the scarecrow win an award? Because he was outstanding in his field!",
+  "I used to be addicted to soap, but I'm clean now.",
+  "Why do bees have sticky hair? Because they use honeycombs!",
+  "What do you call a bear with no teeth? A gummy bear!",
+  "Why did the math book look so sad? Because it had too many problems!",
+  "I'm on a seafood diet. I see food, and I eat it!",
+  "What do you call a can opener that doesn't work? A can't opener!"
 ];
 
 // Background Music Functionality
@@ -31,26 +76,49 @@ function toggleBackgroundMusic(isEnabled) {
   }
 }
 
-// Cooking Tips Popup Functionality
-function showCookingTip() {
+// Function to show and hide cooking tips
+function toggleCookingTip() {
+  const tipPopup = document.getElementById('cooking-tips-popup');
+  
   // Check if tips are enabled in accessibility settings
   const tipsEnabled = localStorage.getItem('cookingTipsEnabled') !== 'false';
   
   if (tipsEnabled) {
-    const tipPopup = document.getElementById('cooking-tips-popup');
     const tipText = document.getElementById('cooking-tip-text');
     
     // Select a random tip
     const randomTip = cookingTips[Math.floor(Math.random() * cookingTips.length)];
     tipText.textContent = randomTip;
     
+    // Slide in the tip
     tipPopup.classList.add('show');
+    tipPopup.classList.remove('hide');
     
     // Automatically hide after 10 seconds
     setTimeout(() => {
       tipPopup.classList.remove('show');
+      tipPopup.classList.add('hide');
     }, 10000);
   }
+}
+
+// Function to show and hide cooking jokes
+function toggleCookingJoke() {
+  const jokePopup = document.getElementById('jokes-popup');
+  
+  // Select a random joke
+  const randomJoke = cookingJokes[Math.floor(Math.random() * cookingJokes.length)];
+  document.getElementById('joke-text').textContent = randomJoke;
+  
+  // Slide in the joke
+  jokePopup.classList.add('show');
+  jokePopup.classList.remove('hide');
+  
+  // Automatically hide after 10 seconds
+  setTimeout(() => {
+    jokePopup.classList.remove('show');
+    jokePopup.classList.add('hide');
+  }, 10000);
 }
 
 // Update accessibility menu initialization
@@ -73,14 +141,42 @@ function initializeAccessibilityOptions() {
   closeTipsPopup.addEventListener('click', () => {
     document.getElementById('cooking-tips-popup').classList.remove('show');
   });
+
+  // Add popup control to accessibility menu
+  const popupToggles = [
+    { 
+      elementId: 'cooking-tips-popup', 
+      checkboxId: 'cooking-tips-popup-toggle' 
+    },
+    { 
+      elementId: 'jokes-popup', 
+      checkboxId: 'jokes-popup-toggle' 
+    }
+  ];
+
+  popupToggles.forEach(popup => {
+    const checkbox = document.getElementById(popup.checkboxId);
+    const popupElement = document.getElementById(popup.elementId);
+
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        popupElement.classList.remove('hide');
+      } else {
+        popupElement.classList.add('hide');
+      }
+    });
+  });
 }
 
-// Modify existing initialization to include new functions
+// Modify the initialization to include joke feature
 document.addEventListener('DOMContentLoaded', function() {
   initializeAccessibilityOptions();
   
   // Show cooking tip when page loads
-  showCookingTip();
+  toggleCookingTip();
+  
+  // Show jokes every 30 seconds
+  setInterval(toggleCookingJoke, 30000);
 });
 
 let currentQuestion = 1;
@@ -192,7 +288,7 @@ let recipes = [{
   name: 'Chocolate Brownies',
   description: 'Rich and fudgy brownies',
   ingredients: ['Flour', 'Cocoa powder', 'Butter', 'Sugar', 'Eggs', 'Vanilla'],
-  instructions: ['Mix dry ingredients', 'Add wet ingredients', 'Bake until set'],
+  instructions: ['Mix ingredients', 'Add wet ingredients', 'Bake until set'],
   image: 'https://cdn.pixabay.com/photo/2017/08/07/12/49/dessert-2603520_1280.jpg'
 }, {
   id: 'cheesecake',
@@ -786,251 +882,158 @@ let recipes = [{
 
 }];
 
-let currentLanguage = 'en';
-let translateInit = false;
+// Add category field and meal type to existing recipes
+recipes = recipes.map(recipe => {
+  let category = '';
+  let mealType = determineMealType(recipe);
+  
+  // Categorize based on common recipe types
+  const desserts = ['Panna Cotta', 'Tiramisu', 'Brownies', 'Cheesecake', 'Cupcakes', 'Ice Cream', 
+                    'Banana Bread', 'Carrot Cake', 'Donuts', 'Churros', 'Madeleines', 'Tarte Tatin'];
+  const appetizers = ['Bruschetta', 'Spring Rolls', 'Samosa', 'Guacamole'];
+  const lunch = ['Sandwich', 'Salad', 'Wrap', 'Avocado Toast', 'Smoothie Bowl', 'Quiche Lorraine', 'Breakfast Pizza'];
+  const dinner = ['Chicken Parmesan', 'Lasagna', 'Beef Bourguignon', 'Risotto', 'Pasta', 'Steak', 
+                  'Meatballs', 'BBQ Ribs', 'Enchiladas', 'Pozole', 'Fajitas'];
 
-let foodQuizQuestions = [
-  {
-    question: "Which country is known for originating sushi?",
-    choices: ["China", "Japan", "South Korea", "Thailand"],
-    correctAnswer: 1
-  },
-  {
-    question: "What is the primary ingredient in guacamole?",
-    choices: ["Tomato", "Avocado", "Lime", "Onion"],
-    correctAnswer: 1
-  },
-  {
-    question: "What type of pasta is traditionally used in a classic spaghetti bolognese?",
-    choices: ["Penne", "Spaghetti", "Fusilli", "Farfalle"],
-    correctAnswer: 1
-  },
-  {
-    question: "Which fruit is known as the \"king of fruits\" and has a very strong smell?",
-    choices: ["Durian", "Mango", "Pineapple", "Banana"],
-    correctAnswer: 0
-  },
-  {
-    question: "What does the French term \"mirepoix\" refer to?",
-    choices: ["A type of sauce", "A vegetable-based stock", "A combination of onions, carrots, and celery", "A way to cook fish"],
-    correctAnswer: 2
-  },
-  {
-    question: "Which country is the birthplace of the croissant?",
-    choices: ["France", "Austria", "Italy", "Germany"],
-    correctAnswer: 1
-  },
-  {
-    question: "What is the main ingredient in the Italian dish \"risotto\"?",
-    choices: ["Rice", "Pasta", "Polenta", "Bread"],
-    correctAnswer: 0
-  },
-  {
-    question: "Which type of cheese is traditionally used in a Greek salad?",
-    choices: ["Mozzarella", "Feta", "Cheddar", "Gouda"],
-    correctAnswer: 1
-  },
-  {
-    question: "What is the key flavor in the Indian dish \"curry\"?",
-    choices: ["Garlic", "Cinnamon", "Turmeric", "Ginger"],
-    correctAnswer: 2
-  },
-  {
-    question: "In which country would you find the dish \"paella\"?",
-    choices: ["Mexico", "Italy", "Spain", "Greece"],
-    correctAnswer: 2
-  }
-];
-
-let currentQuizQuestion = 0;
-let foodQuizScore = 0;
-
-function initializeTranslationAndAccessibility() {
-  // Initialize language selector
-  const languageSelect = document.getElementById('language-select');
-  if (languageSelect) {
-    languageSelect.addEventListener('change', function() {
-      currentLanguage = this.value;
-      // Add translation logic here if needed
-    });
-  }
-
-  // Initialize accessibility options
-  const fontOption = document.getElementById('font-option');
-  if (fontOption) {
-    fontOption.addEventListener('change', function() {
-      toggleDyslexicFont(this.value);
-    });
-  }
-
-  const contrastOption = document.getElementById('contrast-option');
-  if (contrastOption) {
-    contrastOption.addEventListener('change', function() {
-      toggleHighContrast(this.value);
-    });
-  }
-
-  const textSizeOption = document.getElementById('text-size');
-  if (textSizeOption) {
-    textSizeOption.addEventListener('input', function() {
-      adjustTextSize(this.value);
-    });
-  }
-
-  // Add any other initialization logic for translation or accessibility
-}
-
-function toggleDyslexicFont(fontType) {
-  const body = document.body;
-  if (fontType === 'dyslexic') {
-    body.classList.add('dyslexic-font');
+  if (desserts.some(d => recipe.name.includes(d))) {
+    category = 'Dessert';
+  } else if (appetizers.some(a => recipe.name.includes(a))) {
+    category = 'Appetizers';
+  } else if (lunch.some(l => recipe.name.includes(l))) {
+    category = 'Lunch';
+  } else if (dinner.some(d => recipe.name.includes(d))) {
+    category = 'Dinner';
   } else {
-    body.classList.remove('dyslexic-font');
+    category = 'Other';
   }
-}
 
-function toggleHighContrast(contrastMode) {
-  const body = document.body;
-  if (contrastMode === 'high') {
-    body.classList.add('high-contrast');
-  } else {
-    body.classList.remove('high-contrast');
-  }
-}
-
-function adjustTextSize(size) {
-  document.body.style.fontSize = `${size}%`;
-}
-
-// Ensure the function is called when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', initializeTranslationAndAccessibility);
-
-// Call initialization on page load
-document.addEventListener('DOMContentLoaded', function() {
-  showQuestion(1);
+  return {...recipe, category, mealType, dietaryOptions: determineDietaryOptions(recipe)};
 });
 
-function nextQuestion(questionNumber, answer) {
-  answers[questionNumber] = answer;
-  gsap.to(`#q${questionNumber}`, {
-    opacity: 0,
-    y: -20,
-    duration: 0.5,
-    onComplete: () => {
-      document.querySelector(`#q${questionNumber}`).style.display = 'none';
-      if (questionNumber < 5) {
-        currentQuestion++;
-        showQuestion(currentQuestion);
-      } else {
-        showResult();
-      }
+function determineMealType(recipe) {
+  const mealTypeKeywords = {
+    'Breakfast': ['Breakfast', 'Egg', 'Pancake', 'Waffle', 'Toast', 'Omelette', 'Shakshuka', 'Parfait'],
+    'Lunch': ['Sandwich', 'Salad', 'Wrap', 'Bowl', 'Toast', 'Quiche'],
+    'Dinner': ['Chicken', 'Beef', 'Pork', 'Fish', 'Pasta', 'Steak', 'Curry', 'Enchilada', 'Stir-fry'],
+    'Dessert': ['Cake', 'Pie', 'Ice Cream', 'Cookie', 'Pudding', 'Tiramisu', 'Brownie', 'Cupcake']
+  };
+
+  for (const [type, keywords] of Object.entries(mealTypeKeywords)) {
+    if (keywords.some(keyword => recipe.name.includes(keyword) || recipe.description.includes(keyword))) {
+      return type;
     }
-  });
-}
-
-function showQuestion(questionNumber) {
-  let question = document.querySelector(`#q${questionNumber}`);
-  question.style.display = 'block';
-  gsap.fromTo(question, {
-    opacity: 0,
-    y: 20
-  }, {
-    opacity: 1,
-    y: 0,
-    duration: 0.5
-  });
-  if (questionNumber >= 3) {
-    let slider = document.querySelector(`#q${questionNumber}-slider`);
-    let value = document.querySelector(`#q${questionNumber}-value`);
-    value.textContent = slider.value;
   }
+  return 'Other';
 }
 
-function updateSliderValue(questionNumber, value) {
-  document.querySelector(`#q${questionNumber}-value`).textContent = value;
-}
+function determineDietaryOptions(recipe) {
+  const dietOptions = [];
 
-function resetSurvey() {
-  currentQuestion = 1;
-  answers = {};
-  document.querySelectorAll('main > div').forEach(div => div.style.display = 'none');
-  document.querySelector('#quiz').style.display = 'block';
-  document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
-  showQuestion(1);
-}
+  if (
+    !recipe.ingredients.some(ing => 
+      ing.toLowerCase().includes('flour') || 
+      ing.toLowerCase().includes('wheat')
+    )
+  ) {
+    dietOptions.push('gluten-free');
+  }
 
-function generateIngredientCheckboxes() {
-  const allIngredients = new Set();
-  recipes.forEach(recipe => {
-    recipe.ingredients.forEach(ingredient => {
-      allIngredients.add(ingredient);
-    });
-  });
+  if (
+    !recipe.ingredients.some(ing => 
+      ing.toLowerCase().includes('milk') || 
+      ing.toLowerCase().includes('cheese') || 
+      ing.toLowerCase().includes('cream') || 
+      ing.toLowerCase().includes('butter')
+    )
+  ) {
+    dietOptions.push('dairy-free');
+  }
 
-  const ingredientContainer = document.getElementById('ingredient-checkboxes');
-  ingredientContainer.innerHTML = Array.from(allIngredients)
-    .sort()
-    .map(ingredient => `
-      <label>
-        <input type="checkbox" name="ingredient" value="${ingredient}">
-        ${ingredient}
-      </label>
-    `).join('');
+  if (
+    !recipe.ingredients.some(ing => 
+      ing.toLowerCase().includes('meat') || 
+      ing.toLowerCase().includes('chicken') || 
+      ing.toLowerCase().includes('beef') || 
+      ing.toLowerCase().includes('fish') || 
+      ing.toLowerCase().includes('egg')
+    )
+  ) {
+    dietOptions.push('vegan');
+  }
+
+  if (
+    !recipe.ingredients.some(ing => 
+      ing.toLowerCase().includes('nut') || 
+      ing.toLowerCase().includes('almond') || 
+      ing.toLowerCase().includes('peanut') || 
+      ing.toLowerCase().includes('walnut')
+    )
+  ) {
+    dietOptions.push('nut-free');
+  }
+
+  return dietOptions;
 }
 
 function searchRecipes() {
-  const searchTerm = document.getElementById('search-input').value.toLowerCase();
-  const skillLevelFilter = document.getElementById('skill-level-filter').value;
-  const sortFilter = document.getElementById('sort-filter').value;
+  const searchTerm = document.getElementById('search-input').value.toLowerCase().trim().replace(/\s/g, '');
+  
+  // Meal Type Filters
+  const selectedMealTypes = Array.from(
+    document.querySelectorAll('input[name="meal-type"]:checked')
+  ).map(checkbox => checkbox.value.toLowerCase());
 
-  const selectedIngredients = Array.from(
-    document.querySelectorAll('input[name="ingredient"]:checked')
-  ).map(checkbox => checkbox.value);
+  // Dietary Option Filters
+  const selectedDietaryOptions = Array.from(
+    document.querySelectorAll('input[name="dietary-option"]:checked')
+  ).map(checkbox => checkbox.value.toLowerCase());
+
+  // Show Favorites Filter
+  const showFavorites = document.getElementById('show-favorites-checkbox').checked;
 
   let filteredRecipes = recipes.filter(recipe => {
-    const nameMatch = recipe.name.toLowerCase().includes(searchTerm) || 
+    // Search Term Matching
+    const normalizedRecipeName = recipe.name.toLowerCase().replace(/\s/g, '');
+    const nameMatch = searchTerm === '' || 
+                      normalizedRecipeName.includes(searchTerm) || 
                       recipe.description.toLowerCase().includes(searchTerm);
 
-    const skillLevelMatch = !skillLevelFilter || 
-        getRecipeSkillLevel(recipe) === skillLevelFilter;
+    // Meal Type Matching
+    const mealTypeMatch = selectedMealTypes.length === 0 || 
+        selectedMealTypes.includes(recipe.mealType.toLowerCase());
 
-    const ingredientMatch = selectedIngredients.length === 0 || 
-        selectedIngredients.every(ing => recipe.ingredients.includes(ing));
+    // Dietary Options Matching
+    const dietaryOptionsMatch = selectedDietaryOptions.length === 0 || 
+        selectedDietaryOptions.every(option => 
+          recipe.dietaryOptions.map(opt => opt.toLowerCase()).includes(option)
+        );
 
-    return nameMatch && skillLevelMatch && ingredientMatch;
+    // Favorites Matching
+    const favoritesMatch = !showFavorites || window.favorites.includes(recipe.id);
+
+    return nameMatch && mealTypeMatch && dietaryOptionsMatch && favoritesMatch;
   });
-
-  // Sort recipes
-  switch(sortFilter) {
-    case 'name':
-      filteredRecipes.sort((a, b) => a.name.localeCompare(b.name));
-      break;
-    case 'difficulty':
-      filteredRecipes.sort((a, b) => {
-        const difficultyOrder = {
-          'Beginner': 1,
-          'Intermediate': 2,
-          'Master': 3
-        };
-        return difficultyOrder[getRecipeSkillLevel(a)] - difficultyOrder[getRecipeSkillLevel(b)];
-      });
-      break;
-    case 'ingredients':
-      filteredRecipes.sort((a, b) => a.ingredients.length - b.ingredients.length);
-      break;
-  }
 
   const recipesDiv = document.getElementById('recipe-list');
   recipesDiv.innerHTML = filteredRecipes.map(recipe => `
     <div class="dish-box">
+      <div 
+        class="favorite-icon ${window.favorites.includes(recipe.id) ? 'favorited' : ''}" 
+        data-recipe-id="${recipe.id}" 
+        onclick="toggleFavorite('${recipe.id}')"
+      >
+        ★
+      </div>
       <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
       <h3>${recipe.name}</h3>
       <p>${recipe.description}</p>
-      <p><strong>Skill Level:</strong> ${getRecipeSkillLevel(recipe)}</p>
+      <p><strong>Meal Type:</strong> ${recipe.mealType}</p>
+      <p><strong>Dietary Options:</strong> ${recipe.dietaryOptions.join(', ') || 'None'}</p>
       <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
     </div>
   `).join('');
 
+  // Optional: Add animation to newly loaded recipes
   gsap.fromTo('.dish-box', {
     opacity: 0,
     y: 20
@@ -1040,42 +1043,93 @@ function searchRecipes() {
     duration: 0.5,
     stagger: 0.2
   });
-}
-
-function getRecipeSkillLevel(recipe) {
-  const ingredientCount = recipe.ingredients.length;
-  const instructionComplexity = recipe.instructions.reduce((complexity, instruction) => {
-    return complexity + (instruction.split(' ').length > 5 ? 1 : 0);
-  }, 0);
-
-  if (ingredientCount <= 3 && instructionComplexity <= 1) return 'Beginner';
-  if (ingredientCount <= 6 && instructionComplexity <= 3) return 'Intermediate';
-  return 'Master';
 }
 
 function showRecipes() {
-  generateIngredientCheckboxes(); 
+  generateFilterSidebar(); 
+  searchRecipes(); // Use searchRecipes to load initial state
+}
 
-  let recipesDiv = document.getElementById('recipe-list');
-  recipesDiv.innerHTML = recipes.map(recipe => `
-    <div class="dish-box">
-      <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
-      <h3>${recipe.name}</h3>
-      <p>${recipe.description}</p>
-      <p><strong>Skill Level:</strong> ${getRecipeSkillLevel(recipe)}</p>
-      <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
+function generateFilterSidebar() {
+  const filterSidebar = document.getElementById('filter-sidebar');
+  
+  // Clear existing content to prevent duplicate additions
+  filterSidebar.innerHTML = '';
+  
+  // Add category filter section
+  filterSidebar.innerHTML += `
+    <div class="filter-section">
+      <h4>Category</h4>
+      <select id="category-filter" onchange="searchRecipes()">
+        <option value="">All Categories</option>
+        <option value="Dessert">Dessert</option>
+        <option value="Appetizers">Appetizers</option>
+        <option value="Lunch">Lunch</option>
+        <option value="Dinner">Dinner</option>
+        <option value="Other">Other</option>
+      </select>
     </div>
-  `).join('');
+  `;
+  
+  // Add meal type filter section
+  filterSidebar.innerHTML += `
+    <div class="filter-section">
+      <h4>Meal Type</h4>
+      <label>
+        <input type="checkbox" name="meal-type" value="Breakfast" onchange="searchRecipes()"> Breakfast
+      </label>
+      <label>
+        <input type="checkbox" name="meal-type" value="Lunch" onchange="searchRecipes()"> Lunch
+      </label>
+      <label>
+        <input type="checkbox" name="meal-type" value="Dinner" onchange="searchRecipes()"> Dinner
+      </label>
+      <label>
+        <input type="checkbox" name="meal-type" value="Dessert" onchange="searchRecipes()"> Dessert
+      </label>
+    </div>
+  `;
+  
+  // Add dietary option filter section
+  filterSidebar.innerHTML += `
+    <div class="filter-section">
+      <h4>Dietary Options</h4>
+      <label>
+        <input type="checkbox" name="dietary-option" value="gluten-free" onchange="searchRecipes()"> Gluten-free
+      </label>
+      <label>
+        <input type="checkbox" name="dietary-option" value="dairy-free" onchange="searchRecipes()"> Dairy-free
+      </label>
+      <label>
+        <input type="checkbox" name="dietary-option" value="vegan" onchange="searchRecipes()"> Vegan
+      </label>
+      <label>
+        <input type="checkbox" name="dietary-option" value="nut-free" onchange="searchRecipes()"> Nut-free
+      </label>
+    </div>
+  `;
+}
 
-  gsap.fromTo('.dish-box', {
-    opacity: 0,
-    y: 20
-  }, {
-    opacity: 1,
-    y: 0,
-    duration: 0.5,
-    stagger: 0.2
-  });
+function toggleFavorite(recipeId) {
+  if (!window.favorites) window.favorites = [];
+  
+  const index = window.favorites.indexOf(recipeId);
+  if (index > -1) {
+    // Remove from favorites
+    window.favorites.splice(index, 1);
+    document.querySelector(`.favorite-icon[data-recipe-id="${recipeId}"]`).classList.remove('favorited');
+  } else {
+    // Add to favorites
+    window.favorites.push(recipeId);
+    document.querySelector(`.favorite-icon[data-recipe-id="${recipeId}"]`).classList.add('favorited');
+  }
+  
+  localStorage.setItem('favoriteRecipes', JSON.stringify(window.favorites));
+  
+  // If "Show Favorited" is currently selected, reload recipes
+  if (document.getElementById('show-favorites-checkbox').checked) {
+    searchRecipes();
+  }
 }
 
 function showRecipe(recipeId) {
@@ -1083,7 +1137,9 @@ function showRecipe(recipeId) {
   let recipeContent = `
     <h3>${recipe.name}</h3>
     <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="300" style="object-fit: cover; border-radius: 10px;">
-    <p><strong>Skill Level:</strong> ${getRecipeSkillLevel(recipe)}</p>
+    <p><strong>Category:</strong> ${recipe.category}</p>
+    <p><strong>Meal Type:</strong> ${recipe.mealType}</p>
+    <p><strong>Dietary Options:</strong> ${recipe.dietaryOptions.join(', ') || 'None'}</p>
     <h4>Ingredients:</h4>
     <ul>
       ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
@@ -1241,6 +1297,70 @@ function speakTextWithGoogle(text, language = 'en') {
   });
 }
 
+function resetSurvey() {
+  // Reset all question divs to hidden
+  document.querySelectorAll('.question').forEach((question, index) => {
+    question.style.display = index === 0 ? 'block' : 'none';
+  });
+
+  // Reset the current question to 1
+  currentQuestion = 1;
+
+  // Clear the answers object
+  answers = {};
+
+  // Reset the sliders to their default value
+  document.querySelectorAll('.slider').forEach(slider => {
+    slider.value = 5;
+    // Update the corresponding value display
+    const valueSpan = document.getElementById(`${slider.id}-value`);
+    if (valueSpan) {
+      valueSpan.textContent = '5';
+    }
+  });
+
+  // Hide result and recipe containers
+  document.getElementById('result-container').style.display = 'none';
+  document.getElementById('recipe-container').style.display = 'none';
+
+  // Optional: Animate the first question
+  gsap.fromTo('#q1', {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5
+  });
+}
+
+function nextQuestion(currentQ, answer) {
+  answers[currentQ] = answer;
+  
+  document.getElementById(`q${currentQ}`).style.display = 'none';
+  
+  if (currentQ === 5) {
+    showResult();
+    return;
+  }
+  
+  const nextQ = currentQ + 1;
+  document.getElementById(`q${nextQ}`).style.display = 'block';
+  
+  gsap.fromTo(`#q${nextQ}`, {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5
+  });
+}
+
+function updateSliderValue(questionNumber, value) {
+  document.getElementById(`q${questionNumber}-value`).textContent = value;
+}
+
 function showResult() {
   let adventurousness = parseInt(answers[3] || 5);
   let cookingLikelihood = parseInt(answers[4] || 5);
@@ -1262,9 +1382,7 @@ function showResult() {
     .find(threshold => totalScore >= parseInt(threshold)) || 'Beginner';
 
   let recommendedRecipes = recipes.filter(recipe => 
-    getRecipeSkillLevel(recipe) === skillLevels[Object.keys(skillLevels).find(threshold => 
-      userSkillLevel === skillLevels[threshold]
-    )]
+    recipe.mealType === userSkillLevel
   );
 
   recommendedRecipes = recommendedRecipes.slice(0, 5);
@@ -1387,7 +1505,7 @@ function completeFoodQuiz() {
 
 function showRecommendedRecipes(skillLevel) {
   let recommendedRecipes = recipes.filter(recipe => 
-    getRecipeSkillLevel(recipe) === skillLevel
+    recipe.mealType === skillLevel
   );
   
   recommendedRecipes = recommendedRecipes.slice(0, 5);
@@ -1531,3 +1649,307 @@ particlesJS("particles-js", {
   },
   retina_detect: true
 });
+
+const foodQuizQuestions = [
+  {
+    question: "What does 'al dente' mean in cooking?",
+    choices: ["To the tooth", "Spicy", "Overcooked", "Raw"],
+    correctAnswer: 0
+  },
+  {
+    question: "Which herb is traditionally used in Margherita pizza?",
+    choices: ["Rosemary", "Thyme", "Basil", "Oregano"],
+    correctAnswer: 2
+  },
+  {
+    question: "What is the main ingredient in guacamole?",
+    choices: ["Tomato", "Avocado", "Onion", "Pepper"],
+    correctAnswer: 1
+  },
+  {
+    question: "What is the primary ingredient in risotto?",
+    choices: ["Basmati rice", "Jasmine rice", "Arborio rice", "Brown rice"],
+    correctAnswer: 2
+  },
+  {
+    question: "Which country is sushi originally from?",
+    choices: ["China", "Korea", "Japan", "Thailand"],
+    correctAnswer: 2
+  },
+  {
+    question: "What is the main spice in garam masala?",
+    choices: ["Turmeric", "Cumin", "Coriander", "Mixed spices"],
+    correctAnswer: 3
+  },
+  {
+    question: "What is the base of a classic Hollandaise sauce?",
+    choices: ["Cream", "Egg yolks", "Butter", "Milk"],
+    correctAnswer: 1
+  },
+  {
+    question: "Which vegetable is the main ingredient in ratatouille?",
+    choices: ["Potato", "Eggplant", "Zucchini", "Multiple vegetables"],
+    correctAnswer: 3
+  },
+  {
+    question: "What does 'mise en place' mean?",
+    choices: ["Clean kitchen", "Everything in its place", "Cooking method", "Sauce type"],
+    correctAnswer: 1
+  },
+  {
+    question: "Which fruit is used to make tarte tatin?",
+    choices: ["Pear", "Banana", "Apple", "Cherry"],
+    correctAnswer: 2
+  },
+  {
+    question: "What is the primary protein in a traditional carbonara?",
+    choices: ["Chicken", "Beef", "Pancetta", "Tofu"],
+    correctAnswer: 2
+  },
+  {
+    question: "Which spice gives paella its yellow color?",
+    choices: ["Turmeric", "Paprika", "Saffron", "Curry powder"],
+    correctAnswer: 2
+  },
+  {
+    question: "What is the main ingredient in hummus?",
+    choices: ["Lentils", "Chickpeas", "Beans", "Peas"],
+    correctAnswer: 1
+  },
+  {
+    question: "Which cooking method involves cooking in a water bath?",
+    choices: ["Boiling", "Steaming", "Sous vide", "Frying"],
+    correctAnswer: 1
+  },
+  {
+    question: "What is the primary cheese in a caprese salad?",
+    choices: ["Cheddar", "Parmesan", "Mozzarella", "Feta"],
+    correctAnswer: 2
+  },
+  {
+    question: "Which ingredient is key in making meringue?",
+    choices: ["Sugar", "Egg whites", "Cream", "Flour"],
+    correctAnswer: 1
+  },
+  {
+    question: "What does 'julienne' refer to?",
+    choices: ["A sauce", "A cutting technique", "A cooking method", "A type of pasta"],
+    correctAnswer: 1
+  },
+  {
+    question: "Which country invented macarons?",
+    choices: ["Italy", "Spain", "France", "Belgium"],
+    correctAnswer: 2
+  },
+  {
+    question: "What is the main protein in a classic Caesar salad?",
+    choices: ["Chicken", "Shrimp", "Salmon", "No specific protein"],
+    correctAnswer: 0
+  },
+  {
+    question: "Which herb is essential in making pesto?",
+    choices: ["Thyme", "Rosemary", "Basil", "Parsley"],
+    correctAnswer: 2
+  },
+  {
+    question: "What is the primary grain in risotto?",
+    choices: ["Basmati", "Brown rice", "Jasmine", "Arborio"],
+    correctAnswer: 3
+  },
+  {
+    question: "Which cooking technique involves cooking food in parchment paper?",
+    choices: ["Sous vide", "En papillote", "Braising", "Poaching"],
+    correctAnswer: 1
+  },
+  {
+    question: "What is the main ingredient in gazpacho?",
+    choices: ["Cucumber", "Tomato", "Lettuce", "Celery"],
+    correctAnswer: 1
+  },
+  {
+    question: "Which fruit is used in making bananas foster?",
+    choices: ["Strawberry", "Banana", "Apple", "Peach"],
+    correctAnswer: 1
+  },
+  {
+    question: "What is the primary liquid in a classic martini?",
+    choices: ["Vodka", "Rum", "Gin", "Tequila"],
+    correctAnswer: 2
+  },
+  {
+    question: "Which ingredient gives red velvet cake its color?",
+    choices: ["Food coloring", "Beetroot", "Tomato sauce", "Paprika"],
+    correctAnswer: 0
+  },
+  {
+    question: "What is the main ingredient in tiramisu?",
+    choices: ["Mascarpone", "Cream cheese", "Ricotta", "Cottage cheese"],
+    correctAnswer: 0
+  },
+  {
+    question: "Which country is the origin of dim sum?",
+    choices: ["Japan", "Korea", "Thailand", "China"],
+    correctAnswer: 3
+  },
+  {
+    question: "What is the primary ingredient in falafel?",
+    choices: ["Lentils", "Beans", "Chickpeas", "Rice"],
+    correctAnswer: 2
+  },
+  {
+    question: "Which cooking method involves suspending food over boiling water?",
+    choices: ["Boiling", "Steaming", "Roasting", "Grilling"],
+    correctAnswer: 1
+  }
+];
+
+let currentQuizQuestion = 0;
+let foodQuizScore = 0;
+
+function initializeFoodiesQuiz() {
+  const foodiesQuizContainer = document.getElementById('foodies-quiz');
+  
+  // Create start quiz button
+  foodiesQuizContainer.innerHTML = `
+    <h2>Foodies Quiz</h2>
+    <button class="nav-btn" onclick="startFoodiesQuiz()">Start Quiz</button>
+  `;
+}
+
+function startFoodiesQuiz() {
+  const foodiesQuizContainer = document.getElementById('foodies-quiz');
+  foodiesQuizContainer.innerHTML = `
+    <h2>Foodies Quiz</h2>
+    <div id="quiz-question-container">
+      <div id="quiz-question"></div>
+      <div id="quiz-choices"></div>
+    </div>
+    <div id="quiz-feedback"></div>
+    <div id="quiz-progress"></div>
+  `;
+  
+  currentQuizQuestion = 0;
+  foodQuizScore = 0;
+  showFoodiesQuizQuestion();
+}
+
+function showFoodiesQuizQuestion() {
+  const quizQuestion = foodQuizQuestions[currentQuizQuestion];
+  const questionDiv = document.getElementById('quiz-question');
+  const choicesDiv = document.getElementById('quiz-choices');
+  const progressDiv = document.getElementById('quiz-progress');
+  
+  questionDiv.innerHTML = `<h3>${quizQuestion.question}</h3>`;
+  
+  choicesDiv.innerHTML = quizQuestion.choices.map((choice, index) => `
+    <button class="nav-btn quiz-choice-btn" onclick="checkFoodiesQuizAnswer(${index})">
+      ${choice}
+    </button>
+  `).join('');
+
+  progressDiv.innerHTML = `Question ${currentQuizQuestion + 1} of ${foodQuizQuestions.length}`;
+}
+
+function checkFoodiesQuizAnswer(selectedIndex) {
+  const quizQuestion = foodQuizQuestions[currentQuizQuestion];
+  const feedbackDiv = document.getElementById('quiz-feedback');
+  
+  if (selectedIndex === quizQuestion.correctAnswer) {
+    foodQuizScore++;
+    feedbackDiv.innerHTML = `<p style="color: #4CAF50;">Correct!</p>`;
+  } else {
+    feedbackDiv.innerHTML = `
+      <p style="color: #F44336;">
+        Incorrect. The correct answer is: ${quizQuestion.choices[quizQuestion.correctAnswer]}
+      </p>
+    `;
+  }
+  
+  currentQuizQuestion++;
+  
+  if (currentQuizQuestion < foodQuizQuestions.length) {
+    setTimeout(() => {
+      feedbackDiv.innerHTML = '';
+      showFoodiesQuizQuestion();
+    }, 2000);
+  } else {
+    setTimeout(completeFoodiesQuiz, 2000);
+  }
+}
+
+function completeFoodiesQuiz() {
+  const foodiesQuizContainer = document.getElementById('foodies-quiz');
+  const maxScore = foodQuizQuestions.length;
+  const scorePercentage = (foodQuizScore / maxScore) * 100;
+  
+  let quizResult = 'Novice Foodie';
+  
+  if (scorePercentage === 100) {
+    quizResult = 'Culinary Genius';
+  } else if (scorePercentage >= 80) {
+    quizResult = 'Food Expert';
+  } else if (scorePercentage >= 60) {
+    quizResult = 'Foodie Pro';
+  } else if (scorePercentage >= 40) {
+    quizResult = 'Amateur Foodie';
+  }
+  
+  foodiesQuizContainer.innerHTML = `
+    <h2>Foodies Quiz Results</h2>
+    <p>You scored ${foodQuizScore} out of ${maxScore}</p>
+    <p>Your Foodie Level: ${quizResult}</p>
+    <button class="nav-btn" onclick="startFoodiesQuiz()">Retake Quiz</button>
+  `;
+}
+
+// Modify the existing recipes initialization to add event listeners for filters
+document.addEventListener('DOMContentLoaded', function() {
+  // Add event listeners to meal type checkboxes
+  document.querySelectorAll('input[name="meal-type"]').forEach(checkbox => {
+    checkbox.addEventListener('change', searchRecipes);
+  });
+
+  // Add event listeners to dietary option checkboxes
+  document.querySelectorAll('input[name="dietary-option"]').forEach(checkbox => {
+    checkbox.addEventListener('change', searchRecipes);
+  });
+
+  // Initialize Foodies Quiz
+  initializeFoodiesQuiz();
+});
+
+function showQuestions() {
+  // Optional: Add any specific setup for the questions section if needed
+  const questionsContainer = document.getElementById('questions');
+  
+  // Ensure the form is properly set up
+  const questionForm = document.getElementById('question-form');
+  
+  // Add form submission handler if not already present
+  if (!questionForm.getAttribute('data-listener-added')) {
+    questionForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      // Collect form data
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const question = document.getElementById('question').value;
+      
+      // Basic validation
+      if (!name || !email || !question) {
+        alert('Please fill out all fields');
+        return;
+      }
+      
+      // Here you would typically send the question via email or to a backend
+      // For now, just show a confirmation
+      alert('Your question has been submitted! We will get back to you soon.');
+      
+      // Reset the form
+      questionForm.reset();
+    });
+    
+    // Mark that listener has been added to prevent multiple attachments
+    questionForm.setAttribute('data-listener-added', 'true');
+  }
+}
