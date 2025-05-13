@@ -263,6 +263,7 @@ button:hover {
 }
 
 .dish-box {
+  position: relative;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 20px;
@@ -789,44 +790,57 @@ button:hover {
 
 .cooking-tips-popup {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
+  top: 20px;
+  left: -350px; 
+  width: 300px;
   background-color: rgba(0, 59, 92, 0.95);
-  border-radius: 15px;
-  padding: 30px;
-  max-width: 400px;
-  width: 90%;
+  border-radius: 0 15px 15px 0;
+  padding: 20px;
   z-index: 1100;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
+  transition: left 0.5s ease;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .cooking-tips-popup.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, -50%) scale(1);
+  left: 0; 
 }
 
-.cooking-tips-content {
-  position: relative;
+.cooking-tips-popup.hide {
+  left: -350px; 
 }
 
-.close-tips-popup {
+.jokes-popup {
+  position: fixed;
+  top: 20px;
+  right: -350px; 
+  width: 300px;
+  background-color: rgba(206, 0, 55, 0.95);
+  border-radius: 15px 0 0 15px;
+  padding: 20px;
+  z-index: 1100;
+  transition: right 0.5s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.jokes-popup.show {
+  right: 0; 
+}
+
+.jokes-popup.hide {
+  right: -350px; 
+}
+
+.favorite-icon {
   position: absolute;
-  top: -20px;
-  right: -10px;
-  background: #CE0037;
+  top: 10px;
+  right: 10px;
   color: white;
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  font-size: 20px;
+  font-size: 24px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 10;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.favorite-icon.favorited {
+  color: #FFC72C;
 }
