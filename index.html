@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edible - Recipes by kids made for kids</title>
-    <link rel="icon" type="image/x-icon" href="https://www.flaticon.com/free-icon/letter-e_6646460">
+
     <!-- Linking to GSAP and Particles.js libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
@@ -33,6 +33,7 @@
                     <li><button class="nav-btn" onclick="showSection('suggestions')">Suggestions</button></li>
                     <li><button class="nav-btn" onclick="showSection('questions')">Questions</button></li>
                     <li><button class="nav-btn" onclick="showDocumentation()">Documentation</button></li>
+                    <li><button class="nav-btn" onclick="showSection('foodies-quiz')">Foodies Quiz</button></li>
                 </ul>
             </nav>
             <div class="language-selector">
@@ -90,48 +91,52 @@
             <div id="recipes" style="display: none;">
                 <h2>Our Recipes</h2>
                 <div id="search-container">
-                    <button id="filter-toggle" class="filter-toggle" onclick="toggleFilterSidebar()">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="4" y1="6" x2="20" y2="6"></line>
-                            <line x1="4" y1="12" x2="20" y2="12"></line>
-                            <line x1="4" y1="18" x2="20" y2="18"></line>
-                        </svg>
-                    </button>
                     <input type="text" id="search-input" placeholder="Search recipes..." oninput="searchRecipes()">
                 </div>
-                
-                <!-- Filter Sidebar -->
-                <div id="filter-sidebar" class="filter-sidebar">
-                    <button class="close-sidebar" onclick="toggleFilterSidebar()">&times;</button>
-                    <h3>Filter Recipes</h3>
-                    
-                    <div class="filter-section">
-                        <h4>Skill Level</h4>
-                        <select id="skill-level-filter" onchange="searchRecipes()">
-                            <option value="">All Skill Levels</option>
-                            <option value="Beginner">Beginner</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Master">Master</option>
-                        </select>
+                <div id="filter-sidebar" class="filter-sidebar"></div>
+                <div id="recipe-filters">
+                    <div class="filter-section meal-types">
+                        <h4>Meal Types</h4>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="meal-type" value="Breakfast"> Breakfast
+                            </label>
+                            <label>
+                                <input type="checkbox" name="meal-type" value="Lunch"> Lunch
+                            </label>
+                            <label>
+                                <input type="checkbox" name="meal-type" value="Dinner"> Dinner
+                            </label>
+                            <label>
+                                <input type="checkbox" name="meal-type" value="Dessert"> Dessert
+                            </label>
+                        </div>
                     </div>
                     
-                    <div class="filter-section">
-                        <h4>Ingredients</h4>
-                        <div id="ingredient-checkboxes" class="scrollable-checkboxes"></div>
+                    <div class="filter-section dietary-options">
+                        <h4>Dietary Options</h4>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="dietary-option" value="gluten-free"> Gluten Free
+                            </label>
+                            <label>
+                                <input type="checkbox" name="dietary-option" value="vegan"> Vegan
+                            </label>
+                            <label>
+                                <input type="checkbox" name="dietary-option" value="dairy-free"> Dairy Free
+                            </label>
+                            <label>
+                                <input type="checkbox" name="dietary-option" value="nut-free"> Nut Free
+                            </label>
+                        </div>
                     </div>
-                    
                     <div class="filter-section">
-                        <h4>Sort By</h4>
-                        <select id="sort-filter" onchange="searchRecipes()">
-                            <option value="name">Name (A-Z)</option>
-                            <option value="difficulty">Difficulty</option>
-                            <option value="ingredients">Fewest Ingredients</option>
-                        </select>
+                        <h4>Favorites</h4>
+                        <label>
+                            <input type="checkbox" id="show-favorites-checkbox" onchange="searchRecipes()"> Show Favorited
+                        </label>
                     </div>
-                    
-                    <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
                 </div>
-                
                 <div id="recipe-list"></div>
             </div>
             <div id="suggestions" style="display: none;">
@@ -191,6 +196,9 @@
             </div>
             <div id="documentation" style="display: none;">
                 <!-- Content will be dynamically inserted here -->
+            </div>
+            <div id="foodies-quiz" style="display: none;">
+                <!-- Foodies Quiz content will be dynamically loaded -->
             </div>
         </main>
         <div id="result-container" style="display: none;">
@@ -263,6 +271,15 @@
             <label>Background Music</label>
             <input type="checkbox" id="background-music-toggle">
         </div>
+        <div class="accessibility-option">
+            <label>Cooking Tips Popup</label>
+            <input type="checkbox" id="cooking-tips-popup-toggle" checked>
+        </div>
+
+        <div class="accessibility-option">
+            <label>Jokes Popup</label>
+            <input type="checkbox" id="jokes-popup-toggle" checked>
+        </div>
     </div>
 
     <div class="arrow"></div>
@@ -274,5 +291,27 @@
             <p id="cooking-tip-text"></p>
         </div>
     </div>
+    <div id="jokes-popup" class="jokes-popup">
+        <div class="jokes-content">
+            <button class="close-jokes-popup">&times;</button>
+            <h3>Cooking Joke of the Moment!</h3>
+            <p id="joke-text"></p>
+        </div>
+    </div>
+
+    <script>
+        // Add event listeners for close buttons
+        document.querySelector('.close-tips-popup').addEventListener('click', () => {
+            const tipPopup = document.getElementById('cooking-tips-popup');
+            tipPopup.classList.remove('show');
+            tipPopup.classList.add('hide');
+        });
+
+        document.querySelector('.close-jokes-popup').addEventListener('click', () => {
+            const jokePopup = document.getElementById('jokes-popup');
+            jokePopup.classList.remove('show');
+            jokePopup.classList.add('hide');
+        });
+    </script>
 </body>
 </html>
