@@ -954,7 +954,9 @@ function determineDietaryOptions(recipe) {
       ing.toLowerCase().includes('meat') || 
       ing.toLowerCase().includes('chicken') || 
       ing.toLowerCase().includes('beef') || 
+      ing.toLowerCase().includes('steak') || 
       ing.toLowerCase().includes('fish') || 
+      ing.toLowerCase().includes('pork') ||  
       ing.toLowerCase().includes('egg')
     )
   ) {
