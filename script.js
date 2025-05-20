@@ -205,6 +205,7 @@ const translations = {
     }
 };
 
+
 function translateKey(key, language) {
     if (translations[language] && translations[language][key]) {
         return translations[language][key];
