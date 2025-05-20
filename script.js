@@ -29,12 +29,12 @@ const translations = {
         'back_to_recipes_btn': 'Back to Recipes',
         'equipment_title': "Kids' Kitchen Equipment",
         'cooks_title': 'Cooks',
-        'chef1_name': 'Edible Developer',
+        'chef1_name': 'Cook',
         'chef1_title': 'Head Chef',
-        'chef1_bio': 'Edibles Devs are really skilled in the kitchen.',
-        'chef2_name': 'Edible Recipes',
+        'chef1_bio': 'Our cook has been cooking for over 10 years!',
+        'chef2_name': 'Developer',
         'chef2_title': 'Sous Chef',
-        'chef2_bio': 'The Edible recipe finder finds the top rated recipes',
+        'chef2_bio': 'The dev has been working tiressly trying to perfect the website',
         'questions_forum_title': 'Questions Forum',
         'form_name_label': 'Your Name:',
         'form_email_label': 'Your Email:',
@@ -204,7 +204,6 @@ const translations = {
         'nav_cooks': 'Повара',
     }
 };
-
 
 function translateKey(key, language) {
     if (translations[language] && translations[language][key]) {
