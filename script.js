@@ -760,7 +760,7 @@ function completeFoodQuiz() {
     `;
 }
 
-const kitchenEquipment = [
+let kitchenEquipment = [
     {
         id: 'oxo-utensil-set',
         name: 'OXO Good Grips 15-Piece Kitchen Tool Set',
@@ -780,6 +780,7 @@ const kitchenEquipment = [
 
 function displayEquipment() {
     const equipmentList = document.getElementById('equipment-list');
+    if (!equipmentList) return; // Ensure element exists before trying to update it
     equipmentList.innerHTML = kitchenEquipment.map(item => `
         <div class="equipment-box">
             <img src="${item.image}" alt="${translateRecipeText(item.name, currentLanguage)}" width="100%" height="250">
@@ -807,7 +808,7 @@ function displayEquipment() {
 function resetSurvey() {
     // Hide all main sections (EXCEPT quiz potentially, but ensure others are hidden)
     // and make sure the quiz section itself IS visible.
-    const allMainSectionsExceptQuiz = ['recipes', 'suggestions', 'questions', 'documentation', 'cooks', 'equipment', 'result-container', 'recipe-container'];
+    const allMainSectionsExceptQuiz = ['recipes', 'suggestions', 'questions', 'documentation', 'cooks', 'equipment', 'result-container', 'recipe-container', 'food-quiz']; // Add 'food-quiz' here
     allMainSectionsExceptQuiz.forEach(id => {
         const sectionElement = document.getElementById(id);
         if (sectionElement) {
@@ -897,6 +898,42 @@ function updateSliderValue(questionNumber, value) {
     if (valueSpan) {
         valueSpan.textContent = value;
     }
+}
+
+// Accessibility Functions
+function toggleAccessibilityMenu() {
+    const menu = document.getElementById('accessibility-menu');
+    if (menu) {
+        menu.classList.toggle('show');
+    }
+}
+
+function toggleTTS(value) {
+    // Implement text-to-speech logic here
+    // For example, enabling/disabling speaking on hover/click
+    console.log("TTS toggled:", value); // Placeholder
+}
+
+function toggleDyslexicFont(value) {
+    const body = document.body;
+    if (value === 'dyslexic') {
+        body.classList.add('dyslexic-font');
+    } else {
+        body.classList.remove('dyslexic-font');
+    }
+}
+
+function toggleHighContrast(value) {
+    const body = document.body;
+    if (value === 'high') {
+        body.classList.add('high-contrast');
+    } else {
+        body.classList.remove('high-contrast');
+    }
+}
+
+function adjustTextSize(value) {
+    document.body.style.fontSize = value + '%';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
