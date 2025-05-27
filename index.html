@@ -316,39 +316,5 @@
 
     <div class="arrow"></div>
     <div id="google_translate_element" style="display:none;"></div>
-<div id="edible-chatbot"></div>
-
-
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@ai-sdk/react@latest/dist/index.umd.js"></script>
-
-<script>
-// Simple chatbot integration
-const ChatbotWidget = () => {
-  return React.createElement('div', {
-    style: {
-      position: 'fixed',
-      bottom: '20px',
-      right: '20px',
-      zIndex: 1000
-    }
-  }, 
-  React.createElement('button', {
-    onClick: () => window.open('/chat', '_blank'),
-    style: {
-      width: '60px',
-      height: '60px',
-      borderRadius: '50%',
-      backgroundColor: '#FFC72C',
-      border: 'none',
-      cursor: 'pointer',
-      fontSize: '24px'
-    }
-  }, '🍳'));
-};
-
-ReactDOM.render(React.createElement(ChatbotWidget), document.getElementById('edible-chatbot'));
-</script>
 </body>
 </html>
