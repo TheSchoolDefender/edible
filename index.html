@@ -3,579 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edible - Recipes by kids made for kids</title>
-    <link rel="icon" type="image/x-icon" href="favicon.png">
-
-    <!-- Linking to GSAP and Particles.js libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-    <!-- Link to external CSS for styles -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Link to external JavaScript file -->
-    <script src="script.js" defer></script>
-
-    <!-- Chatbot Styles -->
-    <style>
-        .edible-chatbot {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1001;
-        }
-
-        .chatbot-toggle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #FFC72C 0%, #CE0037 100%);
-            border: 3px solid #fff;
-            color: #fff;
-            font-weight: bold;
-            font-size: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .chatbot-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .chatbot-window {
-            position: fixed;
-            top: 110px;
-            left: 20px;
-            width: 350px;
-            height: 500px;
-            background: rgba(0, 59, 92, 0.95);
-            border-radius: 15px;
-            border: 2px solid #FFC72C;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            display: none;
-            flex-direction: column;
-            backdrop-filter: blur(10px);
-        }
-
-        .chatbot-window.open {
-            display: flex;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .chatbot-header {
-            background: linear-gradient(135deg, #FFC72C 0%, #CE0037 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 13px 13px 0 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .chatbot-header h3 {
-            margin: 0;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .chatbot-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 0;
-            width: 25px;
-            height: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.2s;
-        }
-
-        .chatbot-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .chatbot-messages {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .chatbot-message {
-            max-width: 80%;
-            padding: 10px 12px;
-            border-radius: 15px;
-            font-size: 14px;
-            line-height: 1.4;
-            white-space: pre-wrap;
-        }
-
-        .chatbot-message.user {
-            background: linear-gradient(135deg, #FFC72C 0%, #CE0037 100%);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 5px;
-        }
-
-        .chatbot-message.assistant {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-        }
-
-        .chatbot-input-area {
-            padding: 15px;
-            border-top: 1px solid rgba(255, 199, 44, 0.3);
-        }
-
-        .chatbot-input-form {
-            display: flex;
-            gap: 10px;
-        }
-
-        .chatbot-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #FFC72C;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 14px;
-        }
-
-        .chatbot-input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .chatbot-input:focus {
-            outline: none;
-            border-color: #CE0037;
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .chatbot-send {
-            background: linear-gradient(135deg, #FFC72C 0%, #CE0037 100%);
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s;
-        }
-
-        .chatbot-send:hover {
-            transform: scale(1.05);
-        }
-
-        .chatbot-send:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .chatbot-welcome {
-            text-align: center;
-            color: #FFC72C;
-            padding: 20px;
-        }
-
-        .chatbot-welcome h4 {
-            margin: 0 0 10px 0;
-            color: #FFC72C;
-        }
-
-        .chatbot-welcome p {
-            margin: 5px 0;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .chatbot-examples {
-            background: rgba(255, 199, 44, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 12px;
-        }
-
-        .chatbot-examples strong {
-            color: #FFC72C;
-        }
-
-        .chatbot-loading {
-            display: flex;
-            gap: 4px;
-            padding: 10px 12px;
-        }
-
-        .chatbot-loading-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #FFC72C;
-            animation: loadingBounce 1.4s infinite ease-in-out;
-        }
-
-        .chatbot-loading-dot:nth-child(1) { animation-delay: -0.32s; }
-        .chatbot-loading-dot:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes loadingBounce {
-            0%, 80%, 100% {
-                transform: scale(0);
-            }
-            40% {
-                transform: scale(1);
-            }
-        }
-
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .chatbot-window {
-                width: calc(100vw - 40px);
-                height: 400px;
-                top: 110px;
-                left: 20px;
-                right: 20px;
-            }
-            
-            .chatbot-toggle {
-                width: 70px;
-                height: 70px;
-                font-size: 11px;
-            }
-        }
-    </style>
+    <title>Edible - Culinary Adventures for Young Chefs</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
 <body>
     <div id="particles-js"></div>
+    
     <div class="content">
         <header>
-            <a href="#" onclick="resetSurvey(); return false;"><h1>Edible</h1></a>
-            <p class="subtitle">Culinary Adventures for Young Chefs</p>
-            <nav>
-                <ul>
-                    <li><button class="nav-btn" onclick="showSection('recipes')">Recipes</button></li>
-                    <li><button class="nav-btn" onclick="showSection('recipe-finder')">Recipe Finder</button></li>
-                    <li><button class="nav-btn" onclick="showSection('cooking-tips')">Cooking Tips</button></li>
-                    <li><button class="nav-btn" onclick="showSection('questions')">Questions</button></li>
-                    <li><button class="nav-btn" onclick="showDocumentation()">Documentation</button></li>
-                </ul>
-            </nav>
             <div class="language-selector">
-                <select id="language-select">
+                <select id="language-select" aria-label="Select Language">
                     <option value="en">English</option>
-                    <option value="es">Espa&#xf1;ol</option>
-                    <option value="zh-CN">&#x4e2d;&#x6587;</option>
-                    <option value="fr">Fran&#xe7;ais</option>
-                    <option value="hi">&#x939;&#x93f;&#x902;&#x926;&#x940;</option>
-                    <option value="ru">&#x420;&#x443;&#x441;&#x441;&#x43a;&#x438;&#x439;</option>
+                    <option value="es">Español</option>
+                    <option value="zh-CN">中文</option>
+                    <option value="fr">Français</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="ru">Русский</option>
                 </select>
             </div>
+            
+            <div id="google_translate_element" style="display: none;"></div>
+            
+            <a href="#" onclick="resetSurvey()">
+                <h1>Edible</h1>
+                <p class="subtitle">Culinary Adventures for Young Chefs</p>
+            </a>
+            
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-btn" onclick="showSection('recipes')">Recipes</a></li>
+                    <li><a href="#" class="nav-btn" onclick="showSection('recipe-finder')">Recipe Finder</a></li>
+                    <li><a href="#" class="nav-btn" onclick="showSection('cooking-tips')">Cooking Tips</a></li>
+                    <li><a href="#" class="nav-btn" onclick="showSection('questions')">Questions</a></li>
+                    <li><a href="#" class="nav-btn" onclick="showDocumentation()">Documentation</a></li>
+                </ul>
+            </nav>
         </header>
-        <main id="main-content">
+
+        <main>
+            <!-- Quiz Section -->
             <div id="quiz">
                 <div id="q1" class="question">
-                    <h2>Have you ever cooked before?</h2>
+                    <h2>How much cooking experience do you have?</h2>
                     <div class="options">
-                        <button onclick="nextQuestion(1, 'yes')">Yes</button>
-                        <button onclick="nextQuestion(1, 'no')">No</button>
+                        <button onclick="nextQuestion(1, 'none')">None at all</button>
+                        <button onclick="nextQuestion(1, 'little')">A little</button>
+                        <button onclick="nextQuestion(1, 'some')">Some experience</button>
+                        <button onclick="nextQuestion(1, 'lots')">Lots of experience</button>
                     </div>
                 </div>
+
                 <div id="q2" class="question" style="display: none;">
-                    <h2>Do you enjoy trying new foods?</h2>
+                    <h2>How adventurous are you with trying new foods?</h2>
                     <div class="options">
-                        <button onclick="nextQuestion(2, 'yes')">Yes</button>
-                        <button onclick="nextQuestion(2, 'no')">No</button>
+                        <button onclick="nextQuestion(2, 'not-adventurous')">Not very adventurous</button>
+                        <button onclick="nextQuestion(2, 'somewhat')">Somewhat adventurous</button>
+                        <button onclick="nextQuestion(2, 'very')">Very adventurous</button>
+                        <button onclick="nextQuestion(2, 'extremely')">Extremely adventurous</button>
                     </div>
                 </div>
+
                 <div id="q3" class="question" style="display: none;">
-                    <h2>How adventurous are you with food?</h2>
+                    <h2>How much do you enjoy cooking?</h2>
                     <div class="slider-container">
+                        <p>Not at all</p>
                         <input type="range" min="1" max="10" value="5" class="slider" id="q3-slider" oninput="updateSliderValue(3, this.value)">
-                        <p>Value: <span id="q3-value">5</span></p>
+                        <p>Love it!</p>
+                        <p>Current value: <span id="q3-value">5</span></p>
+                        <button class="done-btn" onclick="nextQuestion(3, document.getElementById('q3-slider').value)">Next</button>
                     </div>
-                    <button class="done-btn" onclick="nextQuestion(3, document.getElementById('q3-slider').value)">Done</button>
                 </div>
+
                 <div id="q4" class="question" style="display: none;">
-                    <h2>How much do you like cooking?</h2>
-                    <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="q4-slider" oninput="updateSliderValue(4, this.value)">
-                        <p>Value: <span id="q4-value">5</span></p>
-                    </div>
-                    <button class="done-btn" onclick="nextQuestion(4, document.getElementById('q4-slider').value)">Done</button>
-                </div>
-                <div id="q5" class="question" style="display: none;">
                     <h2>How confident are you in the kitchen?</h2>
                     <div class="slider-container">
-                        <input type="range" min="1" max="10" value="5" class="slider" id="q5-slider" oninput="updateSliderValue(5, this.value)">
-                        <p>Value: <span id="q5-value">5</span></p>
+                        <p>Not confident</p>
+                        <input type="range" min="1" max="10" value="5" class="slider" id="q4-slider" oninput="updateSliderValue(4, this.value)">
+                        <p>Very confident</p>
+                        <p>Current value: <span id="q4-value">5</span></p>
+                        <button class="done-btn" onclick="nextQuestion(4, document.getElementById('q4-slider').value)">Next</button>
                     </div>
-                    <button class="done-btn" onclick="nextQuestion(5, document.getElementById('q5-slider').value)">Done</button>
+                </div>
+
+                <div id="q5" class="question" style="display: none;">
+                    <h2>What type of cuisine interests you most?</h2>
+                    <div class="options">
+                        <button onclick="nextQuestion(5, 'american')">American</button>
+                        <button onclick="nextQuestion(5, 'mexican')">Mexican</button>
+                        <button onclick="nextQuestion(5, 'chinese')">Chinese</button>
+                        <button onclick="nextQuestion(5, 'indian')">Indian</button>
+                        <button onclick="nextQuestion(5, 'italian')">Italian</button>
+                        <button onclick="nextQuestion(5, 'french')">French</button>
+                        <button onclick="nextQuestion(5, 'all')">All of them!</button>
+                    </div>
                 </div>
             </div>
+
+            <!-- Result Section -->
+            <div id="result-container" style="display: none;">
+                <div id="result"></div>
+                <div id="recommended-dishes"></div>
+                <button class="nav-btn" onclick="showSection('food-quiz')">Take Food Knowledge Quiz</button>
+                <button class="nav-btn" onclick="resetSurvey()">Retake Survey</button>
+            </div>
+
+            <!-- Food Quiz Section -->
+            <div id="food-quiz" style="display: none;">
+                <h2>Food Knowledge Quiz</h2>
+                <div id="food-quiz-content">
+                    <div id="food-question"></div>
+                    <div id="food-options"></div>
+                    <div id="food-quiz-result" style="display: none;"></div>
+                </div>
+                <button class="nav-btn" onclick="resetSurvey()">Back to Main Quiz</button>
+            </div>
+
+            <!-- Recipes Section -->
             <div id="recipes" style="display: none;">
-                <h2>Our Recipes</h2>
+                <h2>Our Recipe Collection</h2>
                 <div id="search-container">
-                    <button id="filter-toggle" class="filter-toggle" onclick="toggleFilterSidebar()">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="4" y1="6" x2="20" y2="6"></line>
-                            <line x1="4" y1="12" x2="20" y2="12"></line>
-                            <line x1="4" y1="18" x2="20" y2="18"></line>
-                        </svg>
+                    <button class="filter-toggle" onclick="toggleFilterSidebar()" aria-label="Open Filters">
+                        🔍 Filters
                     </button>
                     <input type="text" id="search-input" placeholder="Search recipes..." oninput="searchRecipes()">
                 </div>
-                
-                <!-- Filter Sidebar -->
-                <div id="filter-sidebar" class="filter-sidebar">
-                    <button class="close-sidebar" onclick="toggleFilterSidebar()">&times;</button>
-                    <h3>Filter Recipes</h3>
-                    
-                    <div class="filter-section">
-                        <h4>Skill Level</h4>
-                        <select id="skill-level-filter" onchange="searchRecipes()">
-                            <option value="">All Skill Levels</option>
-                            <option value="Beginner">Beginner</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Master">Master</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-section">
-                        <h4>Ingredients</h4>
-                        <div id="ingredient-checkboxes" class="scrollable-checkboxes"></div>
-                    </div>
-                    
-                    <div class="filter-section">
-                        <h4>Sort By</h4>
-                        <select id="sort-filter" onchange="searchRecipes()">
-                            <option value="name">Name (A-Z)</option>
-                            <option value="difficulty">Difficulty</option>
-                            <option value="ingredients">Fewest Ingredients</option>
-                        </select>
-                    </div>
-                    
-                    <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
-                </div>
-                
                 <div id="recipe-list"></div>
             </div>
-            <div id="suggestions" style="display: none;">
-                <h2>Suggest a Recipe</h2>
-                <iframe 
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSeaer09DQu7nZCriGD82-cs4-ZG6b1LHCwOOYHxjjersEn2QA/viewform?embedded=true" 
-                    width="100%" 
-                    height="800" 
-                    frameborder="0" 
-                    marginheight="0" 
-                    marginwidth="0">
-                    Loading…
-                </iframe>
+
+            <!-- Filter Sidebar -->
+            <div id="filter-sidebar" class="filter-sidebar">
+                <button class="close-sidebar" onclick="toggleFilterSidebar()" aria-label="Close Filters">&times;</button>
+                <h3>Filter Recipes</h3>
+                
+                <div class="filter-section">
+                    <h4>Skill Level</h4>
+                    <label><input type="checkbox" id="skill-beginner" onchange="searchRecipes()"> Beginner</label>
+                    <label><input type="checkbox" id="skill-intermediate" onchange="searchRecipes()"> Intermediate</label>
+                    <label><input type="checkbox" id="skill-master" onchange="searchRecipes()"> Master</label>
+                </div>
+
+                <div class="filter-section">
+                    <h4>Ingredients</h4>
+                    <div class="scrollable-checkboxes" id="ingredient-checkboxes">
+                        <!-- Ingredient checkboxes will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
             </div>
+
+            <!-- Recipe Finder Section -->
+            <div id="recipe-finder" style="display: none;">
+                <h2>Recipe Finder</h2>
+                <p>Answer a few questions about what ingredients you have, and we'll suggest recipes you can make!</p>
+                
+                <div id="ingredients-survey">
+                    <div id="ingredient-questions">
+                        <!-- Questions will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div id="finder-results" style="display: none;">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Cooking Tips Section -->
             <div id="cooking-tips" style="display: none;">
-                <h2>Cooking Tips & Articles</h2>
+                <h2>Cooking Tips & Techniques</h2>
                 <div class="tips-container">
                     <div class="tip-card">
-                        <h3>Knife Skills 101</h3>
-                        <p>Learn proper knife techniques to make cooking safer and more efficient. Always curl your fingertips under when holding food to protect them from the blade.</p>
+                        <h3>🔪 Knife Skills 101</h3>
+                        <p>Learn proper cutting techniques and safety. Always curl your fingers like a claw when holding food, and keep your knife sharp - a dull knife is more dangerous than a sharp one!</p>
                     </div>
+                    
                     <div class="tip-card">
-                        <h3>Measuring Ingredients</h3>
-                        <p>For dry ingredients, fill and level with a straight edge. For liquids, read at eye level on a flat surface to ensure accuracy.</p>
+                        <h3>📏 Measuring Ingredients</h3>
+                        <p>Accurate measurements are crucial for baking. Use dry measuring cups for flour and sugar, liquid measuring cups for milk and oil. Level off dry ingredients with a knife.</p>
                     </div>
+                    
                     <div class="tip-card">
-                        <h3>Salt as You Go</h3>
-                        <p>Add salt throughout the cooking process rather than all at once at the end. This builds flavor in layers.</p>
+                        <h3>🧂 Salt as You Go</h3>
+                        <p>Don't wait until the end to season your food. Add salt in layers throughout cooking to build flavor. Taste as you go and adjust seasoning gradually.</p>
                     </div>
+                    
                     <div class="tip-card">
-                        <h3>Rest Your Meat</h3>
-                        <p>Let meat rest after cooking to allow juices to redistribute. For steaks, rest about 5 minutes.</p>
+                        <h3>🥩 Rest Your Meat</h3>
+                        <p>After cooking meat, let it rest for 5-10 minutes before cutting. This allows juices to redistribute, making your meat more tender and flavorful.</p>
                     </div>
+                    
                     <div class="tip-card">
-                        <h3>Prep Before Cooking</h3>
-                        <p>Read the recipe completely and prep all ingredients before you start cooking. This is called "mise en place" and makes cooking much smoother.</p>
+                        <h3>🍳 Prep Before Cooking</h3>
+                        <p>Mise en place (everything in its place) is a chef's best friend. Prepare and measure all ingredients before you start cooking. This prevents mistakes and makes cooking smoother.</p>
                     </div>
+                    
                     <div class="tip-card">
-                        <h3>Control Heat</h3>
-                        <p>Different cooking methods require different heat levels. Low and slow for tough meats, high heat for searing.</p>
+                        <h3>🔥 Heat Control</h3>
+                        <p>Understanding heat levels is key to good cooking. High heat for searing, medium for most cooking, low for simmering. Don't rush - good food takes time!</p>
                     </div>
+                    
                     <div class="tip-card featured-article">
                         <h3>The Top 5 Best Cooking Equipment!</h3>
-                        <img src="https://cdn.pixabay.com/photo/2016/12/26/17/28/spaghetti-1932466_1280.jpg" alt="Professional cooking equipment">
+                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=400&fit=crop" alt="Professional cooking equipment" style="max-width: 100%; height: auto;">
                         <div class="article-content">
                             <p>Having the right tools can make all the difference in your cooking journey. Here are our top 5 essential cooking equipment picks that every young chef should have:</p>
                             
                             <h4>1. Chef's Knife</h4>
-                            <img src="https://cdn.pixabay.com/photo/2016/03/31/19/23/knife-1294965_1280.jpg" alt="Chef's Knife">
+                            <img src="https://images.unsplash.com/photo-1593618998160-e34014e67546?w=600&h=300&fit=crop" alt="Chef's Knife" style="max-width: 100%; height: auto; display: block; margin: 10px auto;">
                             <p>A good chef's knife is the foundation of any kitchen. Look for one that feels comfortable in your hand. For young chefs, consider a smaller 6-inch knife that's easier to control.</p>
                             
-                            <h4>2. Mixing Bowls Set</h4>
-                            <img src="https://cdn.pixabay.com/photo/2015/09/09/21/33/cooking-933841_1280.jpg" alt="Mixing Bowls">
-                            <p>A set of different sized mixing bowls is essential for preparing ingredients, mixing batters, and tossing salads. Stainless steel bowls are durable and lightweight.</p>
+                            <h4>2. Cutting Board</h4>
+                            <img src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=600&h=300&fit=crop" alt="Cutting Board" style="max-width: 100%; height: auto; display: block; margin: 10px auto;">
+                            <p>A sturdy cutting board protects your counters and keeps your knife sharp. Wood or plastic boards work well - just make sure to keep them clean!</p>
                             
-                            <h4>3. Measuring Cups and Spoons</h4>
-                            <img src="https://cdn.pixabay.com/photo/2017/07/31/17/45/measuring-spoons-2559284_1280.jpg" alt="Measuring Tools">
-                            <p>Precise measurements are crucial in cooking and especially in baking. A good set of measuring cups for dry ingredients and a liquid measuring cup with clear markings will help you follow recipes accurately.</p>
+                            <h4>3. Non-Stick Pan</h4>
+                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=300&fit=crop" alt="Non-Stick Pan" style="max-width: 100%; height: auto; display: block; margin: 10px auto;">
+                            <p>Perfect for eggs, pancakes, and delicate foods. A good non-stick pan makes cooking and cleanup much easier for beginners.</p>
                             
-                            <h4>4. Non-Stick Pan</h4>
-                            <img src="https://cdn.pixabay.com/photo/2021/01/10/08/03/frying-pan-5904042_1280.jpg" alt="Non-stick Pan">
-                            <p>A quality non-stick pan makes cooking eggs, pancakes, and delicate foods much easier. Look for one with a sturdy handle that stays cool during cooking.</p>
+                            <h4>4. Measuring Cups and Spoons</h4>
+                            <img src="https://images.unsplash.com/photo-1574781330855-d0db2706b3d0?w=600&h=300&fit=crop" alt="Measuring Cups" style="max-width: 100%; height: auto; display: block; margin: 10px auto;">
+                            <p>Accurate measurements are crucial for successful cooking and baking. Get both dry and liquid measuring tools.</p>
                             
-                            <h4>5. Digital Timer</h4>
-                            <img src="https://cdn.pixabay.com/photo/2017/01/09/12/49/timer-1966761_1280.jpg" alt="Kitchen Timer">
-                            <p>Never overcook again! A digital timer helps you keep track of cooking times precisely. Many young chefs find that timing is one of the most challenging aspects of cooking.</p>
-                            
-                            <p>Remember, you don't need to buy everything at once. Start with these basics and add more equipment as you develop your cooking skills and try new recipes!</p>
+                            <h4>5. Mixing Bowls</h4>
+                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=300&fit=crop" alt="Mixing Bowls" style="max-width: 100%; height: auto; display: block; margin: 10px auto;">
+                            <p>A set of different sized mixing bowls is essential for prep work, mixing ingredients, and serving. Stainless steel or glass bowls are most versatile.</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="cooks" style="display: none;">
-                <h2>Cooks</h2>
-                <div class="chef-grid">
-                    <div class="chef-card">
-                        <div class="chef-avatar">
-                            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-                                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                            </svg>
-                        </div>
-                        <h3 class="chef-name">John Doe</h3>
-                        <p class="chef-title">Head Chef</p>
-                        <p class="chef-bio">John has been cooking for over 10 years and has a passion for creating new recipes.</p>
-                    </div>
-                    <div class="chef-card">
-                        <div class="chef-avatar">
-                            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-                                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                            </svg>
-                        </div>
-                        <h3 class="chef-name">Jane Doe</h3>
-                        <p class="chef-title">Sous Chef</p>
-                        <p class="chef-bio">Jane is a skilled chef with a focus on creating delicious and healthy meals.</p>
-                    </div>
-                </div>
-            </div>
+
+            <!-- Questions Section -->
             <div id="questions" style="display: none;">
-                <h2>Questions Forum</h2>
-                <form id="question-form">
-                    <div class="form-group">
-                        <label for="name">Your Name:</label>
-                        <input type="text" id="name" name="name" required>
+                <h2>Ask Our Chefs</h2>
+                <p>Have a cooking question? Our expert chefs are here to help!</p>
+                
+                <div id="questions-container">
+                    <div class="question-cube">
+                        <div class="question-cube-inner">
+                            <div class="question-cube-front">
+                                <h3>How do I know when my steak is done?</h3>
+                            </div>
+                            <div class="question-cube-back">
+                                <p>Use a meat thermometer! 125°F for rare, 135°F for medium-rare, 145°F for medium.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">  
-                        <label for="email">Your Email:</label>
-                        <input type="email" id="email" name="email" required>
+                    
+                    <div class="question-cube">
+                        <div class="question-cube-inner">
+                            <div class="question-cube-front">
+                                <h3>Why did my cake sink in the middle?</h3>
+                            </div>
+                            <div class="question-cube-back">
+                                <p>Usually from opening the oven door too early or incorrect oven temperature. Be patient!</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="question">Your Question:</label>
-                        <textarea id="question" name="question" required></textarea>
+                    
+                    <div class="question-cube">
+                        <div class="question-cube-inner">
+                            <div class="question-cube-front">
+                                <h3>How do I make my pasta less sticky?</h3>
+                            </div>
+                            <div class="question-cube-back">
+                                <p>Use plenty of salted boiling water and stir occasionally. Don't rinse after cooking!</p>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" class="nav-btn">Send Email</button>
-                </form>
-            </div>
-            <div id="documentation" style="display: none;">
-                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRQVW5HriT-ggSWD8nPClE2x41raBzSf9JFR1fxUWqky7LrLL7tHankodr89jNXBUt-gOYzyGuJdty6/pubembed?start=true&loop=false&delayms=3000" frameborder="0" width="797" height="1085" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-            </div>
-            <div id="recipe-finder" style="display: none;">
-                <h2>Recipe Finder</h2>
-                <p>Let us help you find recipes with ingredients you have on hand.</p>
-                <div id="ingredients-survey">
-                    <h3>What ingredients do you have?</h3>
-                    <div id="ingredient-questions"></div>
+                    
+                    <div class="question-cube">
+                        <div class="question-cube-inner">
+                            <div class="question-cube-front">
+                                <h3>What's the secret to fluffy pancakes?</h3>
+                            </div>
+                            <div class="question-cube-back">
+                                <p>Don't overmix the batter! A few lumps are okay. Overmixing makes them tough.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div id="finder-results" style="display: none;"></div>
+                
+                <div style="margin-top: 40px;">
+                    <h3>Submit Your Own Question</h3>
+                    <form id="question-form">
+                        <div class="form-group">
+                            <label for="user-name">Your Name:</label>
+                            <input type="text" id="user-name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="user-email">Email (optional):</label>
+                            <input type="email" id="user-email" name="email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="user-question">Your Question:</label>
+                            <textarea id="user-question" name="question" required placeholder="Ask anything about cooking, recipes, or techniques..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="nav-btn">Submit Question</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Recipe Detail Section -->
+            <div id="recipe-container" style="display: none;">
+                <div id="recipe-detail"></div>
+                <button class="nav-btn back-btn" onclick="showSection('recipes')">Back to Recipes</button>
             </div>
         </main>
-        <div id="result-container" style="display: none;">
-            <div id="result"></div>
-            <div id="recommended-dishes"></div>
-            <button class="nav-btn" onclick="showRecommendedRecipes()">Show Recommended Recipes</button>
-        </div>
-        <div id="recipe-container" style="display: none;">
-            <!-- Selected recipe will be displayed here -->
-        </div>
     </div>
 
-    <!-- Edible AI Chatbot -->
-    <div class="edible-chatbot">
-        <button class="chatbot-toggle" onclick="toggleChatbot()">
-            CHAT
-        </button>
-        
-        <div class="chatbot-window" id="chatbot-window">
-            <div class="chatbot-header">
-                <h3>🍳 Edible Assistant</h3>
-                <button class="chatbot-close" onclick="toggleChatbot()">&times;</button>
-            </div>
-            
-            <div class="chatbot-messages" id="chatbot-messages">
-                <div class="chatbot-welcome">
-                    <h4>Welcome to Edible! 👨‍🍳</h4>
-                    <p>I know all 100+ recipes, cooking tips, and can help you navigate our platform!</p>
-                    <div class="chatbot-examples">
-                        <strong>Try asking:</strong><br>
-                        • "What beginner recipes do you have?"<br>
-                        • "Show me Mexican dishes"<br>
-                        • "How do I filter recipes?"<br>
-                        • "Tell me about Butter Chicken"<br>
-                        • Or just say "hello" to chat with me!
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chatbot-input-area">
-                <form class="chatbot-input-form" onsubmit="sendChatMessage(event)">
-                    <input 
-                        type="text" 
-                        class="chatbot-input" 
-                        id="chatbot-input"
-                        placeholder="Ask about recipes, cooking tips..."
-                        required
-                    >
-                    <button type="submit" class="chatbot-send" id="chatbot-send">Send</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <button class="accessibility-button" onclick="toggleAccessibilityMenu()" aria-label="Accessibility Options">
-        A11Y
-        <span class="sr-only">Accessibility Options</span>
-    </button>
-
-    <div class="accessibility-menu" id="accessibility-menu">
+    <!-- Accessibility Menu -->
+    <div id="accessibility-menu" class="accessibility-menu">
         <h3>Accessibility Options</h3>
         
         <div class="accessibility-option">
-            <label>Text-to-Speech</label>
+            <label for="tts-option">Text-to-Speech:</label>
             <select id="tts-option" onchange="toggleTTS(this.value)">
                 <option value="off">Off</option>
                 <option value="on">On</option>
@@ -583,7 +329,29 @@
         </div>
         
         <div class="accessibility-option">
-            <label>Language</label>
+            <label for="font-option">Font Style:</label>
+            <select id="font-option" onchange="toggleDyslexicFont(this.value)">
+                <option value="normal">Normal</option>
+                <option value="dyslexic">Dyslexic-Friendly</option>
+            </select>
+        </div>
+        
+        <div class="accessibility-option">
+            <label for="contrast-option">Contrast:</label>
+            <select id="contrast-option" onchange="toggleHighContrast(this.value)">
+                <option value="normal">Normal</option>
+                <option value="high">High Contrast</option>
+            </select>
+        </div>
+        
+        <div class="accessibility-option">
+            <label for="text-size">Text Size:</label>
+            <input type="range" id="text-size" min="80" max="150" value="100" onchange="adjustTextSize(this.value)">
+            <span id="text-size-value">100%</span>
+        </div>
+        
+        <div class="accessibility-option">
+            <label for="language-option">Language:</label>
             <select id="language-option">
                 <option value="en">English</option>
                 <option value="es">Español</option>
@@ -593,1222 +361,14 @@
                 <option value="ru">Русский</option>
             </select>
         </div>
-        
-        <div class="accessibility-option">
-            <label>Font Type</label>
-            <select id="font-option" onchange="toggleDyslexicFont(this.value)">
-                <option value="regular">Regular</option>
-                <option value="dyslexic">Comic Sans</option>
-            </select>
-        </div>
-        
-        <div class="accessibility-option">
-            <label>High Contrast</label>
-            <select id="contrast-option" onchange="toggleHighContrast(this.value)">
-                <option value="normal">Normal</option>
-                <option value="high">High Contrast</option>
-            </select>
-        </div>
-        
-        <div class="accessibility-option">
-            <label>Text Size</label>
-            <input type="range" min="100" max="200" value="100" id="text-size" oninput="adjustTextSize(this.value)">
-        </div>
     </div>
 
-    <div class="arrow"></div>
-    <div id="google_translate_element" style="display:none;"></div>
+    <button class="accessibility-button" onclick="toggleAccessibilityMenu()" aria-label="Accessibility Options">
+        A11Y
+    </button>
 
-    <!-- Enhanced Chatbot JavaScript with Smart Inference -->
-    <script>
-        let chatbotOpen = false;
-        let chatMessages = [];
-        let userName = "";
-        
-        // Enhanced website knowledge database with smart inference capabilities
-        const websiteKnowledge = {
-            // All recipes with enhanced search terms and aliases
-            recipes: [
-                {
-                    id: 'smoothie', 
-                    name: 'Fruit Smoothie', 
-                    aliases: ['smoothie', 'fruit smoothie', 'berry smoothie', 'banana smoothie'],
-                    description: 'Refreshing fruit smoothie', 
-                    ingredients: ['Banana', 'Berries', 'Yogurt', 'Milk', 'Honey'], 
-                    instructions: ['Add fruits', 'Add yogurt and milk', 'Blend until smooth', 'Add honey to taste'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'grilled-cheese', 
-                    name: 'Grilled Cheese', 
-                    aliases: ['grilled cheese', 'cheese sandwich', 'grilled cheese sandwich'],
-                    description: 'Classic grilled cheese sandwich', 
-                    ingredients: ['Bread', 'Cheese', 'Butter'], 
-                    instructions: ['Butter bread', 'Add cheese', 'Grill until golden'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'scrambled-eggs', 
-                    name: 'Scrambled Eggs', 
-                    aliases: ['scrambled eggs', 'eggs', 'scrambled egg'],
-                    description: 'Perfect scrambled eggs', 
-                    ingredients: ['Eggs', 'Milk', 'Salt', 'Pepper', 'Butter'], 
-                    instructions: ['Beat eggs with milk', 'Heat pan', 'Add eggs', 'Stir until done'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'pasta', 
-                    name: 'Simple Pasta', 
-                    aliases: ['pasta', 'simple pasta', 'basic pasta'],
-                    description: 'Easy pasta dish', 
-                    ingredients: ['Pasta', 'Sauce', 'Cheese'], 
-                    instructions: ['Boil pasta', 'Heat sauce', 'Combine', 'Add cheese'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'taco', 
-                    name: 'Basic Tacos', 
-                    aliases: ['tacos', 'taco', 'basic tacos', 'beef tacos'],
-                    description: 'Simple beef tacos', 
-                    ingredients: ['Tortillas', 'Ground beef', 'Lettuce', 'Cheese', 'Salsa'], 
-                    instructions: ['Cook beef', 'Warm tortillas', 'Assemble tacos'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'cookies', 
-                    name: 'Chocolate Chip Cookies', 
-                    aliases: ['cookies', 'chocolate chip cookies', 'chocolate cookies', 'choc chip cookies'],
-                    description: 'Classic chocolate chip cookies', 
-                    ingredients: ['Flour', 'Sugar', 'Butter', 'Eggs', 'Chocolate chips'], 
-                    instructions: ['Mix ingredients', 'Make dough balls', 'Bake until golden'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'hamburger', 
-                    name: 'Classic Hamburger', 
-                    aliases: ['hamburger', 'burger', 'beef burger', 'classic burger'],
-                    description: 'Juicy beef hamburger', 
-                    ingredients: ['Ground beef', 'Buns', 'Lettuce', 'Tomato', 'Onion'], 
-                    instructions: ['Form patty', 'Grill beef', 'Assemble burger'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'steak', 
-                    name: 'Pan-Seared Steak', 
-                    aliases: ['steak', 'pan seared steak', 'beef steak', 'seared steak'],
-                    description: 'Restaurant quality steak', 
-                    ingredients: ['Steak', 'Salt', 'Pepper', 'Butter', 'Herbs'], 
-                    instructions: ['Season steak', 'Heat pan', 'Sear both sides', 'Rest meat'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'mac-cheese', 
-                    name: 'Homemade Mac & Cheese', 
-                    aliases: ['mac and cheese', 'mac & cheese', 'macaroni and cheese', 'mac n cheese'],
-                    description: 'Creamy macaroni and cheese', 
-                    ingredients: ['Macaroni', 'Cheddar', 'Milk', 'Butter', 'Flour'], 
-                    instructions: ['Cook pasta', 'Make cheese sauce', 'Combine', 'Bake until bubbly'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'pancakes', 
-                    name: 'Fluffy Pancakes', 
-                    aliases: ['pancakes', 'pancake', 'fluffy pancakes'],
-                    description: 'Light and fluffy breakfast pancakes', 
-                    ingredients: ['Flour', 'Milk', 'Eggs', 'Baking powder', 'Sugar'], 
-                    instructions: ['Mix batter', 'Heat griddle', 'Cook until bubbles form', 'Flip and finish'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'chicken-parm', 
-                    name: 'Chicken Parmesan', 
-                    aliases: ['chicken parmesan', 'chicken parm', 'chicken parmigiana'],
-                    description: 'Classic Italian-American dish', 
-                    ingredients: ['Chicken breast', 'Breadcrumbs', 'Marinara', 'Mozzarella', 'Parmesan'], 
-                    instructions: ['Bread chicken', 'Fry until golden', 'Add sauce and cheese', 'Bake until melted'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'french-toast', 
-                    name: 'Cinnamon French Toast', 
-                    aliases: ['french toast', 'cinnamon french toast'],
-                    description: 'Sweet breakfast classic', 
-                    ingredients: ['Bread', 'Eggs', 'Milk', 'Cinnamon', 'Vanilla'], 
-                    instructions: ['Make egg mixture', 'Dip bread', 'Cook until golden', 'Top with syrup'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'fried-chicken', 
-                    name: 'Fried Chicken', 
-                    aliases: ['fried chicken', 'chicken', 'crispy chicken'],
-                    description: 'I would eat this chicken if it was the best thing on earth', 
-                    ingredients: ['Chicken Breasts', 'Eggs', 'Milk', 'Seasoning', 'Bread Crumbs', 'Oil'], 
-                    instructions: ['Season chicken', 'Crack the egg and mix with milk', 'Boil Oil and dip the chicken into the sauce and put bread crumbs', 'Put the chicken into the boiling oil and cook'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'lemonade', 
-                    name: 'Lemonade Kool-Aid', 
-                    aliases: ['lemonade', 'kool aid', 'lemonade kool aid'],
-                    description: 'Nice Refreshing Beverage', 
-                    ingredients: ['Kool Aid Powder', 'Water', 'Sugar'], 
-                    instructions: ['Combine Kool Aid Powder and water', 'Combine sugar as well and serve'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'brownies', 
-                    name: 'Chocolate Brownies', 
-                    aliases: ['brownies', 'chocolate brownies', 'brownie'],
-                    description: 'Rich and fudgy brownies', 
-                    ingredients: ['Flour', 'Cocoa powder', 'Butter', 'Sugar', 'Eggs', 'Vanilla'], 
-                    instructions: ['Mix dry ingredients', 'Add wet ingredients', 'Bake until set'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'cheesecake', 
-                    name: 'Classic Cheesecake', 
-                    aliases: ['cheesecake', 'cheese cake'],
-                    description: 'Creamy and smooth cheesecake', 
-                    ingredients: ['Cream cheese', 'Sugar', 'Eggs', 'Graham crackers', 'Butter', 'Vanilla'], 
-                    instructions: ['Make crust', 'Mix filling', 'Bake in water bath'], 
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'cupcakes', 
-                    name: 'Vanilla Cupcakes', 
-                    aliases: ['cupcakes', 'cupcake', 'vanilla cupcakes'],
-                    description: 'Soft and moist cupcakes', 
-                    ingredients: ['Flour', 'Sugar', 'Eggs', 'Butter', 'Milk', 'Vanilla'], 
-                    instructions: ['Mix batter', 'Fill liners', 'Bake and frost'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'ice-cream', 
-                    name: 'Homemade Ice Cream', 
-                    aliases: ['ice cream', 'homemade ice cream', 'vanilla ice cream'],
-                    description: 'No-churn vanilla ice cream', 
-                    ingredients: ['Heavy cream', 'Condensed milk', 'Vanilla'], 
-                    instructions: ['Whip cream', 'Fold in condensed milk', 'Freeze until set'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'banana-bread', 
-                    name: 'Banana Bread', 
-                    aliases: ['banana bread', 'banana loaf'],
-                    description: 'Moist and flavourful banana bread', 
-                    ingredients: ['Bananas', 'Flour', 'Sugar', 'Butter', 'Eggs', 'Baking soda'], 
-                    instructions: ['Mash bananas', 'Mix ingredients', 'Bake until golden'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'bbq-ribs', 
-                    name: 'BBQ Ribs', 
-                    aliases: ['ribs', 'bbq ribs', 'barbecue ribs', 'pork ribs', 'beef ribs'],
-                    description: 'Tender BBQ ribs', 
-                    ingredients: ['Ribs', 'BBQ sauce', 'Spices'], 
-                    instructions: ['Season ribs', 'Grill or bake with sauce'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'avocado-toast', 
-                    name: 'Avocado Toast', 
-                    aliases: ['avocado toast', 'avocado on toast'],
-                    description: 'Simple and delicious avocado toast', 
-                    ingredients: ['Bread', 'Avocado', 'Lemon', 'Salt', 'Pepper'], 
-                    instructions: ['Toast bread', 'Mash avocado', 'Spread on toast', 'Season with lemon, salt, and pepper'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'breakfast-burrito', 
-                    name: 'Breakfast Burrito', 
-                    aliases: ['breakfast burrito', 'morning burrito'],
-                    description: 'Hearty breakfast burrito', 
-                    ingredients: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Salsa'], 
-                    instructions: ['Scramble eggs', 'Cook sausage', 'Assemble ingredients in tortilla', 'Roll and serve'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'smoothie-bowl', 
-                    name: 'Smoothie Bowl', 
-                    aliases: ['smoothie bowl', 'acai bowl'],
-                    description: 'Refreshing and healthy smoothie bowl', 
-                    ingredients: ['Frozen berries', 'Banana', 'Yogurt', 'Granola', 'Chia seeds'], 
-                    instructions: ['Blend berries, banana, and yogurt', 'Pour into bowl', 'Top with granola and chia seeds'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'omelette', 
-                    name: 'Vegetable Omelette', 
-                    aliases: ['omelette', 'omelet', 'vegetable omelette'],
-                    description: 'Classic vegetable-stuffed omelette', 
-                    ingredients: ['Eggs', 'Onion', 'Bell pepper', 'Spinach', 'Cheese'], 
-                    instructions: ['Whisk eggs', 'Sauté vegetables', 'Cook eggs in pan', 'Add vegetables and fold'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'breakfast-parfait', 
-                    name: 'Breakfast Parfait', 
-                    aliases: ['parfait', 'breakfast parfait', 'yogurt parfait'],
-                    description: 'Layers of yogurt, granola, and fruit', 
-                    ingredients: ['Yogurt', 'Granola', 'Berries', 'Honey'], 
-                    instructions: ['Layer yogurt, granola, and berries in a glass', 'Drizzle with honey'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'eggs-benedict', 
-                    name: 'Eggs Benedict', 
-                    aliases: ['eggs benedict', 'eggs benny'],
-                    description: 'Classic poached eggs with hollandaise sauce', 
-                    ingredients: ['English muffins', 'Eggs', 'Ham', 'Hollandaise sauce', 'Butter'], 
-                    instructions: ['Toast muffins', 'Poach eggs', 'Add ham and eggs on muffins', 'Top with hollandaise sauce'], 
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'breakfast-pizza', 
-                    name: 'Breakfast Pizza', 
-                    aliases: ['breakfast pizza', 'morning pizza'],
-                    description: 'Pizza topped with eggs, cheese, and bacon', 
-                    ingredients: ['Pizza dough', 'Eggs', 'Cheese', 'Bacon', 'Tomato sauce'], 
-                    instructions: ['Roll out dough', 'Spread tomato sauce', 'Add cheese, bacon, and cracked eggs', 'Bake until set'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'hash-browns', 
-                    name: 'Crispy Hash Browns', 
-                    aliases: ['hash browns', 'hashbrowns', 'hash brown'],
-                    description: 'Golden, crispy hash browns', 
-                    ingredients: ['Potatoes', 'Salt', 'Pepper', 'Oil'], 
-                    instructions: ['Grate potatoes', 'Season with salt and pepper', 'Fry until crispy'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'shakshuka', 
-                    name: 'Shakshuka', 
-                    aliases: ['shakshuka'],
-                    description: 'Spicy eggs poached in tomato sauce', 
-                    ingredients: ['Eggs', 'Tomatoes', 'Onion', 'Garlic', 'Spices'], 
-                    instructions: ['Sauté onion and garlic', 'Add tomatoes and spices', 'Crack eggs into sauce', 'Cook until eggs set'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'waffles', 
-                    name:'Waffles', 
-                    aliases: ['waffles', 'waffle'],
-                    description: 'Fluffy on the inside and crispy on the outside', 
-                    ingredients: ['Flour', 'Eggs', 'Butter', 'Sugar', 'Milk'], 
-                    instructions: ['Mix all the ingredients','Open waffle maker and poor the mixture', 'Once finished,grab our waffle out of the waffle maker and enjoy'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'enchiladas', 
-                    name: 'Chicken Enchiladas', 
-                    aliases: ['enchiladas', 'chicken enchiladas'],
-                    description: 'Cheesy and saucy enchiladas', 
-                    ingredients: ['Tortillas', 'Chicken', 'Cheese', 'Enchilada sauce', 'Sour cream'], 
-                    instructions: ['Cook chicken', 'Fill tortillas with chicken and cheese', 'Roll and place in dish', 'Top with enchilada sauce and more cheese', 'Bake until bubbly'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'pozole', 
-                    name: 'Red Pozole', 
-                    aliases: ['pozole', 'red pozole'],
-                    description: 'Traditional Mexican soup with hominy and pork', 
-                    ingredients: ['Pork', 'Hominy', 'Red chiles', 'Onion', 'Garlic', 'Spices'], 
-                    instructions: ['Cook pork until tender', 'Prepare red chile sauce', 'Combine with hominy and spices', 'Simmer until flavours meld', 'Serve with toppings like cabbage and lime'], 
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'tamales', 
-                    name: 'Tamales', 
-                    aliases: ['tamales', 'tamale'],
-                    description: 'Classic corn dough with savoury fillings', 
-                    ingredients: ['Corn husks', 'Masa harina', 'Lard', 'Chicken', 'Salsa'], 
-                    instructions: ['Soak corn husks', 'Prepare masa', 'Fill husks with masa and chicken salsa', 'Steam until cooked'], 
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'sopes', 
-                    name: 'Sopes', 
-                    aliases: ['sopes', 'sope'],
-                    description: 'Thick corn dough topped with beans and meat', 
-                    ingredients: ['Masa harina', 'Beans', 'Meat', 'Lettuce', 'Cheese', 'Salsa'], 
-                    instructions: ['Shape masa into thick discs', 'Cook on griddle', 'Top with beans, meat, and toppings'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'chiles-rellenos', 
-                    name: 'Chiles Rellenos', 
-                    aliases: ['chiles rellenos', 'chile relleno', 'stuffed peppers'],
-                    description: 'Stuffed poblano peppers in tomato sauce', 
-                    ingredients: ['Poblano peppers', 'Cheese', 'Eggs', 'Tomato sauce', 'Flour'], 
-                    instructions: ['Roast and peel peppers', 'Stuff with cheese', 'Dip in egg batter and fry', 'Serve with tomato sauce'], 
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'guacamole', 
-                    name: 'Guacamole', 
-                    aliases: ['guacamole', 'guac'],
-                    description: 'Creamy avocado dip', 
-                    ingredients: ['Avocado', 'Tomato', 'Onion', 'Lime', 'Cilantro', 'Salt'], 
-                    instructions: ['Mash avocados', 'Mix in diced tomatoes, onions, and lime juice', 'Season and serve'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'fajitas', 
-                    name: 'Beef Fajitas', 
-                    aliases: ['fajitas', 'beef fajitas', 'chicken fajitas'],
-                    description: 'Sizzling beef with vegetables', 
-                    ingredients: ['Beef', 'Bell peppers', 'Onions', 'Tortillas', 'Seasoning'], 
-                    instructions: ['Marinate beef', 'Cook beef and vegetables', 'Serve with warm tortillas'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'tostadas', 
-                    name: 'Tostadas', 
-                    aliases: ['tostadas', 'tostada'],
-                    description: 'Crispy tortillas topped with beans, meat, and veggies', 
-                    ingredients: ['Tostadas', 'Beans', 'Meat', 'Lettuce', 'Cheese', 'Salsa'], 
-                    instructions: ['Spread beans on tostadas', 'Add meat and toppings', 'Serve immediately'], 
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'kung-pao-chicken', 
-                    name: 'Kung Pao Chicken', 
-                    aliases: ['kung pao chicken', 'kung pao'],
-                    description: 'Spicy stir-fried chicken with peanuts', 
-                    ingredients: ['Chicken', 'Peanuts', 'Bell peppers', 'Soy sauce', 'Chili peppers', 'Garlic'], 
-                    instructions: ['Marinate chicken', 'Sauté garlic and peppers', 'Add chicken and sauce', 'Mix in peanuts and serve'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'sweet-sour-pork', 
-                    name: 'Sweet and Sour Pork', 
-                    aliases: ['sweet and sour pork', 'sweet sour pork'],
-                    description: 'Tangy pork with pineapple', 
-                    ingredients: ['Pork', 'Pineapple', 'Bell peppers', 'Vinegar', 'Sugar', 'Ketchup'], 
-                    instructions: ['Fry pork', 'Make sauce with vinegar, sugar, and ketchup', 'Combine with pineapple and peppers', 'Simmer and serve'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'mapo-tofu', 
-                    name: 'Mapo Tofu', 
-                    aliases: ['mapo tofu', 'ma po tofu'],
-                    description: 'Spicy tofu in a Sichuan-style sauce', 
-                    ingredients: ['Tofu', 'Ground pork', 'Sichuan peppercorns', 'Chili paste', 'Garlic', 'Soy sauce'], 
-                    instructions: ['Fry pork with garlic', 'Add tofu and spices', 'Simmer in sauce', 'Serve hot'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'fried-rice', 
-                    name: 'Yangzhou Fried Rice', 
-                    aliases: ['fried rice', 'yangzhou fried rice', 'chinese fried rice'],
-                    description: 'Classic Chinese-style fried rice', 
-                    ingredients: ['Rice', 'Shrimp', 'Eggs', 'Peas', 'Soy sauce', 'Carrots'], 
-                    instructions: ['Cook rice', 'Scramble eggs', 'Stir-fry shrimp and vegetables', 'Mix with rice and soy sauce'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'spring-rolls', 
-                    name: 'Spring Rolls', 
-                    aliases: ['spring rolls', 'spring roll'],
-                    description: 'Crispy Chinese appetiser', 
-                    ingredients: ['Spring roll wrappers', 'Cabbage', 'Carrots', 'Soy sauce', 'Oil'], 
-                    instructions: ['Prepare filling with vegetables', 'Wrap in spring roll wrappers', 'Fry until golden'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'char-siu', 
-                    name: 'Char Siu', 
-                    aliases: ['char siu', 'chinese bbq pork', 'barbecue pork'],
-                    description: 'Chinese-style barbecue pork', 
-                    ingredients: ['Pork', 'Hoisin sauce', 'Honey', 'Soy sauce', 'Five-spice powder'], 
-                    instructions: ['Marinate pork', 'Roast in oven', 'Brush with honey glaze and serve'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'dumplings', 
-                    name: 'Chinese Dumplings', 
-                    aliases: ['dumplings', 'dumpling', 'chinese dumplings', 'potstickers'],
-                    description: 'Savory dumplings with pork and vegetable filling', 
-                    ingredients: ['Dumpling wrappers', 'Ground pork', 'Cabbage', 'Garlic', 'Soy sauce', 'Ginger'], 
-                    instructions: ['Prepare filling', 'Wrap in dumpling wrappers', 'Steam, boil, or fry until cooked'], 
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'beef-broccoli', 
-                    name: 'Beef and Broccoli', 
-                    aliases: ['beef and broccoli', 'beef broccoli'],
-                    description: 'Stir-fried beef and broccoli in savoury sauce', 
-                    ingredients: ['Beef', 'Broccoli', 'Soy sauce', 'Garlic', 'Oyster sauce', 'Cornstarch'], 
-                    instructions: ['Marinate beef', 'Stir-fry beef and broccoli', 'Add sauce and simmer'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'lo-mein', 
-                    name: 'Vegetable Lo Mein', 
-                    aliases: ['lo mein', 'lomein', 'vegetable lo mein'],
-                    description: 'Chinese stir-fried noodles', 
-                    ingredients: ['Noodles', 'Carrots', 'Cabbage', 'Soy sauce', 'Garlic', 'Sesame oil'], 
-                    instructions: ['Cook noodles', 'Stir-fry vegetables and garlic', 'Combine with noodles and sauce'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'butter-chicken', 
-                    name: 'Butter Chicken', 
-                    aliases: ['butter chicken', 'chicken makhani'],
-                    description: 'Creamy and rich chicken curry', 
-                    ingredients: ['Chicken', 'Tomato puree', 'Cream', 'Butter', 'Garlic', 'Garam masala'], 
-                    instructions: ['Marinate chicken', 'Cook tomato-based sauce', 'Add chicken and cream', 'Simmer and serve with naan'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'palak-paneer', 
-                    name: 'Palak Paneer', 
-                    aliases: ['palak paneer', 'spinach paneer'],
-                    description: 'Cottage cheese in spinach curry', 
-                    ingredients: ['Spinach', 'Paneer', 'Garlic', 'Onion', 'Cream', 'Spices'], 
-                    instructions: ['Blanch spinach', 'Blend into a puree', 'Cook with spices', 'Add paneer and simmer'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'biryani', 
-                    name: 'Chicken Biryani', 
-                    aliases: ['biryani', 'chicken biryani'],
-                    description: 'Flavourful rice dish with spices and chicken', 
-                    ingredients: ['Chicken', 'Rice', 'Yogurt', 'Spices', 'Onion', 'Ghee'], 
-                    instructions: ['Marinate chicken', 'Cook rice with spices', 'Layer chicken and rice', 'Steam and serve'], 
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'dal-tadka', 
-                    name: 'Dal Tadka', 
-                    aliases: ['dal tadka', 'dal', 'lentils'],
-                    description: 'Lentils tempered with aromatic spices', 
-                    ingredients: ['Yellow lentils', 'Garlic', 'Onion', 'Tomato', 'Cumin', 'Ghee'], 
-                    instructions: ['Cook lentils', 'Prepare tempering with ghee and spices', 'Combine with lentils and simmer'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'samosa', 
-                    name: 'Samosa', 
-                    aliases: ['samosa', 'samosas'],
-                    description: 'Deep-fried pastry filled with spiced potatoes', 
-                    ingredients: ['Potatoes', 'Peas', 'Flour', 'Spices', 'Oil'], 
-                    instructions: ['Prepare dough', 'Make spiced potato filling', 'Shape and fry samosas', 'Serve with chutney'], 
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'tandoori-chicken', 
-                    name: 'Tandoori Chicken', 
-                    aliases: ['tandoori chicken', 'tandoori'],
-                    description: 'Chicken marinated in yogurt and spices, grilled to perfection', 
-                    ingredients: ['Chicken', 'Yogurt', 'Spices', 'Lemon juice', 'Garlic', 'Ginger'], 
-                    instructions: ['Marinate chicken', 'Cook in tandoor or oven', 'Serve with mint chutney'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'chole', 
-                    name: 'Chole', 
-                    aliases: ['chole', 'chickpea curry', 'chana masala'],
-                    description: 'Spiced chickpea curry', 
-                    ingredients: ['Chickpeas', 'Onion', 'Tomato', 'Garlic', 'Ginger', 'Spices'], 
-                    instructions: ['Cook chickpeas', 'Make gravy with onion, tomato, and spices', 'Combine and simmer'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'naan', 
-                    name: 'Naan', 
-                    aliases: ['naan', 'naan bread'],
-                    description: 'Soft and fluffy Indian flatbread', 
-                    ingredients: ['Flour', 'Yogurt', 'Yeast', 'Milk', 'Ghee'], 
-                    instructions: ['Prepare dough', 'Roll and cook on tawa or oven', 'Brush with ghee and serve'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'pav-bhaji', 
-                    name: 'Pav Bhaji', 
-                    aliases: ['pav bhaji', 'pav bhaji'],
-                    description: 'Spiced mashed vegetables served with buttery bread', 
-                    ingredients: ['Potatoes', 'Tomatoes', 'Peas', 'Capsicum', 'Butter', 'Pav buns'], 
-                    instructions: ['Cook and mash vegetables', 'Prepare masala', 'Serve with buttered pav'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'gulab-jamun', 
-                    name: 'Gulab Jamun', 
-                    aliases: ['gulab jamun', 'gulab jamuns'],
-                    description: 'Sweet fried dumplings soaked in sugar syrup', 
-                    ingredients: ['Milk powder', 'Flour', 'Sugar', 'Cardamom', 'Ghee'], 
-                    instructions: ['Make dough', 'Shape and fry dumplings', 'Soak in sugar syrup', 'Serve warm'], 
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'spaghetti-carbonara', 
-                    name: 'Spaghetti Carbonara', 
-                    aliases: ['spaghetti carbonara', 'carbonara', '
-                    name: 'Spaghetti Carbonara',
-                    aliases: ['spaghetti carbonara', 'carbonara', 'pasta carbonara'],
-                    description: 'Classic pasta with eggs, cheese, pancetta, and black pepper',
-                    ingredients: ['Spaghetti', 'Egg yolks', 'Parmesan cheese', 'Pancetta', 'Black pepper'],
-                    instructions: ['Cook spaghetti', 'Fry pancetta', 'Mix eggs and cheese', 'Combine with pasta and pancetta', 'Serve with black pepper'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'margherita-pizza',
-                    name: 'Margherita Pizza',
-                    aliases: ['margherita pizza', 'pizza margherita', 'pizza'],
-                    description: 'Simple and fresh pizza with tomato, mozzarella, and basil',
-                    ingredients: ['Pizza dough', 'Tomato sauce', 'Mozzarella', 'Fresh basil', 'Olive oil'],
-                    instructions: ['Prepare dough', 'Spread tomato sauce', 'Add mozzarella and basil', 'Bake in oven', 'Drizzle with olive oil'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'lasagna',
-                    name: 'Lasagna',
-                    aliases: ['lasagna', 'lasagne'],
-                    description: 'Layers of pasta, meat sauce, and creamy béchamel',
-                    ingredients: ['Lasagna sheets', 'Minced beef', 'Tomato sauce', 'Béchamel sauce', 'Parmesan cheese'],
-                    instructions: ['Cook meat sauce', 'Prepare béchamel', 'Layer pasta, sauces, and cheese', 'Bake in oven', 'Serve hot'],
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'risotto-alla-milanese',
-                    name: 'Risotto alla Milanese',
-                    aliases: ['risotto', 'risotto alla milanese', 'milanese risotto'],
-                    description: 'Creamy risotto flavoured with saffron',
-                    ingredients: ['Arborio rice', 'Saffron', 'Chicken stock', 'Butter', 'Parmesan cheese'],
-                    instructions: ['Sauté rice in butter', 'Add stock gradually', 'Mix in saffron and cheese', 'Cook until creamy'],
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'bruschetta',
-                    name: 'Bruschetta',
-                    aliases: ['bruschetta'],
-                    description: 'Toasted bread topped with fresh tomato, garlic, and basil',
-                    ingredients: ['Bread', 'Tomatoes', 'Garlic', 'Basil', 'Olive oil'],
-                    instructions: ['Toast bread', 'Mix chopped tomatoes with garlic and basil', 'Top bread with mixture', 'Drizzle with olive oil'],
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'fettuccine-alfredo',
-                    name: 'Fettuccine Alfredo',
-                    aliases: ['fettuccine alfredo', 'alfredo', 'alfredo pasta'],
-                    description: 'Creamy pasta with butter and Parmesan cheese',
-                    ingredients: ['Fettuccine', 'Butter', 'Parmesan cheese', 'Heavy cream'],
-                    instructions: ['Cook pasta', 'Melt butter in a pan', 'Add cream and cheese', 'Toss with pasta', 'Serve warm'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'caprese-salad',
-                    name: 'Caprese Salad',
-                    aliases: ['caprese salad', 'caprese'],
-                    description: 'Fresh salad with tomatoes, mozzarella, and basil',
-                    ingredients: ['Tomatoes', 'Mozzarella', 'Basil', 'Olive oil', 'Balsamic glaze'],
-                    instructions: ['Slice tomatoes and mozzarella', 'Layer with basil', 'Drizzle with olive oil and balsamic glaze'],
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'osso-buco',
-                    name: 'Osso Buco',
-                    aliases: ['osso buco'],
-                    description: 'Braised veal shanks in a rich tomato sauce',
-                    ingredients: ['Veal shanks', 'Carrots', 'Celery', 'Tomato paste', 'White wine', 'Stock'],
-                    instructions: ['Sear veal shanks', 'Cook vegetables', 'Simmer with wine, stock, and tomato', 'Serve with gremolata'],
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'panna-cotta',
-                    name: 'Panna Cotta',
-                    aliases: ['panna cotta'],
-                    description: 'Silky dessert made with cream and vanilla',
-                    ingredients: ['Heavy cream', 'Sugar', 'Gelatin', 'Vanilla'],
-                    instructions: ['Heat cream and sugar', 'Dissolve gelatin', 'Pour into moulds and chill', 'Serve with fruit sauce'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'coq-au-vin',
-                    name: 'Coq au Vin',
-                    aliases: ['coq au vin'],
-                    description: 'Chicken braised in red wine with mushrooms, bacon, and onions',
-                    ingredients: ['Chicken', 'Red wine', 'Mushrooms', 'Onions', 'Bacon', 'Garlic', 'Thyme'],
-                    instructions: ['Brown chicken', 'Cook bacon and vegetables', 'Simmer with wine and herbs', 'Serve with crusty bread'],
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'quiche-lorraine',
-                    name: 'Quiche Lorraine',
-                    aliases: ['quiche lorraine', 'quiche'],
-                    description: 'Savory tart with eggs, cream, bacon, and cheese',
-                    ingredients: ['Pie crust', 'Eggs', 'Heavy cream', 'Bacon', 'Gruyère cheese', 'Nutmeg'],
-                    instructions: ['Prepare crust', 'Cook bacon', 'Mix eggs, cream, and cheese', 'Pour into crust and bake'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'bouillabaisse',
-                    name: 'Bouillabaisse',
-                    aliases: ['bouillabaisse'],
-                    description: 'Traditional Provençal fish stew with a rich saffron broth',
-                    ingredients: ['Assorted fish', 'Shellfish', 'Tomatoes', 'Garlic', 'Fennel', 'Saffron', 'Olive oil'],
-                    instructions: ['Sauté garlic and fennel', 'Add tomatoes and saffron', 'Simmer with fish and shellfish', 'Serve with crusty bread'],
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'croque-monsieur',
-                    name: 'Croque Monsieur',
-                    aliases: ['croque monsieur'],
-                    description: 'Toasted ham and cheese sandwich with béchamel sauce',
-                    ingredients: ['Bread', 'Ham', 'Gruyère cheese', 'Butter', 'Flour', 'Milk', 'Nutmeg'],
-                    instructions: ['Make béchamel', 'Assemble sandwich with ham and cheese', 'Toast in oven', 'Serve hot'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'souffle-au-chocolat',
-                    name: 'Soufflé au Chocolat',
-                    aliases: ['souffle au chocolat', 'chocolate souffle'],
-                    description: 'Fluffy and rich chocolate dessert',
-                    ingredients: ['Dark chocolate', 'Eggs', 'Sugar', 'Butter', 'Flour', 'Cream'],
-                    instructions: ['Melt chocolate', 'Whisk egg whites to stiff peaks', 'Fold into chocolate mixture', 'Bake until risen'],
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'boeuf-bourguignon',
-                    name: 'Boeuf Bourguignon',
-                    aliases: ['boeuf bourguignon', 'beef bourguignon'],
-                    description: 'Beef slow-cooked in red wine with carrots, onions, and mushrooms',
-                    ingredients: ['Beef', 'Red wine', 'Carrots', 'Onions', 'Mushrooms', 'Garlic', 'Thyme'],
-                    instructions: ['Brown beef', 'Sauté vegetables', 'Simmer with wine and herbs', 'Cook until tender'],
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'tarte-tatin',
-                    name: 'Tarte Tatin',
-                    aliases: ['tarte tatin'],
-                    description: 'Upside-down caramelised apple tart',
-                    ingredients: ['Apples', 'Sugar', 'Butter', 'Puff pastry'],
-                    instructions: ['Caramelise apples with sugar and butter', 'Cover with pastry', 'Bake and flip to serve'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'crepes',
-                    name: 'Crêpes',
-                    aliases: ['crepes', 'crepe'],
-                    description: 'Thin French pancakes, perfect for sweet or savoury fillings',
-                    ingredients: ['Flour', 'Milk', 'Eggs', 'Butter', 'Sugar', 'Salt'],
-                    instructions: ['Mix batter', 'Cook thin layers in a pan', 'Fill with desired toppings', 'Fold and serve'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'madeleines',
-                    name: 'Madeleines',
-                    aliases: ['madeleines', 'madeleine'],
-                    description: 'Small shell-shaped sponge cakes',
-                    ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Vanilla', 'Lemon zest'],
-                    instructions: ['Mix batter', 'Chill and fill moulds', 'Bake until golden', 'Serve with tea'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'tiramisu',
-                    name: 'Tiramisu',
-                    aliases: ['tiramisu'],
-                    description: 'Classic Italian dessert',
-                    ingredients: ['Ladyfingers', 'Mascarpone', 'Coffee', 'Cocoa powder', 'Sugar', 'Eggs'],
-                    instructions: ['Make coffee mixture', 'Layer ingredients', 'Chill before serving'],
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'churros',
-                    name: 'Cinnamon Churros',
-                    aliases: ['churros', 'churro'],
-                    description: 'Crispy churros with cinnamon sugar',
-                    ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Cinnamon', 'Oil'],
-                    instructions: ['Make dough', 'Pipe and fry', 'Roll in cinnamon sugar'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'carrot-cake',
-                    name: 'Carrot Cake',
-                    aliases: ['carrot cake'],
-                    description: 'Spiced carrot cake with cream cheese frosting',
-                    ingredients: ['Flour', 'Carrots', 'Sugar', 'Eggs', 'Cinnamon', 'Cream cheese'],
-                    instructions: ['Mix ingredients', 'Bake cake layers', 'Frost with cream cheese frosting'],
-                    skillLevel: 'Intermediate'
-                },
-                {
-                    id: 'donuts',
-                    name: 'Glazed Donuts',
-                    aliases: ['donuts', 'donut', 'doughnuts'],
-                    description: 'Sweet and fluffy homemade donuts',
-                    ingredients: ['Flour', 'Yeast', 'Sugar', 'Eggs', 'Milk', 'Glaze'],
-                    instructions: ['Prepare dough', 'Fry donuts', 'Dip in glaze'],
-                    skillLevel: 'Master'
-                },
-                {
-                    id: 'fruit-salad',
-                    name: 'Fruit Salad',
-                    aliases: ['fruit salad'],
-                    description: 'Fresh and healthy fruit mix',
-                    ingredients: ['Strawberries', 'Blueberries', 'Pineapple', 'Kiwi', 'Honey'],
-                    instructions: ['Chop fruits', 'Mix together', 'Drizzle with honey'],
-                    skillLevel: 'Beginner'
-                },
-                {
-                    id: 'flan',
-                    name: 'Flan',
-                    aliases: ['flan'],
-                    description: 'Creamy caramel custard dessert',
-                    ingredients: ['Eggs', 'Milk', 'Sugar', 'Vanilla'],
-                    instructions: ['Make caramel', 'Prepare custard', 'Bake in water bath', 'Chill and serve'],
-                    skillLevel: 'Intermediate'
-                }
-            ],
-            
-            // Website sections and features
-            sections: [
-                {name: 'Recipes', description: 'Browse and search through 100+ recipes with filtering options for skill level and ingredients'},
-                {name: 'Recipe Finder', description: 'Find recipes based on ingredients you have at home through an interactive survey'},
-                {name: 'Cooking Tips', description: 'Educational articles and tips for young chefs including knife skills, measuring, and cooking techniques'},
-                {name: 'Questions', description: 'Submit cooking questions via a contact form'},
-                {name: 'Documentation', description: 'Google Slides presentation with project documentation'}
-            ],
-            
-            // Cooking tips from the website
-            cookingTips: [
-                {title: 'Knife Skills 101', content: 'Learn proper knife techniques to make cooking safer and more efficient. Always curl your fingertips under when holding food to protect them from the blade.'},
-                {title: 'Measuring Ingredients', content: 'For dry ingredients, fill and level with a straight edge. For liquids, read at eye level on a flat surface to ensure accuracy.'},
-                {title: 'Salt as You Go', content: 'Add salt throughout the cooking process rather than all at once at the end. This builds flavor in layers.'},
-                {title: 'Rest Your Meat', content: 'Let meat rest after cooking to allow juices to redistribute. For steaks, rest about 5 minutes.'},
-                {title: 'Prep Before Cooking', content: 'Read the recipe completely and prep all ingredients before you start cooking. This is called "mise en place" and makes cooking much smoother.'},
-                {title: 'Control Heat', content: 'Different cooking methods require different heat levels. Low and slow for tough meats, high heat for searing.'}
-            ],
-            
-            // Cooking equipment from the featured article
-            cookingEquipment: [
-                {name: "Chef's Knife", description: "A good chef's knife is the foundation of any kitchen. Look for one that feels comfortable in your hand. For young chefs, consider a smaller 6-inch knife that's easier to control."},
-                {name: "Mixing Bowls Set", description: "A set of different sized mixing bowls is essential for preparing ingredients, mixing batters, and tossing salads. Stainless steel bowls are durable and lightweight."},
-                {name: "Measuring Cups and Spoons", description: "Precise measurements are crucial in cooking and especially in baking. A good set of measuring cups for dry ingredients and a liquid measuring cup with clear markings will help you follow recipes accurately."},
-                {name: "Non-Stick Pan", description: "A quality non-stick pan makes cooking eggs, pancakes, and delicate foods much easier. Look for one with a sturdy handle that stays cool during cooking."},
-                {name: "Digital Timer", description: "Never overcook again! A digital timer helps you keep track of cooking times precisely. Many young chefs find that timing is one of the most challenging aspects of cooking."}
-            ],
-            
-            // Accessibility features
-            accessibilityFeatures: [
-                {name: 'Text-to-Speech', description: 'Reads website content aloud when hovering over elements'},
-                {name: 'Language Options', description: 'Supports English, Spanish, Chinese, French, Hindi, and Russian'},
-                {name: 'Font Options', description: 'Includes dyslexic-friendly Comic Sans font option'},
-                {name: 'High Contrast Mode', description: 'Enhances visibility with high contrast colors'},
-                {name: 'Adjustable Text Size', description: 'Allows users to increase text size for better readability'}
-            ],
-            
-            // Recipe finder functionality
-            recipeFinder: {
-                description: 'Interactive tool that asks users about ingredients they have and recommends recipes that match at least 60% of those ingredients',
-                commonIngredients: ['Flour', 'Sugar', 'Salt', 'Pepper', 'Eggs', 'Milk', 'Butter', 'Cheese', 'Chicken', 'Beef', 'Pork', 'Fish', 'Rice', 'Pasta', 'Potatoes', 'Onions', 'Garlic', 'Tomatoes', 'Carrots', 'Spinach', 'Lettuce', 'Broccoli', 'Bell peppers', 'Mushrooms', 'Bread', 'Olive oil', 'Vegetable oil', 'Vinegar', 'Soy sauce', 'Ketchup']
-            },
-            
-            // Skill level assessment
-            skillLevels: [
-                {name: 'Beginner', description: 'Simple recipes with few ingredients and basic techniques'},
-                {name: 'Intermediate', description: 'More complex recipes with additional ingredients and techniques'},
-                {name: 'Master', description: 'Advanced recipes requiring multiple steps and specialized techniques'}
-            ]
-        };
+    <div class="arrow" id="scroll-arrow"></div>
 
-        function toggleChatbot() {
-            const window = document.getElementById('chatbot-window');
-            chatbotOpen = !chatbotOpen;
-            
-            if (chatbotOpen) {
-                window.classList.add('open');
-            } else {
-                window.classList.remove('open');
-            }
-        }
-
-        async function sendChatMessage(event) {
-            event.preventDefault();
-            
-            const input = document.getElementById('chatbot-input');
-            const sendButton = document.getElementById('chatbot-send');
-            const messagesContainer = document.getElementById('chatbot-messages');
-            
-            const message = input.value.trim();
-            if (!message) return;
-            
-            // Clear welcome message if it's the first message
-            if (chatMessages.length === 0) {
-                messagesContainer.innerHTML = '';
-            }
-            
-            // Add user message
-            addChatMessage('user', message);
-            input.value = '';
-            sendButton.disabled = true;
-            
-            // Add loading indicator
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'chatbot-message assistant';
-            loadingDiv.innerHTML = '<div class="chatbot-loading"><div class="chatbot-loading-dot"></div><div class="chatbot-loading-dot"></div><div class="chatbot-loading-dot"></div></div>';
-            messagesContainer.appendChild(loadingDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            
-            try {
-                // Get AI response
-                const response = await getAIResponse(message);
-                
-                // Remove loading indicator
-                messagesContainer.removeChild(loadingDiv);
-                
-                // Add AI response
-                addChatMessage('assistant', response);
-            } catch (error) {
-                console.error('Error getting AI response:', error);
-                
-                // Remove loading indicator
-                messagesContainer.removeChild(loadingDiv);
-                addChatMessage('assistant', "I can't solve this problem. Please visit the Questions page to submit your question.");
-            }
-            
-            sendButton.disabled = false;
-        }
-
-        function addChatMessage(role, content) {
-            const messagesContainer = document.getElementById('chatbot-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chatbot-message ${role}`;
-            messageDiv.textContent = content;
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            
-            chatMessages.push({ role, content });
-        }
-
-        // Smart recipe finder function with fuzzy matching
-        function findRecipeByQuery(query) {
-            const normalizedQuery = query.toLowerCase().trim();
-            
-            // Direct match by name or alias
-            for (const recipe of websiteKnowledge.recipes) {
-                if (recipe.name.toLowerCase() === normalizedQuery) {
-                    return recipe;
-                }
-                
-                for (const alias of recipe.aliases) {
-                    if (alias.toLowerCase() === normalizedQuery) {
-                        return recipe;
-                    }
-                }
-            }
-            
-            // Partial match by name or alias
-            for (const recipe of websiteKnowledge.recipes) {
-                if (recipe.name.toLowerCase().includes(normalizedQuery)) {
-                    return recipe;
-                }
-                
-                for (const alias of recipe.aliases) {
-                    if (alias.toLowerCase().includes(normalizedQuery)) {
-                        return recipe;
-                    }
-                }
-            }
-            
-            // Word-based matching
-            const queryWords = normalizedQuery.split(' ');
-            for (const recipe of websiteKnowledge.recipes) {
-                const recipeText = (recipe.name + ' ' + recipe.aliases.join(' ')).toLowerCase();
-                
-                if (queryWords.every(word => recipeText.includes(word))) {
-                    return recipe;
-                }
-            }
-            
-            return null;
-        }
-
-        async function getAIResponse(userMessage) {
-            const query = userMessage.toLowerCase();
-            
-            // Try to extract name if user introduces themselves
-            if (query.match(/my name is|i am|i'm|call me/) && query.length < 40) {
-                const nameMatch = query.match(/my name is (\w+)|i am (\w+)|i'm (\w+)|call me (\w+)/i);
-                if (nameMatch) {
-                    const extractedName = nameMatch[1] || nameMatch[2] || nameMatch[3] || nameMatch[4];
-                    if (extractedName && extractedName.length > 1) {
-                        userName = extractedName.charAt(0).toUpperCase() + extractedName.slice(1);
-                        return `Nice to meet you, ${userName}! I'm the Edible Assistant. How can I help with your cooking adventures today?`;
-                    }
-                }
-            }
-            
-            // SMALL TALK RESPONSES
-            
-            // Greetings
-            if (query.match(/^(hi|hello|hey|howdy|hola|greetings).{0,10}$/i)) {
-                const greetings = [
-                    `Hello${userName ? ', ' + userName : ''}! How can I help with your culinary adventures today?`,
-                    `Hi there${userName ? ', ' + userName : ''}! Ready to cook something delicious?`,
-                    `Hey${userName ? ' ' + userName : ''}! What kind of recipe are you looking for today?`,
-                    `Welcome to Edible${userName ? ', ' + userName : ''}! I'm here to help with all your cooking questions.`
-                ];
-                return greetings[Math.floor(Math.random() * greetings.length)];
-            }
-            
-            // Thanks/Gratitude
-            if (query.match(/^(thanks|thank you|thx|ty|appreciate).{0,15}$/i)) {
-                const thanks = [
-                    `You're welcome${userName ? ', ' + userName : ''}! Happy cooking!`,
-                    `Anytime! Let me know if you need anything else.`,
-                    `My pleasure! Don't hesitate to ask if you have more questions.`,
-                    `Glad I could help! Enjoy your culinary adventures!`
-                ];
-                return thanks[Math.floor(Math.random() * thanks.length)];
-            }
-            
-            // How are you
-            if (query.match(/how are you|how('s| is) it going|what('s| is) up|how('s| is) your day/i)) {
-                const howAreYou = [
-                    `I'm cooking up a storm! How can I help you in the kitchen today?`,
-                    `I'm great, thanks for asking! Ready to talk recipes and cooking tips!`,
-                    `I'm simmering with excitement to help with your cooking questions!`,
-                    `All whisked up and ready to help! What would you like to cook today?`
-                ];
-                return howAreYou[Math.floor(Math.random() * howAreYou.length)];
-            }
-            
-            // Goodbye
-            if (query.match(/^(bye|goodbye|see you|farewell|cya).{0,10}$/i)) {
-                const goodbyes = [
-                    `Goodbye${userName ? ', ' + userName : ''}! Come back when you're ready for more culinary adventures!`,
-                    `See you later! Remember, the kitchen is always open!`,
-                    `Until next time! Happy cooking!`,
-                    `Bye for now! Can't wait to help with your next recipe!`
-                ];
-                return goodbyes[Math.floor(Math.random() * goodbyes.length)];
-            }
-            
-            // Who are you
-            if (query.match(/who are you|what are you|what('s| is) your name|tell me about yourself/i)) {
-                return "I'm the Edible Assistant, your culinary companion! I'm here to help young chefs navigate our website, find recipes, learn cooking techniques, and answer food-related questions. I know all 100+ recipes on our platform and can guide you through our features like the Recipe Finder. How can I help you cook up something amazing today?";
-            }
-            
-            // Jokes
-            if (query.match(/tell (me a )?joke|know any jokes|be funny/i)) {
-                const jokes = [
-                    "Why did the tomato turn red? Because it saw the salad dressing!",
-                    "What do you call a fake noodle? An impasta!",
-                    "Why don't eggs tell jokes? They'd crack each other up!",
-                    "What's a chef's favorite type of music? Wok and roll!",
-                    "Why did the cookie go to the doctor? Because it was feeling crumby!",
-                    "What do you call a sad coffee? A depresso!",
-                    "Why couldn't the sesame seed leave the casino? Because it was on a roll!"
-                ];
-                return jokes[Math.floor(Math.random() * jokes.length)];
-            }
-            
-            // Opinions on food
-            if (query.match(/what('s| is) your favorite|do you like|what do you think about|opinion on/i)) {
-                if (query.includes('recipe') || query.includes('dish') || query.includes('food')) {
-                    return "As a culinary assistant, I appreciate all recipes! But I'm particularly fond of dishes that bring people together and help young chefs build confidence in the kitchen. The Edible platform has so many wonderful options - from simple Grilled Cheese for beginners to impressive Chicken Biryani for master chefs. What kinds of recipes do you enjoy cooking?";
-                }
-                
-                if (query.includes('cuisine')) {
-                    return "Each cuisine has its own special qualities! Mexican cuisine has vibrant flavors, Italian focuses on quality ingredients, Indian has complex spices, Chinese has amazing techniques, and French has elegant traditions. Our website features recipes from all these cuisines so young chefs can explore global flavors. Do you have a favorite cuisine you'd like to explore?";
-                }
-                
-                // Check for specific foods
-                const foods = [
-                    {terms: ['pizza', 'pizzas'], response: "Pizza is amazing! It's like a blank canvas for creativity in the kitchen. Our Margherita Pizza recipe is perfect for young chefs to customize with their favorite toppings. Would you like me to tell you more about our pizza recipes?"},
-                    {terms: ['pasta', 'spaghetti', 'noodle'], response: "Pasta dishes are wonderful for young chefs! They're versatile, satisfying, and fun to make. We have several pasta recipes from simple Fettuccine Alfredo to more complex Lasagna. Would you like to see some pasta recipes?"},
-                    {terms: ['chocolate', 'dessert', 'sweet', 'cake', 'cookie'], response: "Desserts are a delightful way to learn baking skills! From our simple Chocolate Chip Cookies to more advanced Soufflé au Chocolat, sweet treats teach important techniques like measuring and temperature control. Would you like to explore some dessert recipes?"},
-                    {terms: ['vegetable', 'veggie', 'vegetarian', 'vegan'], response: "Vegetables are the stars of many delicious dishes! Learning to prepare vegetables in tasty ways is an important skill for young chefs. We have recipes like Ratatouille, Vegetable Lo Mein, and Caprese Salad that showcase fresh produce. Would you like to see some vegetable-focused recipes?"}
-                ];
-                
-                for (const food of foods) {
-                    if (food.terms.some(term => query.includes(term))) {
-                        return food.response;
-                    }
-                }
-                
-                // Generic opinion response
-                return "That's an interesting question! While I'm focused on helping with cooking and recipes, I'd love to hear your thoughts on that. Is there a specific recipe or cooking technique you'd like to learn more about?";
-            }
-            
-            // How to become a chef
-            if (query.match(/how (to|do i|can i) (become|be) a chef|chef career|culinary school/i)) {
-                return "Becoming a chef starts with curiosity and practice! Young chefs can:\n\n1. Start with simple recipes and gradually try more complex ones\n2. Learn basic techniques like knife skills, measuring, and following recipes\n3. Experiment with different ingredients and flavors\n4. Cook regularly and keep a journal of what works\n5. Take cooking classes when possible\n\nOur website is designed to help young chefs build skills progressively from Beginner to Master level recipes. The most important thing is to have fun while learning!";
-            }
-            
-            // SMART RECIPE INFERENCE
-            
-            // Check for recipe requests with smart inference
-            if (query.includes('recipe') || query.includes('how to make') || query.includes('cook') || query.includes('prepare')) {
-                // Extract potential recipe name from query
-                let recipeQuery = query;
-                
-                // Remove common phrases to isolate recipe name
-                recipeQuery = recipeQuery.replace(/recipe for|how to make|how to cook|how do i make|how do i cook|tell me about|what is|show me|give me|i want|can you|recipe/gi, '').trim();
-                
-                // Try to find the recipe
-                const foundRecipe = findRecipeByQuery(recipeQuery);
-                
-                if (foundRecipe) {
-                    return `${foundRecipe.name} (${foundRecipe.skillLevel} level):\n\n${foundRecipe.description}\n\nIngredients:\n${foundRecipe.ingredients.map(ing => `• ${ing}`).join('\n')}\n\nInstructions:\n${foundRecipe.instructions.map((step, i) => `${i+1}. ${step}`).join('\n')}\n\nYou can find this recipe in the Recipes section!`;
-                }
-            }
-            
-            // Check for specific recipe inquiries without "recipe" keyword
-            const foundRecipe = findRecipeByQuery(query);
-            if (foundRecipe) {
-                return `${foundRecipe.name} (${foundRecipe.skillLevel} level):\n\n${foundRecipe.description}\n\nIngredients:\n${foundRecipe.ingredients.map(ing => `• ${ing}`).join('\n')}\n\nInstructions:\n${foundRecipe.instructions.map((step, i) => `${i+1}. ${step}`).join('\n')}\n\nYou can find this recipe in the Recipes section!`;
-            }
-            
-            // Function to find recipes by various criteria
-            function findRecipes(criteria) {
-                return websiteKnowledge.recipes.filter(criteria);
-            }
-            
-            // Function to format recipe list
-            function formatRecipeList(recipes, limit = 5) {
-                if (recipes.length === 0) return "I couldn't find any recipes matching your criteria.";
-                
-                const limitedRecipes = recipes.slice(0, limit);
-                return `Here are some recipes you might like:\n\n${limitedRecipes.map(recipe => 
-                    `• ${recipe.name}: ${recipe.description} (${recipe.skillLevel})`
-                ).join('\n\n')}`;
-            }
-            
-            // Check for recipe requests by skill level
-            if (query.includes('beginner') && (query.includes('recipe') || query.includes('dish') || query.includes('make'))) {
-                const beginnerRecipes = findRecipes(r => r.skillLevel === 'Beginner');
-                return `Great choice for starting out! Here are some beginner-friendly recipes:\n\n${formatRecipeList(beginnerRecipes)}`;
-            }
-            
-            if (query.includes('intermediate') && (query.includes('recipe') || query.includes('dish') || query.includes('make'))) {
-                const intermediateRecipes = findRecipes(r => r.skillLevel === 'Intermediate');
-                return `Ready for a bit more challenge? Here are some intermediate recipes:\n\n${formatRecipeList(intermediateRecipes)}`;
-            }
-            
-            if ((query.includes('master') || query.includes('advanced')) && (query.includes('recipe') || query.includes('dish') || query.includes('make'))) {
-                const masterRecipes = findRecipes(r => r.skillLevel === 'Master');
-                return `For experienced young chefs! Here are some advanced recipes:\n\n${formatRecipeList(masterRecipes)}`;
-            }
-            
-            // Check for cuisine-specific requests
-            if (query.includes('mexican') && (query.includes('recipe') || query.includes('dish') || query.includes('food'))) {
-                const mexicanRecipes = findRecipes(r => 
-                    ['taco', 'enchiladas', 'pozole', 'tamales', 'sopes', 'chiles-rellenos', 'guacamole', 'fajitas', 'tostadas'].includes(r.id)
-                );
-                return `¡Delicioso! Here are some Mexican recipes:\n\n${formatRecipeList(mexicanRecipes)}`;
-            }
-            
-            if (query.includes('chinese') && (query.includes('recipe') || query.includes('dish') || query.includes('food'))) {
-                const chineseRecipes = findRecipes(r => 
-                    ['kung-pao-chicken', 'sweet-sour-pork', 'mapo-tofu', 'fried-rice', 'spring-rolls', 'char-siu', 'dumplings', 'beef-broccoli', 'lo-mein'].includes(r.id)
-                );
-                return `Here are some delicious Chinese recipes:\n\n${formatRecipeList(chineseRecipes)}`;
-            }
-            
-            if (query.includes('indian') && (query.includes('recipe') || query.includes('dish') || query.includes('food'))) {
-                const indianRecipes = findRecipes(r => 
-                    ['butter-chicken', 'palak-paneer', 'biryani', 'dal-tadka', 'samosa', 'tandoori-chicken', 'chole', 'naan', 'pav-bhaji', 'gulab-jamun'].includes(r.id)
-                );
-                return `Here are some flavorful Indian recipes:\n\n${formatRecipeList(indianRecipes)}`;
-            }
-            
-            if (query.includes('italian') && (query.includes('recipe') || query.includes('dish') || query.includes('food'))) {
-                const italianRecipes = findRecipes(r => 
-                    ['spaghetti-carbonara', 'margherita-pizza', 'lasagna', 'risotto-alla-milanese', 'bruschetta', 'fettuccine-alfredo', 'caprese-salad', 'osso-buco', 'panna-cotta', 'tiramisu'].includes(r.id)
-                );
-                return `Buon appetito! Here are some Italian recipes:\n\n${formatRecipeList(italianRecipes)}`;
-            }
-            
-            if (query.includes('french') && (query.includes('recipe') || query.includes('dish') || query.includes('food'))) {
-                const frenchRecipes = findRecipes(r => 
-                    ['coq-au-vin', 'quiche-lorraine', 'bouillabaisse', 'croque-monsieur', 'souffle-au-chocolat', 'boeuf-bourguignon', 'tarte-tatin', 'crepes', 'madeleines'].includes(r.id)
-                );
-                return `Bon appétit! Here are some French recipes:\n\n${formatRecipeList(frenchRecipes)}`;
-            }
-            
-            // Check for breakfast recipes
-            if (query.includes('breakfast') && (query.includes('recipe') || query.includes('dish') || query.includes('make'))) {
-                const breakfastRecipes = findRecipes(r => 
-                    ['pancakes', 'french-toast', 'scrambled-eggs', 'avocado-toast', 'breakfast-burrito', 'smoothie-bowl', 'omelette', 'breakfast-parfait', 'eggs-benedict', 'breakfast-pizza', 'hash-browns', 'shakshuka', 'waffles'].includes(r.id)
-                );
-                return `Start your day right with these breakfast recipes:\n\n${formatRecipeList(breakfastRecipes)}`;
-            }
-            
-            // Check for dessert recipes
-            if ((query.includes('dessert') || query.includes('sweet') || query.includes('cake') || query.includes('cookie')) && (query.includes('recipe') || query.includes('dish') || query.includes('make'))) {
-                const dessertRecipes = findRecipes(r => 
-                    ['cookies', 'brownies', 'cheesecake', 'cupcakes', 'ice-cream', 'banana-bread', 'carrot-cake', 'donuts', 'churros', 'tiramisu', 'panna-cotta', 'souffle-au-chocolat', 'tarte-tatin', 'madeleines', 'gulab-jamun', 'flan'].includes(r.id)
-                );
-                return `Satisfy your sweet tooth with these dessert recipes:\n\n${formatRecipeList(dessertRecipes)}`;
-            }
-            
-            // Check for filtering/search questions
-            if (query.includes('filter') || query.includes('search') || query.includes('find recipe')) {
-                return "To filter or search for recipes on our website:\n\n1. Go to the Recipes section\n2. Use the search bar to search by name or description\n3. Click the filter button (≡) to open the filter sidebar\n4. Filter by skill level: Beginner, Intermediate, or Master\n5. Check ingredients you have or want to use\n6. Sort by name, difficulty, or ingredient count\n7. Click 'Apply Filters' to see your results";
-            }
-            
-            // Check for recipe finder questions
-            if (query.includes('recipe finder') || query.includes('ingredient survey') || query.includes('what can i make')) {
-                return "Our Recipe Finder helps you discover recipes based on ingredients you have:\n\n1. Click 'Recipe Finder' in the navigation\n2. Answer yes/no for each ingredient in the survey\n3. After answering about 20 common ingredients, click 'Find Recipes'\n4. We'll show you recipes that match at least 60% of your ingredients\n\nIt's a great way to use what you already have in your kitchen!";
-            }
-            
-            // Check for cooking tips questions
-            if (query.includes('cooking tip') || query.includes('kitchen tip') || query.includes('how to cook')) {
-                const tipsList = websiteKnowledge.cookingTips.map(tip => `• ${tip.title}: ${tip.content}`).join('\n\n');
-                return `Here are some helpful cooking tips for young chefs:\n\n${tipsList}\n\nYou can find more detailed tips in our Cooking Tips section!`;
-            }
-            
-            // Check for cooking equipment questions
-            if (query.includes('equipment') || query.includes('tools') || query.includes('utensils')) {
-                const equipmentList = websiteKnowledge.cookingEquipment.map(eq => `• ${eq.name}: ${eq.description}`).join('\n\n');
-                return `Here are the top 5 essential cooking tools for young chefs:\n\n${equipmentList}\n\nYou can find more details in our featured article in the Cooking Tips section!`;
-            }
-            
-            // Check for accessibility questions
-            if (query.includes('accessibility') || query.includes('a11y') || query.includes('disability')) {
-                const accessibilityList = websiteKnowledge.accessibilityFeatures.map(feature => `• ${feature.name}: ${feature.description}`).join('\n\n');
-                return `Our website has several accessibility features:\n\n${accessibilityList}\n\nYou can access these features by clicking the A11Y button in the bottom right corner of the screen.`;
-            }
-            
-            // Check for language questions
-            if (query.includes('language') || query.includes('translate') || query.includes('español') || query.includes('chinese')) {
-                return "Edible supports multiple languages! You can change the language using the dropdown in the top-right corner. We currently support:\n\n• English\n• Español (Spanish)\n• 中文 (Chinese)\n• Français (French)\n• हिन्दी (Hindi)\n• Русский (Russian)\n\nThis makes our recipes accessible to young chefs around the world!";
-            }
-            
-            // Check for skill level questions
-            if (query.includes('skill level') || query.includes('difficulty') || query.includes('beginner') || query.includes('intermediate') || query.includes('master')) {
-                return "Our recipes are categorized into three skill levels:\n\n• Beginner: Simple recipes with few ingredients (3 or fewer) and basic techniques, perfect for first-time cooks\n\n• Intermediate: More complex recipes with 4-6 ingredients and moderate techniques, good for those with some cooking experience\n\n• Master: Advanced recipes with 7+ ingredients and complex techniques, for experienced young chefs\n\nYou can filter recipes by skill level in the Recipes section!";
-            }
-            
-            // Check for website navigation questions
-            if (query.includes('website') || query.includes('navigate') || query.includes('find') || query.includes('where')) {
-                const sectionsList = websiteKnowledge.sections.map(section => `• ${section.name}: ${section.description}`).join('\n\n');
-                return `The Edible website has these main sections:\n\n${sectionsList}\n\nYou can navigate between these sections using the buttons in the navigation bar at the top of the page.`;
-            }
-            
-            // Check for questions about the quiz
-            if (query.includes('quiz') || query.includes('survey') || query.includes('test')) {
-                return "Edible has two interactive quizzes:\n\n1. Cooking Experience Survey: 5 questions about your cooking experience and preferences that recommends recipes based on your skill level\n\n2. Food Knowledge Quiz: 15 questions testing your culinary knowledge with topics ranging from ingredient origins to cooking techniques\n\nBoth quizzes help personalize your experience on our website!";
-            }
-            
-            // Default response for unrecognized queries
-            return "I can't solve this problem. Please visit the Questions page to submit your question.";
-        }
-
-        // Close chatbot when clicking outside
-        document.addEventListener('click', function(event) {
-            const chatbot = document.querySelector('.edible-chatbot');
-            const window = document.getElementById('chatbot-window');
-            
-            if (chatbotOpen && !chatbot.contains(event.target)) {
-                window.classList.remove('open');
-                chatbotOpen = false;
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
