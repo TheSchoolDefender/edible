@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,6 +15,263 @@
 
     <!-- Link to external JavaScript file -->
     <script src="script.js" defer></script>
+
+    <!-- Chatbot Styles -->
+    <style>
+        .edible-chatbot {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .chatbot-toggle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFC72C 0%, #CE0037 100%);
+            border: 3px solid #fff;
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .chatbot-window {
+            position: fixed;
+            top: 110px;
+            left: 20px;
+            width: 350px;
+            height: 500px;
+            background: rgba(0, 59, 92, 0.95);
+            border-radius: 15px;
+            border: 2px solid #FFC72C;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+
+        .chatbot-window.open {
+            display: flex;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #FFC72C 0%, #CE0037 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 13px 13px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .chatbot-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chatbot-message {
+            max-width: 80%;
+            padding: 10px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .chatbot-message.user {
+            background: linear-gradient(135deg, #FFC72C 0%, #CE0037 100%);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chatbot-message.assistant {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chatbot-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255, 199, 44, 0.3);
+        }
+
+        .chatbot-input-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #FFC72C;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+        }
+
+        .chatbot-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .chatbot-input:focus {
+            outline: none;
+            border-color: #CE0037;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .chatbot-send {
+            background: linear-gradient(135deg, #FFC72C 0%, #CE0037 100%);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .chatbot-send:hover {
+            transform: scale(1.05);
+        }
+
+        .chatbot-send:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .chatbot-welcome {
+            text-align: center;
+            color: #FFC72C;
+            padding: 20px;
+        }
+
+        .chatbot-welcome h4 {
+            margin: 0 0 10px 0;
+            color: #FFC72C;
+        }
+
+        .chatbot-welcome p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .chatbot-examples {
+            background: rgba(255, 199, 44, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .chatbot-examples strong {
+            color: #FFC72C;
+        }
+
+        .chatbot-loading {
+            display: flex;
+            gap: 4px;
+            padding: 10px 12px;
+        }
+
+        .chatbot-loading-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #FFC72C;
+            animation: loadingBounce 1.4s infinite ease-in-out;
+        }
+
+        .chatbot-loading-dot:nth-child(1) { animation-delay: -0.32s; }
+        .chatbot-loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes loadingBounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .chatbot-window {
+                width: calc(100vw - 40px);
+                height: 400px;
+                top: 110px;
+                left: 20px;
+                right: 20px;
+            }
+            
+            .chatbot-toggle {
+                width: 70px;
+                height: 70px;
+                font-size: 11px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="particles-js"></div>
@@ -264,6 +522,48 @@
             <!-- Selected recipe will be displayed here -->
         </div>
     </div>
+
+    <!-- Edible AI Chatbot -->
+    <div class="edible-chatbot">
+        <button class="chatbot-toggle" onclick="toggleChatbot()">
+            CHAT
+        </button>
+        
+        <div class="chatbot-window" id="chatbot-window">
+            <div class="chatbot-header">
+                <h3>🍳 Edible Assistant</h3>
+                <button class="chatbot-close" onclick="toggleChatbot()">&times;</button>
+            </div>
+            
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="chatbot-welcome">
+                    <h4>Welcome to Edible! 👨‍🍳</h4>
+                    <p>I know all 100+ recipes, cooking tips, and can help you navigate our platform!</p>
+                    <div class="chatbot-examples">
+                        <strong>Try asking:</strong><br>
+                        • "What beginner recipes do you have?"<br>
+                        • "Show me Mexican dishes"<br>
+                        • "How do I filter recipes?"<br>
+                        • "Tell me about Butter Chicken"
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chatbot-input-area">
+                <form class="chatbot-input-form" onsubmit="sendChatMessage(event)">
+                    <input 
+                        type="text" 
+                        class="chatbot-input" 
+                        id="chatbot-input"
+                        placeholder="Ask about recipes, cooking tips..."
+                        required
+                    >
+                    <button type="submit" class="chatbot-send" id="chatbot-send">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <button class="accessibility-button" onclick="toggleAccessibilityMenu()" aria-label="Accessibility Options">
         A11Y
         <span class="sr-only">Accessibility Options</span>
@@ -316,5 +616,136 @@
 
     <div class="arrow"></div>
     <div id="google_translate_element" style="display:none;"></div>
+
+    <!-- Chatbot JavaScript -->
+    <script>
+        let chatbotOpen = false;
+        let chatMessages = [];
+
+        function toggleChatbot() {
+            const window = document.getElementById('chatbot-window');
+            chatbotOpen = !chatbotOpen;
+            
+            if (chatbotOpen) {
+                window.classList.add('open');
+            } else {
+                window.classList.remove('open');
+            }
+        }
+
+        async function sendChatMessage(event) {
+            event.preventDefault();
+            
+            const input = document.getElementById('chatbot-input');
+            const sendButton = document.getElementById('chatbot-send');
+            const messagesContainer = document.getElementById('chatbot-messages');
+            
+            const message = input.value.trim();
+            if (!message) return;
+            
+            // Clear welcome message if it's the first message
+            if (chatMessages.length === 0) {
+                messagesContainer.innerHTML = '';
+            }
+            
+            // Add user message
+            addChatMessage('user', message);
+            input.value = '';
+            sendButton.disabled = true;
+            
+            // Add loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'chatbot-message assistant';
+            loadingDiv.innerHTML = '<div class="chatbot-loading"><div class="chatbot-loading-dot"></div><div class="chatbot-loading-dot"></div><div class="chatbot-loading-dot"></div></div>';
+            messagesContainer.appendChild(loadingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            try {
+                // Simulate AI response (replace with actual API call)
+                const response = await getChatbotResponse(message);
+                
+                // Remove loading indicator
+                messagesContainer.removeChild(loadingDiv);
+                
+                // Add AI response
+                addChatMessage('assistant', response);
+            } catch (error) {
+                // Remove loading indicator
+                messagesContainer.removeChild(loadingDiv);
+                addChatMessage('assistant', "I'm sorry, I'm having trouble connecting right now. For complex questions, please visit the Questions page in the navbar to submit your question directly!");
+            }
+            
+            sendButton.disabled = false;
+        }
+
+        function addChatMessage(role, content) {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chatbot-message ${role}`;
+            messageDiv.textContent = content;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            chatMessages.push({ role, content });
+        }
+
+        async function getChatbotResponse(message) {
+            // This is a simplified response system
+            // In a real implementation, you'd call your AI API here
+            
+            const lowerMessage = message.toLowerCase();
+            
+            // Recipe-related responses
+            if (lowerMessage.includes('recipe') || lowerMessage.includes('cook') || lowerMessage.includes('dish')) {
+                if (lowerMessage.includes('beginner') || lowerMessage.includes('easy')) {
+                    return "Great! For beginners, I recommend starting with simple recipes like:\n\n• Scrambled Eggs\n• Grilled Cheese\n• Fruit Smoothie\n• Avocado Toast\n• Simple Pasta\n\nYou can find these in the Recipes section with the 'Beginner' filter!";
+                }
+                if (lowerMessage.includes('mexican')) {
+                    return "¡Delicioso! We have amazing Mexican recipes:\n\n• Basic Tacos\n• Enchiladas\n• Guacamole\n• Quesadillas\n• Pozole\n\nUse the ingredient filter to find recipes with specific Mexican ingredients!";
+                }
+                if (lowerMessage.includes('dessert') || lowerMessage.includes('sweet')) {
+                    return "Sweet treats coming up! Try these desserts:\n\n• Chocolate Chip Cookies\n• Brownies\n• Banana Bread\n• Vanilla Cupcakes\n• Homemade Ice Cream\n\nPerfect for young bakers!";
+                }
+                if (lowerMessage.includes('butter chicken')) {
+                    return "Butter Chicken is one of our popular Indian recipes! It's an Intermediate level dish with ingredients like chicken, tomato puree, cream, butter, garlic, and garam masala. You'll find the full recipe with step-by-step instructions in our Recipes section!";
+                }
+                return "I know all 100+ recipes on Edible! You can browse them in the Recipes section, use filters by skill level or ingredients, or try our Recipe Finder to get suggestions based on what you have at home. What type of cuisine interests you?";
+            }
+            
+            // Navigation help
+            if (lowerMessage.includes('filter') || lowerMessage.includes('search')) {
+                return "To filter recipes:\n\n1. Go to the Recipes section\n2. Click the filter button (☰) next to the search bar\n3. Choose your skill level (Beginner/Intermediate/Master)\n4. Select ingredients you have\n5. Pick how to sort results\n\nYou can also use the search bar to find specific recipes!";
+            }
+            
+            if (lowerMessage.includes('recipe finder')) {
+                return "The Recipe Finder is perfect for using ingredients you already have! It asks you about 20 common ingredients, then suggests recipes that match at least 60% of what you have. Just click 'Recipe Finder' in the navigation!";
+            }
+            
+            // Cooking tips
+            if (lowerMessage.includes('tip') || lowerMessage.includes('advice') || lowerMessage.includes('help')) {
+                return "Check out our Cooking Tips section for great advice like:\n\n• Knife Skills 101\n• Measuring Ingredients properly\n• Salt as You Go technique\n• Prep Before Cooking (mise en place)\n• Heat Control basics\n\nPlus our featured article on essential cooking equipment!";
+            }
+            
+            // Questions page direction
+            if (lowerMessage.includes('question') || lowerMessage.includes('ask') || lowerMessage.includes('help')) {
+                return "For detailed questions or if you need more help, visit the Questions page in the navbar! You can submit your cooking questions there and get personalized assistance.";
+            }
+            
+            // Default response
+            return "I'm here to help with recipes, cooking tips, and navigating Edible! I know about all our 100+ recipes from different cuisines. Try asking about specific recipes, cooking techniques, or how to use our website features. For complex questions, visit the Questions page!";
+        }
+
+        // Close chatbot when clicking outside
+        document.addEventListener('click', function(event) {
+            const chatbot = document.querySelector('.edible-chatbot');
+            const window = document.getElementById('chatbot-window');
+            
+            if (chatbotOpen && !chatbot.contains(event.target)) {
+                window.classList.remove('open');
+                chatbotOpen = false;
+            }
+        });
+    </script>
 </body>
 </html>
