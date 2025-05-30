@@ -133,6 +133,7 @@
             border-radius: 15px;
             font-size: 14px;
             line-height: 1.4;
+            white-space: pre-wrap;
         }
 
         .chatbot-message.user {
@@ -544,7 +545,8 @@
                         • "What beginner recipes do you have?"<br>
                         • "Show me Mexican dishes"<br>
                         • "How do I filter recipes?"<br>
-                        • "Tell me about Butter Chicken"
+                        • "Tell me about Butter Chicken"<br>
+                        • Or just say "hello" to chat with me!
                     </div>
                 </div>
             </div>
@@ -617,10 +619,161 @@
     <div class="arrow"></div>
     <div id="google_translate_element" style="display:none;"></div>
 
-    <!-- Chatbot JavaScript -->
+    <!-- Chatbot JavaScript with Enhanced Small Talk -->
     <script>
         let chatbotOpen = false;
         let chatMessages = [];
+        let userName = "";
+        
+        // Website knowledge database for the AI
+        const websiteKnowledge = {
+            // All recipes from your JavaScript file
+            recipes: [
+                {id: 'smoothie', name: 'Fruit Smoothie', description: 'Refreshing fruit smoothie', ingredients: ['Banana', 'Berries', 'Yogurt', 'Milk', 'Honey'], instructions: ['Add fruits', 'Add yogurt and milk', 'Blend until smooth', 'Add honey to taste'], skillLevel: 'Beginner'},
+                {id: 'grilled-cheese', name: 'Grilled Cheese', description: 'Classic grilled cheese sandwich', ingredients: ['Bread', 'Cheese', 'Butter'], instructions: ['Butter bread', 'Add cheese', 'Grill until golden'], skillLevel: 'Beginner'},
+                {id: 'scrambled-eggs', name: 'Scrambled Eggs', description: 'Perfect scrambled eggs', ingredients: ['Eggs', 'Milk', 'Salt', 'Pepper', 'Butter'], instructions: ['Beat eggs with milk', 'Heat pan', 'Add eggs', 'Stir until done'], skillLevel: 'Beginner'},
+                {id: 'pasta', name: 'Simple Pasta', description: 'Easy pasta dish', ingredients: ['Pasta', 'Sauce', 'Cheese'], instructions: ['Boil pasta', 'Heat sauce', 'Combine', 'Add cheese'], skillLevel: 'Beginner'},
+                {id: 'taco', name: 'Basic Tacos', description: 'Simple beef tacos', ingredients: ['Tortillas', 'Ground beef', 'Lettuce', 'Cheese', 'Salsa'], instructions: ['Cook beef', 'Warm tortillas', 'Assemble tacos'], skillLevel: 'Intermediate'},
+                {id: 'cookies', name: 'Chocolate Chip Cookies', description: 'Classic chocolate chip cookies', ingredients: ['Flour', 'Sugar', 'Butter', 'Eggs', 'Chocolate chips'], instructions: ['Mix ingredients', 'Make dough balls', 'Bake until golden'], skillLevel: 'Intermediate'},
+                {id: 'hamburger', name: 'Classic Hamburger', description: 'Juicy beef hamburger', ingredients: ['Ground beef', 'Buns', 'Lettuce', 'Tomato', 'Onion'], instructions: ['Form patty', 'Grill beef', 'Assemble burger'], skillLevel: 'Intermediate'},
+                {id: 'steak', name: 'Pan-Seared Steak', description: 'Restaurant quality steak', ingredients: ['Steak', 'Salt', 'Pepper', 'Butter', 'Herbs'], instructions: ['Season steak', 'Heat pan', 'Sear both sides', 'Rest meat'], skillLevel: 'Intermediate'},
+                {id: 'mac-cheese', name: 'Homemade Mac & Cheese', description: 'Creamy macaroni and cheese', ingredients: ['Macaroni', 'Cheddar', 'Milk', 'Butter', 'Flour'], instructions: ['Cook pasta', 'Make cheese sauce', 'Combine', 'Bake until bubbly'], skillLevel: 'Intermediate'},
+                {id: 'pancakes', name: 'Fluffy Pancakes', description: 'Light and fluffy breakfast pancakes', ingredients: ['Flour', 'Milk', 'Eggs', 'Baking powder', 'Sugar'], instructions: ['Mix batter', 'Heat griddle', 'Cook until bubbles form', 'Flip and finish'], skillLevel: 'Beginner'},
+                {id: 'chicken-parm', name: 'Chicken Parmesan', description: 'Classic Italian-American dish', ingredients: ['Chicken breast', 'Breadcrumbs', 'Marinara', 'Mozzarella', 'Parmesan'], instructions: ['Bread chicken', 'Fry until golden', 'Add sauce and cheese', 'Bake until melted'], skillLevel: 'Intermediate'},
+                {id: 'french-toast', name: 'Cinnamon French Toast', description: 'Sweet breakfast classic', ingredients: ['Bread', 'Eggs', 'Milk', 'Cinnamon', 'Vanilla'], instructions: ['Make egg mixture', 'Dip bread', 'Cook until golden', 'Top with syrup'], skillLevel: 'Beginner'},
+                {id: 'fried-chicken', name: 'Fried Chicken', description: 'I would eat this chicken if it was the best thing on earth', ingredients: ['Chicken Breasts', 'Eggs', 'Milk', 'Seasoning', 'Bread Crumbs', 'Oil'], instructions: ['Season chicken', 'Crack the egg and mix with milk', 'Boil Oil and dip the chicken into the sauce and put bread crumbs', 'Put the chicken into the boiling oil and cook'], skillLevel: 'Intermediate'},
+                {id: 'lemonade', name: 'Lemonade Kool-Aid', description: 'Nice Refreshing Beverage', ingredients: ['Kool Aid Powder', 'Water', 'Sugar'], instructions: ['Combine Kool Aid Powder and water', 'Combine sugar as well and serve'], skillLevel: 'Beginner'},
+                {id: 'brownies', name: 'Chocolate Brownies', description: 'Rich and fudgy brownies', ingredients: ['Flour', 'Cocoa powder', 'Butter', 'Sugar', 'Eggs', 'Vanilla'], instructions: ['Mix dry ingredients', 'Add wet ingredients', 'Bake until set'], skillLevel: 'Intermediate'},
+                {id: 'cheesecake', name: 'Classic Cheesecake', description: 'Creamy and smooth cheesecake', ingredients: ['Cream cheese', 'Sugar', 'Eggs', 'Graham crackers', 'Butter', 'Vanilla'], instructions: ['Make crust', 'Mix filling', 'Bake in water bath'], skillLevel: 'Master'},
+                {id: 'cupcakes', name: 'Vanilla Cupcakes', description: 'Soft and moist cupcakes', ingredients: ['Flour', 'Sugar', 'Eggs', 'Butter', 'Milk', 'Vanilla'], instructions: ['Mix batter', 'Fill liners', 'Bake and frost'], skillLevel: 'Intermediate'},
+                {id: 'ice-cream', name: 'Homemade Ice Cream', description: 'No-churn vanilla ice cream', ingredients: ['Heavy cream', 'Condensed milk', 'Vanilla'], instructions: ['Whip cream', 'Fold in condensed milk', 'Freeze until set'], skillLevel: 'Beginner'},
+                {id: 'banana-bread', name: 'Banana Bread', description: 'Moist and flavourful banana bread', ingredients: ['Bananas', 'Flour', 'Sugar', 'Butter', 'Eggs', 'Baking soda'], instructions: ['Mash bananas', 'Mix ingredients', 'Bake until golden'], skillLevel: 'Intermediate'},
+                {id: 'fruit-salad', name: 'Fruit Salad', description: 'Fresh and healthy fruit mix', ingredients: ['Strawberries', 'Blueberries', 'Pineapple', 'Kiwi', 'Honey'], instructions: ['Chop fruits', 'Mix together', 'Drizzle with honey'], skillLevel: 'Beginner'},
+                {id: 'carrot-cake', name: 'Carrot Cake', description: 'Spiced carrot cake with cream cheese frosting', ingredients: ['Flour', 'Carrots', 'Sugar', 'Eggs', 'Cinnamon', 'Cream cheese'], instructions: ['Mix ingredients', 'Bake cake layers', 'Frost with cream cheese frosting'], skillLevel: 'Intermediate'},
+                {id: 'donuts', name: 'Glazed Donuts', description: 'Sweet and fluffy homemade donuts', ingredients: ['Flour', 'Yeast', 'Sugar', 'Eggs', 'Milk', 'Glaze'], instructions: ['Prepare dough', 'Fry donuts', 'Dip in glaze'], skillLevel: 'Master'},
+                {id: 'churros', name: 'Cinnamon Churros', description: 'Crispy churros with cinnamon sugar', ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Cinnamon', 'Oil'], instructions: ['Make dough', 'Pipe and fry', 'Roll in cinnamon sugar'], skillLevel: 'Intermediate'},
+                {id: 'tiramisu', name: 'Tiramisu', description: 'Classic Italian dessert', ingredients: ['Ladyfingers', 'Mascarpone', 'Coffee', 'Cocoa powder', 'Sugar', 'Eggs'], instructions: ['Make coffee mixture', 'Layer ingredients', 'Chill before serving'], skillLevel: 'Master'},
+                {id: 'avocado-toast', name: 'Avocado Toast', description: 'Simple and delicious avocado toast', ingredients: ['Bread', 'Avocado', 'Lemon', 'Salt', 'Pepper'], instructions: ['Toast bread', 'Mash avocado', 'Spread on toast', 'Season with lemon, salt, and pepper'], skillLevel: 'Beginner'},
+                {id: 'breakfast-burrito', name: 'Breakfast Burrito', description: 'Hearty breakfast burrito', ingredients: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Salsa'], instructions: ['Scramble eggs', 'Cook sausage', 'Assemble ingredients in tortilla', 'Roll and serve'], skillLevel: 'Intermediate'},
+                {id: 'smoothie-bowl', name: 'Smoothie Bowl', description: 'Refreshing and healthy smoothie bowl', ingredients: ['Frozen berries', 'Banana', 'Yogurt', 'Granola', 'Chia seeds'], instructions: ['Blend berries, banana, and yogurt', 'Pour into bowl', 'Top with granola and chia seeds'], skillLevel: 'Beginner'},
+                {id: 'omelette', name: 'Vegetable Omelette', description: 'Classic vegetable-stuffed omelette', ingredients: ['Eggs', 'Onion', 'Bell pepper', 'Spinach', 'Cheese'], instructions: ['Whisk eggs', 'Sauté vegetables', 'Cook eggs in pan', 'Add vegetables and fold'], skillLevel: 'Intermediate'},
+                {id: 'breakfast-parfait', name: 'Breakfast Parfait', description: 'Layers of yogurt, granola, and fruit', ingredients: ['Yogurt', 'Granola', 'Berries', 'Honey'], instructions: ['Layer yogurt, granola, and berries in a glass', 'Drizzle with honey'], skillLevel: 'Beginner'},
+                {id: 'eggs-benedict', name: 'Eggs Benedict', description: 'Classic poached eggs with hollandaise sauce', ingredients: ['English muffins', 'Eggs', 'Ham', 'Hollandaise sauce', 'Butter'], instructions: ['Toast muffins', 'Poach eggs', 'Add ham and eggs on muffins', 'Top with hollandaise sauce'], skillLevel: 'Master'},
+                {id: 'breakfast-pizza', name: 'Breakfast Pizza', description: 'Pizza topped with eggs, cheese, and bacon', ingredients: ['Pizza dough', 'Eggs', 'Cheese', 'Bacon', 'Tomato sauce'], instructions: ['Roll out dough', 'Spread tomato sauce', 'Add cheese, bacon, and cracked eggs', 'Bake until set'], skillLevel: 'Intermediate'},
+                {id: 'hash-browns', name: 'Crispy Hash Browns', description: 'Golden, crispy hash browns', ingredients: ['Potatoes', 'Salt', 'Pepper', 'Oil'], instructions: ['Grate potatoes', 'Season with salt and pepper', 'Fry until crispy'], skillLevel: 'Beginner'},
+                {id: 'granola-bars', name: 'Homemade Granola Bars', description: 'Healthy and chewy granola bars', ingredients: ['Oats', 'Honey', 'Peanut butter', 'Dried fruit', 'Nuts'], instructions: ['Mix ingredients', 'Press into pan', 'Chill and slice'], skillLevel: 'Beginner'},
+                {id: 'shakshuka', name: 'Shakshuka', description: 'Spicy eggs poached in tomato sauce', ingredients: ['Eggs', 'Tomatoes', 'Onion', 'Garlic', 'Spices'], instructions: ['Sauté onion and garlic', 'Add tomatoes and spices', 'Crack eggs into sauce', 'Cook until eggs set'], skillLevel: 'Intermediate'},
+                {id: 'waffles', name:'Waffles', description: 'Fluffy on the inside and crispy on the outside', ingredients: ['Flour', 'Eggs', 'Butter', 'Sugar', 'Milk'], instructions: ['Mix all the ingredients','Open waffle maker and poor the mixture', 'Once finished,grab our waffle out of the waffle maker and enjoy'], skillLevel: 'Beginner'},
+                {id: 'fried-rice', name: 'Fried Rice', description: 'Quick stir-fried rice', ingredients: ['Rice', 'Vegetables', 'Soy sauce', 'Eggs', 'Garlic'], instructions: ['Cook rice', 'Stir-fry vegetables', 'Add rice and sauce'], skillLevel: 'Intermediate'},
+                {id: 'garlic-shrimp', name: 'Garlic Shrimp', description: 'Garlic-flavored shrimp', ingredients: ['Shrimp', 'Garlic', 'Butter', 'Lemon', 'Parsley'], instructions: ['Sauté garlic', 'Add shrimp', 'Cook until pink'], skillLevel: 'Intermediate'},
+                {id: 'meatballs', name: 'Spaghetti and Meatballs', description: 'Classic spaghetti with meatballs', ingredients: ['Spaghetti', 'Ground beef', 'Tomato sauce', 'Garlic', 'Parmesan'], instructions: ['Form meatballs', 'Cook spaghetti', 'Simmer meatballs in sauce'], skillLevel: 'Intermediate'},
+                {id: 'bbq-ribs', name: 'BBQ Ribs', description: 'Tender BBQ ribs', ingredients: ['Ribs', 'BBQ sauce', 'Spices'], instructions: ['Season ribs', 'Grill or bake with sauce'], skillLevel: 'Beginner'},
+                {id: 'blueberry-muffins', name: 'Blueberry Muffins', description: 'Soft and fluffy muffins filled with blueberries', ingredients: ['Flour', 'Sugar', 'Blueberries', 'Egg', 'Baking Powder'], instructions: ['Mix ingredients', 'Fill muffin tin', 'Bake until golden'], skillLevel: 'Intermediate'},
+                {id: 'corn-on-the-cob', name: 'Corn on the Cob', description: 'Sweet and juicy corn boiled or grilled to perfection', ingredients: ['Corn', 'Butter', 'Salt', 'Water'], instructions: ['Boil or grill corn', 'Spread butter on top', 'Sprinkle with salt and serve'], skillLevel: 'Beginner'},
+                {id: 'baked-potatoes', name: 'Baked Potatoes', description: 'Fluffy potatoes with a crispy skin, perfect with toppings', ingredients: ['Potatoes', 'Butter', 'Salt', 'Sour Cream', 'Cheese'], instructions: ['Bake potatoes until tender', 'Cut open and add butter', 'Top with sour cream and cheese'], skillLevel: 'Beginner'},
+                {id: 'greek-salad', name: 'Greek Salad', description: 'A refreshing salad with cucumbers, tomatoes, and feta cheese', ingredients: ['Cucumber', 'Tomato', 'Feta Cheese', 'Olives', 'Olive Oil'], instructions: ['Chop vegetables', 'Add feta and olives', 'Drizzle with olive oil and serve'], skillLevel: 'Beginner'},
+                {id: 'ratatouille', name: 'Ratatouille', description: 'A colorful French vegetable dish baked to perfection', ingredients: ['Zucchini', 'Eggplant', 'Tomato', 'Bell Pepper', 'Olive Oil'], instructions: ['Slice vegetables', 'Layer in a baking dish', 'Drizzle with olive oil and bake'], skillLevel: 'Intermediate'},
+                {id: 'miso-soup', name: 'Miso Soup', description: 'A light and savory Japanese soup with tofu and seaweed', ingredients: ['Miso Paste', 'Tofu', 'Green Onion', 'Seaweed', 'Dashi'], instructions: ['Dissolve miso in dashi', 'Add tofu and seaweed', 'Simmer and serve'], skillLevel: 'Beginner'},
+                {id: 'enchiladas', name: 'Chicken Enchiladas', description: 'Cheesy and saucy enchiladas', ingredients: ['Tortillas', 'Chicken', 'Cheese', 'Enchilada sauce', 'Sour cream'], instructions: ['Cook chicken', 'Fill tortillas with chicken and cheese', 'Roll and place in dish', 'Top with enchilada sauce and more cheese', 'Bake until bubbly'], skillLevel: 'Intermediate'},
+                {id: 'pozole', name: 'Red Pozole', description: 'Traditional Mexican soup with hominy and pork', ingredients: ['Pork', 'Hominy', 'Red chiles', 'Onion', 'Garlic', 'Spices'], instructions: ['Cook pork until tender', 'Prepare red chile sauce', 'Combine with hominy and spices', 'Simmer until flavours meld', 'Serve with toppings like cabbage and lime'], skillLevel: 'Master'},
+                {id: 'tamales', name: 'Tamales', description: 'Classic corn dough with savoury fillings', ingredients: ['Corn husks', 'Masa harina', 'Lard', 'Chicken', 'Salsa'], instructions: ['Soak corn husks', 'Prepare masa', 'Fill husks with masa and chicken salsa', 'Steam until cooked'], skillLevel: 'Master'},
+                {id: 'sopes', name: 'Sopes', description: 'Thick corn dough topped with beans and meat', ingredients: ['Masa harina', 'Beans', 'Meat', 'Lettuce', 'Cheese', 'Salsa'], instructions: ['Shape masa into thick discs', 'Cook on griddle', 'Top with beans, meat, and toppings'], skillLevel: 'Intermediate'},
+                {id: 'chiles-rellenos', name: 'Chiles Rellenos', description: 'Stuffed poblano peppers in tomato sauce', ingredients: ['Poblano peppers', 'Cheese', 'Eggs', 'Tomato sauce', 'Flour'], instructions: ['Roast and peel peppers', 'Stuff with cheese', 'Dip in egg batter and fry', 'Serve with tomato sauce'], skillLevel: 'Master'},
+                {id: 'guacamole', name: 'Guacamole', description: 'Creamy avocado dip', ingredients: ['Avocado', 'Tomato', 'Onion', 'Lime', 'Cilantro', 'Salt'], instructions: ['Mash avocados', 'Mix in diced tomatoes, onions, and lime juice', 'Season and serve'], skillLevel: 'Beginner'},
+                {id: 'flan', name: 'Flan', description: 'Sweet fried dumplings soaked in sugar syrup', ingredients: ['Milk powder', 'Flour', 'Sugar', 'Cardamom', 'Ghee'], instructions: ['Make dough', 'Shape and fry dumplings', 'Soak in sugar syrup', 'Serve warm'], skillLevel: 'Intermediate'},
+                {id: 'mole', name: 'Chicken Mole', description: 'Rich and flavourful chocolate-based sauce', ingredients: ['Chicken', 'Mole paste', 'Chicken broth', 'Chocolate', 'Tortillas'], instructions: ['Cook chicken', 'Prepare mole sauce with broth and chocolate', 'Simmer chicken in sauce', 'Serve with tortillas'], skillLevel: 'Master'},
+                {id: 'fajitas', name: 'Beef Fajitas', description: 'Sizzling beef with vegetables', ingredients: ['Beef', 'Bell peppers', 'Onions', 'Tortillas', 'Seasoning'], instructions: ['Marinate beef', 'Cook beef and vegetables', 'Serve with warm tortillas'], skillLevel: 'Intermediate'},
+                {id: 'tostadas', name: 'Tostadas', description: 'Crispy tortillas topped with beans, meat, and veggies', ingredients: ['Tostadas', 'Beans', 'Meat', 'Lettuce', 'Cheese', 'Salsa'], instructions: ['Spread beans on tostadas', 'Add meat and toppings', 'Serve immediately'], skillLevel: 'Beginner'},
+                {id: 'kung-pao-chicken', name: 'Kung Pao Chicken', description: 'Spicy stir-fried chicken with peanuts', ingredients: ['Chicken', 'Peanuts', 'Bell peppers', 'Soy sauce', 'Chili peppers', 'Garlic'], instructions: ['Marinate chicken', 'Sauté garlic and peppers', 'Add chicken and sauce', 'Mix in peanuts and serve'], skillLevel: 'Intermediate'},
+                {id: 'sweet-sour-pork', name: 'Sweet and Sour Pork', description: 'Tangy pork with pineapple', ingredients: ['Pork', 'Pineapple', 'Bell peppers', 'Vinegar', 'Sugar', 'Ketchup'], instructions: ['Fry pork', 'Make sauce with vinegar, sugar, and ketchup', 'Combine with pineapple and peppers', 'Simmer and serve'], skillLevel: 'Intermediate'},
+                {id: 'mapo-tofu', name: 'Mapo Tofu', description: 'Spicy tofu in a Sichuan-style sauce', ingredients: ['Tofu', 'Ground pork', 'Sichuan peppercorns', 'Chili paste', 'Garlic', 'Soy sauce'], instructions: ['Fry pork with garlic', 'Add tofu and spices', 'Simmer in sauce', 'Serve hot'], skillLevel: 'Intermediate'},
+                {id: 'egg-fried-rice', name: 'Yangzhou Fried Rice', description: 'Classic Chinese-style fried rice', ingredients: ['Rice', 'Shrimp', 'Eggs', 'Peas', 'Soy sauce', 'Carrots'], instructions: ['Cook rice', 'Scramble eggs', 'Stir-fry shrimp and vegetables', 'Mix with rice and soy sauce'], skillLevel: 'Intermediate'},
+                {id: 'hot-sour-soup', name: 'Hot and Sour Soup', description: 'Spicy and tangy Chinese soup', ingredients: ['Chicken broth', 'Mushrooms', 'Tofu', 'Soy sauce', 'Vinegar', 'Chili oil'], instructions: ['Heat broth', 'Add mushrooms, tofu, and seasonings', 'Simmer and serve hot'], skillLevel: 'Intermediate'},
+                {id: 'spring-rolls', name: 'Spring Rolls', description: 'Crispy Chinese appetiser', ingredients: ['Spring roll wrappers', 'Cabbage', 'Carrots', 'Soy sauce', 'Oil'], instructions: ['Prepare filling with vegetables', 'Wrap in spring roll wrappers', 'Fry until golden'], skillLevel: 'Intermediate'},
+                {id: 'char-siu', name: 'Char Siu', description: 'Chinese-style barbecue pork', ingredients: ['Pork', 'Hoisin sauce', 'Honey', 'Soy sauce', 'Five-spice powder'], instructions: ['Marinate pork', 'Roast in oven', 'Brush with honey glaze and serve'], skillLevel: 'Intermediate'},
+                {id: 'dumplings', name: 'Chinese Dumplings', description: 'Savory dumplings with pork and vegetable filling', ingredients: ['Dumpling wrappers', 'Ground pork', 'Cabbage', 'Garlic', 'Soy sauce', 'Ginger'], instructions: ['Prepare filling', 'Wrap in dumpling wrappers', 'Steam, boil, or fry until cooked'], skillLevel: 'Master'},
+                {id: 'beef-broccoli', name: 'Beef and Broccoli', description: 'Stir-fried beef and broccoli in savoury sauce', ingredients: ['Beef', 'Broccoli', 'Soy sauce', 'Garlic', 'Oyster sauce', 'Cornstarch'], instructions: ['Marinate beef', 'Stir-fry beef and broccoli', 'Add sauce and simmer'], skillLevel: 'Intermediate'},
+                {id: 'lo-mein', name: 'Vegetable Lo Mein', description: 'Chinese stir-fried noodles', ingredients: ['Noodles', 'Carrots', 'Cabbage', 'Soy sauce', 'Garlic', 'Sesame oil'], instructions: ['Cook noodles', 'Stir-fry vegetables and garlic', 'Combine with noodles and sauce'], skillLevel: 'Intermediate'},
+                {id: 'butter-chicken', name: 'Butter Chicken', description: 'Creamy and rich chicken curry', ingredients: ['Chicken', 'Tomato puree', 'Cream', 'Butter', 'Garlic', 'Garam masala'], instructions: ['Marinate chicken', 'Cook tomato-based sauce', 'Add chicken and cream', 'Simmer and serve with naan'], skillLevel: 'Intermediate'},
+                {id: 'palak-paneer', name: 'Palak Paneer', description: 'Cottage cheese in spinach curry', ingredients: ['Spinach', 'Paneer', 'Garlic', 'Onion', 'Cream', 'Spices'], instructions: ['Blanch spinach', 'Blend into a puree', 'Cook with spices', 'Add paneer and simmer'], skillLevel: 'Intermediate'},
+                {id: 'biryani', name: 'Chicken Biryani', description: 'Flavourful rice dish with spices and chicken', ingredients: ['Chicken', 'Rice', 'Yogurt', 'Spices', 'Onion', 'Ghee'], instructions: ['Marinate chicken', 'Cook rice with spices', 'Layer chicken and rice', 'Steam and serve'], skillLevel: 'Master'},
+                {id: 'dal-tadka', name: 'Dal Tadka', description: 'Lentils tempered with aromatic spices', ingredients: ['Yellow lentils', 'Garlic', 'Onion', 'Tomato', 'Cumin', 'Ghee'], instructions: ['Cook lentils', 'Prepare tempering with ghee and spices', 'Combine with lentils and simmer'], skillLevel: 'Intermediate'},
+                {id: 'samosa', name: 'Samosa', description: 'Deep-fried pastry filled with spiced potatoes', ingredients: ['Potatoes', 'Peas', 'Flour', 'Spices', 'Oil'], instructions: ['Prepare dough', 'Make spiced potato filling', 'Shape and fry samosas', 'Serve with chutney'], skillLevel: 'Master'},
+                {id: 'tandoori-chicken', name: 'Tandoori Chicken', description: 'Chicken marinated in yogurt and spices, grilled to perfection', ingredients: ['Chicken', 'Yogurt', 'Spices', 'Lemon juice', 'Garlic', 'Ginger'], instructions: ['Marinate chicken', 'Cook in tandoor or oven', 'Serve with mint chutney'], skillLevel: 'Intermediate'},
+                {id: 'chole', name: 'Chole', description: 'Spiced chickpea curry', ingredients: ['Chickpeas', 'Onion', 'Tomato', 'Garlic', 'Ginger', 'Spices'], instructions: ['Cook chickpeas', 'Make gravy with onion, tomato, and spices', 'Combine and simmer'], skillLevel: 'Intermediate'},
+                {id: 'naan', name: 'Naan', description: 'Soft and fluffy Indian flatbread', ingredients: ['Flour', 'Yogurt', 'Yeast', 'Milk', 'Ghee'], instructions: ['Prepare dough', 'Roll and cook on tawa or oven', 'Brush with ghee and serve'], skillLevel: 'Intermediate'},
+                {id: 'pav-bhaji', name: 'Pav Bhaji', description: 'Spiced mashed vegetables served with buttery bread', ingredients: ['Potatoes', 'Tomatoes', 'Peas', 'Capsicum', 'Butter', 'Pav buns'], instructions: ['Cook and mash vegetables', 'Prepare masala', 'Serve with buttered pav'], skillLevel: 'Intermediate'},
+                {id: 'gulab-jamun', name: 'Gulab Jamun', description: 'Sweet fried dumplings soaked in sugar syrup', ingredients: ['Milk powder', 'Flour', 'Sugar', 'Cardamom', 'Ghee'], instructions: ['Make dough', 'Shape and fry dumplings', 'Soak in sugar syrup', 'Serve warm'], skillLevel: 'Intermediate'},
+                {id: 'spaghetti-carbonara', name: 'Spaghetti Carbonara', description: 'Classic pasta with eggs, cheese, pancetta, and black pepper', ingredients: ['Spaghetti', 'Egg yolks', 'Parmesan cheese', 'Pancetta', 'Black pepper'], instructions: ['Cook spaghetti', 'Fry pancetta', 'Mix eggs and cheese', 'Combine with pasta and pancetta', 'Serve with black pepper'], skillLevel: 'Intermediate'},
+                {id: 'margherita-pizza', name: 'Margherita Pizza', description: 'Simple and fresh pizza with tomato, mozzarella, and basil', ingredients: ['Pizza dough', 'Tomato sauce', 'Mozzarella', 'Fresh basil', 'Olive oil'], instructions: ['Prepare dough', 'Spread tomato sauce', 'Add mozzarella and basil', 'Bake in oven', 'Drizzle with olive oil'], skillLevel: 'Intermediate'},
+                {id: 'lasagna', name: 'Lasagna', description: 'Layers of pasta, meat sauce, and creamy béchamel', ingredients: ['Lasagna sheets', 'Minced beef', 'Tomato sauce', 'Béchamel sauce', 'Parmesan cheese'], instructions: ['Cook meat sauce', 'Prepare béchamel', 'Layer pasta, sauces, and cheese', 'Bake in oven', 'Serve hot'], skillLevel: 'Master'},
+                {id: 'risotto-alla-milanese', name: 'Risotto alla Milanese', description: 'Creamy risotto flavoured with saffron', ingredients: ['Arborio rice', 'Saffron', 'Chicken stock', 'Butter', 'Parmesan cheese'], instructions: ['Sauté rice in butter', 'Add stock gradually', 'Mix in saffron and cheese', 'Cook until creamy'], skillLevel: 'Master'},
+                {id: 'bruschetta', name: 'Bruschetta', description: 'Toasted bread topped with fresh tomato, garlic, and basil', ingredients: ['Bread', 'Tomatoes', 'Garlic', 'Basil', 'Olive oil'], instructions: ['Toast bread', 'Mix chopped tomatoes with garlic and basil', 'Top bread with mixture', 'Drizzle with olive oil'], skillLevel: 'Beginner'},
+                {id: 'fettuccine-alfredo', name: 'Fettuccine Alfredo', description: 'Creamy pasta with butter and Parmesan cheese', ingredients: ['Fettuccine', 'Butter', 'Parmesan cheese', 'Heavy cream'], instructions: ['Cook pasta', 'Melt butter in a pan', 'Add cream and cheese', 'Toss with pasta', 'Serve warm'], skillLevel: 'Intermediate'},
+                {id: 'caprese-salad', name: 'Caprese Salad', description: 'Fresh salad with tomatoes, mozzarella, and basil', ingredients: ['Tomatoes', 'Mozzarella', 'Basil', 'Olive oil', 'Balsamic glaze'], instructions: ['Slice tomatoes and mozzarella', 'Layer with basil', 'Drizzle with olive oil and balsamic glaze'], skillLevel: 'Beginner'},
+                {id: 'osso-buco', name: 'Osso Buco', description: 'Braised veal shanks in a rich tomato sauce', ingredients: ['Veal shanks', 'Carrots', 'Celery', 'Tomato paste', 'White wine', 'Stock'], instructions: ['Sear veal shanks', 'Cook vegetables', 'Simmer with wine, stock, and tomato', 'Serve with gremolata'], skillLevel: 'Master'},
+                {id: 'panna-cotta', name: 'Panna Cotta', description: 'Silky dessert made with cream and vanilla', ingredients: ['Heavy cream', 'Sugar', 'Gelatin', 'Vanilla'], instructions: ['Heat cream and sugar', 'Dissolve gelatin', 'Pour into moulds and chill', 'Serve with fruit sauce'], skillLevel: 'Intermediate'},
+                {id: 'coq-au-vin', name: 'Coq au Vin', description: 'Chicken braised in red wine with mushrooms, bacon, and onions', ingredients: ['Chicken', 'Red wine', 'Mushrooms', 'Onions', 'Bacon', 'Garlic', 'Thyme'], instructions: ['Brown chicken', 'Cook bacon and vegetables', 'Simmer with wine and herbs', 'Serve with crusty bread'], skillLevel: 'Master'},
+                {id: 'quiche-lorraine', name: 'Quiche Lorraine', description: 'Savory tart with eggs, cream, bacon, and cheese', ingredients: ['Pie crust', 'Eggs', 'Heavy cream', 'Bacon', 'Gruyère cheese', 'Nutmeg'], instructions: ['Prepare crust', 'Cook bacon', 'Mix eggs, cream, and cheese', 'Pour into crust and bake'], skillLevel: 'Intermediate'},
+                {id: 'bouillabaisse', name: 'Bouillabaisse', description: 'Traditional Provençal fish stew with a rich saffron broth', ingredients: ['Assorted fish', 'Shellfish', 'Tomatoes', 'Garlic', 'Fennel', 'Saffron', 'Olive oil'], instructions: ['Sauté garlic and fennel', 'Add tomatoes and saffron', 'Simmer with fish and shellfish', 'Serve with crusty bread'], skillLevel: 'Master'},
+                {id: 'croque-monsieur', name: 'Croque Monsieur', description: 'Toasted ham and cheese sandwich with béchamel sauce', ingredients: ['Bread', 'Ham', 'Gruyère cheese', 'Butter', 'Flour', 'Milk', 'Nutmeg'], instructions: ['Make béchamel', 'Assemble sandwich with ham and cheese', 'Toast in oven', 'Serve hot'], skillLevel: 'Intermediate'},
+                {id: 'souffle-au-chocolat', name: 'Soufflé au Chocolat', description: 'Fluffy and rich chocolate dessert', ingredients: ['Dark chocolate', 'Eggs', 'Sugar', 'Butter', 'Flour', 'Cream'], instructions: ['Melt chocolate', 'Whisk egg whites to stiff peaks', 'Fold into chocolate mixture', 'Bake until risen'], skillLevel: 'Master'},
+                {id: 'boeuf-bourguignon', name: 'Boeuf Bourguignon', description: 'Beef slow-cooked in red wine with carrots, onions, and mushrooms', ingredients: ['Beef', 'Red wine', 'Carrots', 'Onions', 'Mushrooms', 'Garlic', 'Thyme'], instructions: ['Brown beef', 'Sauté vegetables', 'Simmer with wine and herbs', 'Cook until tender'], skillLevel: 'Master'},
+                {id: 'tarte-tatin', name: 'Tarte Tatin', description: 'Upside-down caramelised apple tart', ingredients: ['Apples', 'Sugar', 'Butter', 'Puff pastry'], instructions: ['Caramelise apples with sugar and butter', 'Cover with pastry', 'Bake and flip to serve'], skillLevel: 'Intermediate'},
+                {id: 'crepes', name: 'Crêpes', description: 'Thin French pancakes, perfect for sweet or savoury fillings', ingredients: ['Flour', 'Milk', 'Eggs', 'Butter', 'Sugar', 'Salt'], instructions: ['Mix batter', 'Cook thin layers in a pan', 'Fill with desired toppings', 'Fold and serve'], skillLevel: 'Intermediate'},
+                {id: 'madeleines', name: 'Madeleines', description: 'Small shell-shaped sponge cakes', ingredients: ['Flour', 'Butter', 'Eggs', 'Sugar', 'Vanilla', 'Lemon zest'], instructions: ['Mix batter', 'Chill and fill moulds', 'Bake until golden', 'Serve with tea'], skillLevel: 'Intermediate'}
+            ],
+            
+            // Website sections and features
+            sections: [
+                {name: 'Recipes', description: 'Browse and search through 100+ recipes with filtering options for skill level and ingredients'},
+                {name: 'Recipe Finder', description: 'Find recipes based on ingredients you have at home through an interactive survey'},
+                {name: 'Cooking Tips', description: 'Educational articles and tips for young chefs including knife skills, measuring, and cooking techniques'},
+                {name: 'Questions', description: 'Submit cooking questions via a contact form'},
+                {name: 'Documentation', description: 'Google Slides presentation with project documentation'}
+            ],
+            
+            // Cooking tips from the website
+            cookingTips: [
+                {title: 'Knife Skills 101', content: 'Learn proper knife techniques to make cooking safer and more efficient. Always curl your fingertips under when holding food to protect them from the blade.'},
+                {title: 'Measuring Ingredients', content: 'For dry ingredients, fill and level with a straight edge. For liquids, read at eye level on a flat surface to ensure accuracy.'},
+                {title: 'Salt as You Go', content: 'Add salt throughout the cooking process rather than all at once at the end. This builds flavor in layers.'},
+                {title: 'Rest Your Meat', content: 'Let meat rest after cooking to allow juices to redistribute. For steaks, rest about 5 minutes.'},
+                {title: 'Prep Before Cooking', content: 'Read the recipe completely and prep all ingredients before you start cooking. This is called "mise en place" and makes cooking much smoother.'},
+                {title: 'Control Heat', content: 'Different cooking methods require different heat levels. Low and slow for tough meats, high heat for searing.'}
+            ],
+            
+            // Cooking equipment from the featured article
+            cookingEquipment: [
+                {name: "Chef's Knife", description: "A good chef's knife is the foundation of any kitchen. Look for one that feels comfortable in your hand. For young chefs, consider a smaller 6-inch knife that's easier to control."},
+                {name: "Mixing Bowls Set", description: "A set of different sized mixing bowls is essential for preparing ingredients, mixing batters, and tossing salads. Stainless steel bowls are durable and lightweight."},
+                {name: "Measuring Cups and Spoons", description: "Precise measurements are crucial in cooking and especially in baking. A good set of measuring cups for dry ingredients and a liquid measuring cup with clear markings will help you follow recipes accurately."},
+                {name: "Non-Stick Pan", description: "A quality non-stick pan makes cooking eggs, pancakes, and delicate foods much easier. Look for one with a sturdy handle that stays cool during cooking."},
+                {name: "Digital Timer", description: "Never overcook again! A digital timer helps you keep track of cooking times precisely. Many young chefs find that timing is one of the most challenging aspects of cooking."}
+            ],
+            
+            // Accessibility features
+            accessibilityFeatures: [
+                {name: 'Text-to-Speech', description: 'Reads website content aloud when hovering over elements'},
+                {name: 'Language Options', description: 'Supports English, Spanish, Chinese, French, Hindi, and Russian'},
+                {name: 'Font Options', description: 'Includes dyslexic-friendly Comic Sans font option'},
+                {name: 'High Contrast Mode', description: 'Enhances visibility with high contrast colors'},
+                {name: 'Adjustable Text Size', description: 'Allows users to increase text size for better readability'}
+            ],
+            
+            // Recipe finder functionality
+            recipeFinder: {
+                description: 'Interactive tool that asks users about ingredients they have and recommends recipes that match at least 60% of those ingredients',
+                commonIngredients: ['Flour', 'Sugar', 'Salt', 'Pepper', 'Eggs', 'Milk', 'Butter', 'Cheese', 'Chicken', 'Beef', 'Pork', 'Fish', 'Rice', 'Pasta', 'Potatoes', 'Onions', 'Garlic', 'Tomatoes', 'Carrots', 'Spinach', 'Lettuce', 'Broccoli', 'Bell peppers', 'Mushrooms', 'Bread', 'Olive oil', 'Vegetable oil', 'Vinegar', 'Soy sauce', 'Ketchup']
+            },
+            
+            // Skill level assessment
+            skillLevels: [
+                {name: 'Beginner', description: 'Simple recipes with few ingredients and basic techniques'},
+                {name: 'Intermediate', description: 'More complex recipes with additional ingredients and techniques'},
+                {name: 'Master', description: 'Advanced recipes requiring multiple steps and specialized techniques'}
+            ]
+        };
 
         function toggleChatbot() {
             const window = document.getElementById('chatbot-window');
@@ -661,8 +814,8 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
             try {
-                // Simulate AI response (replace with actual API call)
-                const response = await getChatbotResponse(message);
+                // Get AI response
+                const response = await getAIResponse(message);
                 
                 // Remove loading indicator
                 messagesContainer.removeChild(loadingDiv);
@@ -670,6 +823,8 @@
                 // Add AI response
                 addChatMessage('assistant', response);
             } catch (error) {
+                console.error('Error getting AI response:', error);
+                
                 // Remove loading indicator
                 messagesContainer.removeChild(loadingDiv);
                 addChatMessage('assistant', "I'm sorry, I'm having trouble connecting right now. For complex questions, please visit the Questions page in the navbar to submit your question directly!");
@@ -690,50 +845,261 @@
             chatMessages.push({ role, content });
         }
 
-        async function getChatbotResponse(message) {
-            // This is a simplified response system
-            // In a real implementation, you'd call your AI API here
+        async function getAIResponse(userMessage) {
+            // This is a sophisticated local AI response system based on the website content
+            const query = userMessage.toLowerCase();
             
-            const lowerMessage = message.toLowerCase();
-            
-            // Recipe-related responses
-            if (lowerMessage.includes('recipe') || lowerMessage.includes('cook') || lowerMessage.includes('dish')) {
-                if (lowerMessage.includes('beginner') || lowerMessage.includes('easy')) {
-                    return "Great! For beginners, I recommend starting with simple recipes like:\n\n• Scrambled Eggs\n• Grilled Cheese\n• Fruit Smoothie\n• Avocado Toast\n• Simple Pasta\n\nYou can find these in the Recipes section with the 'Beginner' filter!";
+            // Try to extract name if user introduces themselves
+            if (query.match(/my name is|i am|i'm|call me/) && query.length < 40) {
+                const nameMatch = query.match(/my name is (\w+)|i am (\w+)|i'm (\w+)|call me (\w+)/i);
+                if (nameMatch) {
+                    const extractedName = nameMatch[1] || nameMatch[2] || nameMatch[3] || nameMatch[4];
+                    if (extractedName && extractedName.length > 1) {
+                        userName = extractedName.charAt(0).toUpperCase() + extractedName.slice(1);
+                        return `Nice to meet you, ${userName}! I'm the Edible Assistant. How can I help with your cooking adventures today?`;
+                    }
                 }
-                if (lowerMessage.includes('mexican')) {
-                    return "¡Delicioso! We have amazing Mexican recipes:\n\n• Basic Tacos\n• Enchiladas\n• Guacamole\n• Quesadillas\n• Pozole\n\nUse the ingredient filter to find recipes with specific Mexican ingredients!";
+            }
+            
+            // SMALL TALK RESPONSES
+            
+            // Greetings
+            if (query.match(/^(hi|hello|hey|howdy|hola|greetings).{0,10}$/i)) {
+                const greetings = [
+                    `Hello${userName ? ', ' + userName : ''}! How can I help with your culinary adventures today?`,
+                    `Hi there${userName ? ', ' + userName : ''}! Ready to cook something delicious?`,
+                    `Hey${userName ? ' ' + userName : ''}! What kind of recipe are you looking for today?`,
+                    `Welcome to Edible${userName ? ', ' + userName : ''}! I'm here to help with all your cooking questions.`
+                ];
+                return greetings[Math.floor(Math.random() * greetings.length)];
+            }
+            
+            // Thanks/Gratitude
+            if (query.match(/^(thanks|thank you|thx|ty|appreciate).{0,15}$/i)) {
+                const thanks = [
+                    `You're welcome${userName ? ', ' + userName : ''}! Happy cooking!`,
+                    `Anytime! Let me know if you need anything else.`,
+                    `My pleasure! Don't hesitate to ask if you have more questions.`,
+                    `Glad I could help! Enjoy your culinary adventures!`
+                ];
+                return thanks[Math.floor(Math.random() * thanks.length)];
+            }
+            
+            // How are you
+            if (query.match(/how are you|how('s| is) it going|what('s| is) up|how('s| is) your day/i)) {
+                const howAreYou = [
+                    `I'm cooking up a storm! How can I help you in the kitchen today?`,
+                    `I'm great, thanks for asking! Ready to talk recipes and cooking tips!`,
+                    `I'm simmering with excitement to help with your cooking questions!`,
+                    `All whisked up and ready to help! What would you like to cook today?`
+                ];
+                return howAreYou[Math.floor(Math.random() * howAreYou.length)];
+            }
+            
+            // Goodbye
+            if (query.match(/^(bye|goodbye|see you|farewell|cya).{0,10}$/i)) {
+                const goodbyes = [
+                    `Goodbye${userName ? ', ' + userName : ''}! Come back when you're ready for more culinary adventures!`,
+                    `See you later! Remember, the kitchen is always open!`,
+                    `Until next time! Happy cooking!`,
+                    `Bye for now! Can't wait to help with your next recipe!`
+                ];
+                return goodbyes[Math.floor(Math.random() * goodbyes.length)];
+            }
+            
+            // Who are you
+            if (query.match(/who are you|what are you|what('s| is) your name|tell me about yourself/i)) {
+                return "I'm the Edible Assistant, your culinary companion! I'm here to help young chefs navigate our website, find recipes, learn cooking techniques, and answer food-related questions. I know all 100+ recipes on our platform and can guide you through our features like the Recipe Finder. How can I help you cook up something amazing today?";
+            }
+            
+            // Jokes
+            if (query.match(/tell (me a )?joke|know any jokes|be funny/i)) {
+                const jokes = [
+                    "Why did the tomato turn red? Because it saw the salad dressing!",
+                    "What do you call a fake noodle? An impasta!",
+                    "Why don't eggs tell jokes? They'd crack each other up!",
+                    "What's a chef's favorite type of music? Wok and roll!",
+                    "Why did the cookie go to the doctor? Because it was feeling crumby!",
+                    "What do you call a sad coffee? A depresso!",
+                    "Why couldn't the sesame seed leave the casino? Because it was on a roll!"
+                ];
+                return jokes[Math.floor(Math.random() * jokes.length)];
+            }
+            
+            // Opinions on food
+            if (query.match(/what('s| is) your favorite|do you like|what do you think about|opinion on/i)) {
+                if (query.includes('recipe') || query.includes('dish') || query.includes('food')) {
+                    return "As a culinary assistant, I appreciate all recipes! But I'm particularly fond of dishes that bring people together and help young chefs build confidence in the kitchen. The Edible platform has so many wonderful options - from simple Grilled Cheese for beginners to impressive Chicken Biryani for master chefs. What kinds of recipes do you enjoy cooking?";
                 }
-                if (lowerMessage.includes('dessert') || lowerMessage.includes('sweet')) {
-                    return "Sweet treats coming up! Try these desserts:\n\n• Chocolate Chip Cookies\n• Brownies\n• Banana Bread\n• Vanilla Cupcakes\n• Homemade Ice Cream\n\nPerfect for young bakers!";
+                
+                if (query.includes('cuisine')) {
+                    return "Each cuisine has its own special qualities! Mexican cuisine has vibrant flavors, Italian focuses on quality ingredients, Indian has complex spices, Chinese has amazing techniques, and French has elegant traditions. Our website features recipes from all these cuisines so young chefs can explore global flavors. Do you have a favorite cuisine you'd like to explore?";
                 }
-                if (lowerMessage.includes('butter chicken')) {
-                    return "Butter Chicken is one of our popular Indian recipes! It's an Intermediate level dish with ingredients like chicken, tomato puree, cream, butter, garlic, and garam masala. You'll find the full recipe with step-by-step instructions in our Recipes section!";
+                
+                // Check for specific foods
+                const foods = [
+                    {terms: ['pizza', 'pizzas'], response: "Pizza is amazing! It's like a blank canvas for creativity in the kitchen. Our Margherita Pizza recipe is perfect for young chefs to customize with their favorite toppings. Would you like me to tell you more about our pizza recipes?"},
+                    {terms: ['pasta', 'spaghetti', 'noodle'], response: "Pasta dishes are wonderful for young chefs! They're versatile, satisfying, and fun to make. We have several pasta recipes from simple Fettuccine Alfredo to more complex Lasagna. Would you like to see some pasta recipes?"},
+                    {terms: ['chocolate', 'dessert', 'sweet', 'cake', 'cookie'], response: "Desserts are a delightful way to learn baking skills! From our simple Chocolate Chip Cookies to more advanced Soufflé au Chocolat, sweet treats teach important techniques like measuring and temperature control. Would you like to explore some dessert recipes?"},
+                    {terms: ['vegetable', 'veggie', 'vegetarian', 'vegan'], response: "Vegetables are the stars of many delicious dishes! Learning to prepare vegetables in tasty ways is an important skill for young chefs. We have recipes like Ratatouille, Vegetable Lo Mein, and Caprese Salad that showcase fresh produce. Would you like to see some vegetable-focused recipes?"}
+                ];
+                
+                for (const food of foods) {
+                    if (food.terms.some(term => query.includes(term))) {
+                        return food.response;
+                    }
                 }
-                return "I know all 100+ recipes on Edible! You can browse them in the Recipes section, use filters by skill level or ingredients, or try our Recipe Finder to get suggestions based on what you have at home. What type of cuisine interests you?";
+                
+                // Generic opinion response
+                return "That's an interesting question! While I'm focused on helping with cooking and recipes, I'd love to hear your thoughts on that. Is there a specific recipe or cooking technique you'd like to learn more about?";
             }
             
-            // Navigation help
-            if (lowerMessage.includes('filter') || lowerMessage.includes('search')) {
-                return "To filter recipes:\n\n1. Go to the Recipes section\n2. Click the filter button (☰) next to the search bar\n3. Choose your skill level (Beginner/Intermediate/Master)\n4. Select ingredients you have\n5. Pick how to sort results\n\nYou can also use the search bar to find specific recipes!";
+            // How to become a chef
+            if (query.match(/how (to|do i|can i) (become|be) a chef|chef career|culinary school/i)) {
+                return "Becoming a chef starts with curiosity and practice! Young chefs can:\n\n1. Start with simple recipes and gradually try more complex ones\n2. Learn basic techniques like knife skills, measuring, and following recipes\n3. Experiment with different ingredients and flavors\n4. Cook regularly and keep a journal of what works\n5. Take cooking classes when possible\n\nOur website is designed to help young chefs build skills progressively from Beginner to Master level recipes. The most important thing is to have fun while learning!";
             }
             
-            if (lowerMessage.includes('recipe finder')) {
-                return "The Recipe Finder is perfect for using ingredients you already have! It asks you about 20 common ingredients, then suggests recipes that match at least 60% of what you have. Just click 'Recipe Finder' in the navigation!";
+            // Function to find recipes by various criteria
+            function findRecipes(criteria) {
+                return websiteKnowledge.recipes.filter(criteria);
             }
             
-            // Cooking tips
-            if (lowerMessage.includes('tip') || lowerMessage.includes('advice') || lowerMessage.includes('help')) {
-                return "Check out our Cooking Tips section for great advice like:\n\n• Knife Skills 101\n• Measuring Ingredients properly\n• Salt as You Go technique\n• Prep Before Cooking (mise en place)\n• Heat Control basics\n\nPlus our featured article on essential cooking equipment!";
+            // Function to format recipe list
+            function formatRecipeList(recipes, limit = 5) {
+                if (recipes.length === 0) return "I couldn't find any recipes matching your criteria.";
+                
+                const limitedRecipes = recipes.slice(0, limit);
+                return `Here are some recipes you might like:\n\n${limitedRecipes.map(recipe => 
+                    `• ${recipe.name}: ${recipe.description} (${recipe.skillLevel})`
+                ).join('\n\n')}`;
             }
             
-            // Questions page direction
-            if (lowerMessage.includes('question') || lowerMessage.includes('ask') || lowerMessage.includes('help')) {
-                return "For detailed questions or if you need more help, visit the Questions page in the navbar! You can submit your cooking questions there and get personalized assistance.";
+            // Check for recipe requests by skill level
+            if (query.includes('beginner') && (query.includes('recipe') || query.includes('dish') || query.includes('make'))) {
+                const beginnerRecipes = findRecipes(r => r.skillLevel === 'Beginner');
+                return `Great choice for starting out! Here are some beginner-friendly recipes:\n\n${formatRecipeList(beginnerRecipes)}`;
             }
             
-            // Default response
-            return "I'm here to help with recipes, cooking tips, and navigating Edible! I know about all our 100+ recipes from different cuisines. Try asking about specific recipes, cooking techniques, or how to use our website features. For complex questions, visit the Questions page!";
+            if (query.includes('intermediate') && (query.includes('recipe') || query.includes('dish') || query.includes('make'))) {
+                const intermediateRecipes = findRecipes(r => r.skillLevel === 'Intermediate');
+                return `Ready for a bit more challenge? Here are some intermediate recipes:\n\n${formatRecipeList(intermediateRecipes)}`;
+            }
+            
+            if ((query.includes('master') || query.includes('advanced')) && (query.includes('recipe') || query.includes('dish') || query.includes('make'))) {
+                const masterRecipes = findRecipes(r => r.skillLevel === 'Master');
+                return `For experienced young chefs! Here are some advanced recipes:\n\n${formatRecipeList(masterRecipes)}`;
+            }
+            
+            // Check for cuisine-specific requests
+            if (query.includes('mexican') && (query.includes('recipe') || query.includes('dish') || query.includes('food'))) {
+                const mexicanRecipes = findRecipes(r => 
+                    ['taco', 'enchiladas', 'pozole', 'tamales', 'sopes', 'chiles-rellenos', 'guacamole', 'mole', 'fajitas', 'tostadas'].includes(r.id)
+                );
+                return `¡Delicioso! Here are some Mexican recipes:\n\n${formatRecipeList(mexicanRecipes)}`;
+            }
+            
+            if (query.includes('chinese') && (query.includes('recipe') || query.includes('dish') || query.includes('food'))) {
+                const chineseRecipes = findRecipes(r => 
+                    ['kung-pao-chicken', 'sweet-sour-pork', 'mapo-tofu', 'egg-fried-rice', 'hot-sour-soup', 'spring-rolls', 'char-siu', 'dumplings', 'beef-broccoli', 'lo-mein'].includes(r.id)
+                );
+                return `Here are some delicious Chinese recipes:\n\n${formatRecipeList(chineseRecipes)}`;
+            }
+            
+            if (query.includes('indian') && (query.includes('recipe') || query.includes('dish') || query.includes('food'))) {
+                const indianRecipes = findRecipes(r => 
+                    ['butter-chicken', 'palak-paneer', 'biryani', 'dal-tadka', 'samosa', 'tandoori-chicken', 'chole', 'naan', 'pav-bhaji', 'gulab-jamun'].includes(r.id)
+                );
+                return `Here are some flavorful Indian recipes:\n\n${formatRecipeList(indianRecipes)}`;
+            }
+            
+            if (query.includes('italian') && (query.includes('recipe') || query.includes('dish') || query.includes('food'))) {
+                const italianRecipes = findRecipes(r => 
+                    ['spaghetti-carbonara', 'margherita-pizza', 'lasagna', 'risotto-alla-milanese', 'bruschetta', 'fettuccine-alfredo', 'caprese-salad', 'osso-buco', 'panna-cotta', 'tiramisu'].includes(r.id)
+                );
+                return `Buon appetito! Here are some Italian recipes:\n\n${formatRecipeList(italianRecipes)}`;
+            }
+            
+            if (query.includes('french') && (query.includes('recipe') || query.includes('dish') || query.includes('food'))) {
+                const frenchRecipes = findRecipes(r => 
+                    ['coq-au-vin', 'quiche-lorraine', 'bouillabaisse', 'croque-monsieur', 'souffle-au-chocolat', 'boeuf-bourguignon', 'tarte-tatin', 'crepes', 'madeleines', 'ratatouille'].includes(r.id)
+                );
+                return `Bon appétit! Here are some French recipes:\n\n${formatRecipeList(frenchRecipes)}`;
+            }
+            
+            // Check for breakfast recipes
+            if (query.includes('breakfast') && (query.includes('recipe') || query.includes('dish') || query.includes('make'))) {
+                const breakfastRecipes = findRecipes(r => 
+                    ['pancakes', 'french-toast', 'scrambled-eggs', 'avocado-toast', 'breakfast-burrito', 'smoothie-bowl', 'omelette', 'breakfast-parfait', 'eggs-benedict', 'breakfast-pizza', 'hash-browns', 'granola-bars', 'shakshuka', 'waffles'].includes(r.id)
+                );
+                return `Start your day right with these breakfast recipes:\n\n${formatRecipeList(breakfastRecipes)}`;
+            }
+            
+            // Check for dessert recipes
+            if ((query.includes('dessert') || query.includes('sweet') || query.includes('cake') || query.includes('cookie')) && (query.includes('recipe') || query.includes('dish') || query.includes('make'))) {
+                const dessertRecipes = findRecipes(r => 
+                    ['cookies', 'brownies', 'cheesecake', 'cupcakes', 'ice-cream', 'banana-bread', 'carrot-cake', 'donuts', 'churros', 'tiramisu', 'panna-cotta', 'souffle-au-chocolat', 'tarte-tatin', 'madeleines', 'gulab-jamun', 'flan'].includes(r.id)
+                );
+                return `Satisfy your sweet tooth with these dessert recipes:\n\n${formatRecipeList(dessertRecipes)}`;
+            }
+            
+            // Check for specific recipe inquiries
+            for (const recipe of websiteKnowledge.recipes) {
+                if (query.includes(recipe.name.toLowerCase()) || query.includes(recipe.id.toLowerCase())) {
+                    return `${recipe.name} (${recipe.skillLevel} level):\n\n${recipe.description}\n\nIngredients:\n${recipe.ingredients.map(ing => `• ${ing}`).join('\n')}\n\nInstructions:\n${recipe.instructions.map((step, i) => `${i+1}. ${step}`).join('\n')}\n\nYou can find this recipe in the Recipes section!`;
+                }
+            }
+            
+            // Check for filtering/search questions
+            if (query.includes('filter') || query.includes('search') || query.includes('find recipe')) {
+                return "To filter or search for recipes on our website:\n\n1. Go to the Recipes section\n2. Use the search bar to search by name or description\n3. Click the filter button (≡) to open the filter sidebar\n4. Filter by skill level: Beginner, Intermediate, or Master\n5. Check ingredients you have or want to use\n6. Sort by name, difficulty, or ingredient count\n7. Click 'Apply Filters' to see your results";
+            }
+            
+            // Check for recipe finder questions
+            if (query.includes('recipe finder') || query.includes('ingredient survey') || query.includes('what can i make')) {
+                return "Our Recipe Finder helps you discover recipes based on ingredients you have:\n\n1. Click 'Recipe Finder' in the navigation\n2. Answer yes/no for each ingredient in the survey\n3. After answering about 20 common ingredients, click 'Find Recipes'\n4. We'll show you recipes that match at least 60% of your ingredients\n\nIt's a great way to use what you already have in your kitchen!";
+            }
+            
+            // Check for cooking tips questions
+            if (query.includes('cooking tip') || query.includes('kitchen tip') || query.includes('how to cook')) {
+                const tipsList = websiteKnowledge.cookingTips.map(tip => `• ${tip.title}: ${tip.content}`).join('\n\n');
+                return `Here are some helpful cooking tips for young chefs:\n\n${tipsList}\n\nYou can find more detailed tips in our Cooking Tips section!`;
+            }
+            
+            // Check for cooking equipment questions
+            if (query.includes('equipment') || query.includes('tools') || query.includes('utensils')) {
+                const equipmentList = websiteKnowledge.cookingEquipment.map(eq => `• ${eq.name}: ${eq.description}`).join('\n\n');
+                return `Here are the top 5 essential cooking tools for young chefs:\n\n${equipmentList}\n\nYou can find more details in our featured article in the Cooking Tips section!`;
+            }
+            
+            // Check for accessibility questions
+            if (query.includes('accessibility') || query.includes('a11y') || query.includes('disability')) {
+                const accessibilityList = websiteKnowledge.accessibilityFeatures.map(feature => `• ${feature.name}: ${feature.description}`).join('\n\n');
+                return `Our website has several accessibility features:\n\n${accessibilityList}\n\nYou can access these features by clicking the A11Y button in the bottom right corner of the screen.`;
+            }
+            
+            // Check for language questions
+            if (query.includes('language') || query.includes('translate') || query.includes('español') || query.includes('chinese')) {
+                return "Edible supports multiple languages! You can change the language using the dropdown in the top-right corner. We currently support:\n\n• English\n• Español (Spanish)\n• 中文 (Chinese)\n• Français (French)\n• हिन्दी (Hindi)\n• Русский (Russian)\n\nThis makes our recipes accessible to young chefs around the world!";
+            }
+            
+            // Check for skill level questions
+            if (query.includes('skill level') || query.includes('difficulty') || query.includes('beginner') || query.includes('intermediate') || query.includes('master')) {
+                return "Our recipes are categorized into three skill levels:\n\n• Beginner: Simple recipes with few ingredients (3 or fewer) and basic techniques, perfect for first-time cooks\n\n• Intermediate: More complex recipes with 4-6 ingredients and moderate techniques, good for those with some cooking experience\n\n• Master: Advanced recipes with 7+ ingredients and complex techniques, for experienced young chefs\n\nYou can filter recipes by skill level in the Recipes section!";
+            }
+            
+            // Check for website navigation questions
+            if (query.includes('website') || query.includes('navigate') || query.includes('find') || query.includes('where')) {
+                const sectionsList = websiteKnowledge.sections.map(section => `• ${section.name}: ${section.description}`).join('\n\n');
+                return `The Edible website has these main sections:\n\n${sectionsList}\n\nYou can navigate between these sections using the buttons in the navigation bar at the top of the page.`;
+            }
+            
+            // Check for questions about the quiz
+            if (query.includes('quiz') || query.includes('survey') || query.includes('test')) {
+                return "Edible has two interactive quizzes:\n\n1. Cooking Experience Survey: 5 questions about your cooking experience and preferences that recommends recipes based on your skill level\n\n2. Food Knowledge Quiz: 15 questions testing your culinary knowledge with topics ranging from ingredient origins to cooking techniques\n\nBoth quizzes help personalize your experience on our website!";
+            }
+            
+            // Default response for other queries
+            return `I'm here to help with all things Edible${userName ? ', ' + userName : ''}! I can tell you about our 100+ recipes from different cuisines, cooking tips, equipment recommendations, or how to use website features like the Recipe Finder. If you have a specific question about a recipe, ingredient, or cooking technique, feel free to ask! For complex questions I can't answer, please visit the Questions page in the navbar.`;
         }
 
         // Close chatbot when clicking outside
