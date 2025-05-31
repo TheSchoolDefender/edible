@@ -1,9 +1,11 @@
-let currentQuestion = 1;
-let answers = {};
-const questions = [{
-  question: "FAQ: So How do you like your cheese sir?",
-  answer: "drippy"
-}];
+let currentQuestion = 1
+let answers = {}
+const questions = [
+  {
+    question: "FAQ: So How do you like your cheese sir?",
+    answer: "drippy",
+  },
+]
 
 // Complete recipe database with 100+ recipes
 const recipes = [
@@ -798,7 +800,7 @@ const recipes = [
     skillLevel: "Beginner",
     cuisine: "American",
   },
-  
+
   // Additional recipes to reach 100+
   {
     id: "greek-salad",
@@ -925,8 +927,8 @@ const recipes = [
     ingredients: ["Chicken", "Onions", "Tomatoes", "Garlic", "Ginger", "Spices", "Coconut Milk"],
     skillLevel: "Intermediate",
     cuisine: "Indian",
-  }
-];
+  },
+]
 
 // Food quiz questions
 const foodQuizQuestions = [
@@ -1216,9 +1218,7 @@ function displayRecipes() {
 
 function setupIngredientFilters() {
   const ingredientCheckboxes = document.getElementById("ingredient-checkboxes")
-  const uniqu
-
-eIngredients = [...new Set(recipes.flatMap((recipe) => recipe.ingredients))].sort()
+  const uniqueIngredients = [...new Set(recipes.flatMap((recipe) => recipe.ingredients))].sort()
 
   ingredientCheckboxes.innerHTML = uniqueIngredients
     .map(
