@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Poppins:wght@400;700&display=swap");
+
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Poppins:wght@400;700&display=swap');
 
 body,
 html {
@@ -11,13 +12,13 @@ html {
 
 /* Add OpenDyslexic font */
 @font-face {
-  font-family: "OpenDyslexic";
-  src: url("https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic/OpenDyslexic-Regular.otf");
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic/OpenDyslexic-Regular.otf');
 }
 
 /* Add Comic Sans font for dyslexic option */
 .dyslexic-font {
-  font-family: "Comic Sans MS", cursive !important;
+  font-family: 'Comic Sans MS', cursive !important;
 }
 
 /* Add high contrast styles */
@@ -52,16 +53,17 @@ html {
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: #003b5c;
+  background-color: #003B5C;
   /* Dark blue background */
-  background-image: linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
   z-index: -1;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #fff;
   text-align: center;
 }
@@ -88,21 +90,21 @@ header a {
 }
 
 h1 {
-  font-family: "Bungee Shade", cursive;
+  font-family: 'Bungee Shade', cursive;
   font-size: 4em;
   margin: 0;
   text-transform: uppercase;
-  color: #ffc72c;
-  text-shadow: 3px 3px 0px #ce0037;
+  color: #FFC72C;
+  text-shadow: 3px 3px 0px #CE0037;
 }
 
 .subtitle {
   font-size: 1.2em;
-  color: #ffc72c;
+  color: #FFC72C;
   margin-top: 5px;
   margin-bottom: 20px;
   font-weight: 300;
-  text-shadow: 1px 1px 0px #ce0037;
+  text-shadow: 1px 1px 0px #CE0037;
 }
 
 nav {
@@ -125,7 +127,7 @@ nav ul li {
   color: #fff;
   text-decoration: none;
   font-weight: bold;
-  background-color: #ce0037;
+  background-color: #CE0037;
   padding: 10px 20px;
   border-radius: 25px;
   transition: all 0.3s ease;
@@ -135,8 +137,8 @@ nav ul li {
 }
 
 .nav-btn:hover {
-  background-color: #ffc72c;
-  color: #003b5c;
+  background-color: #FFC72C;
+  color: #003B5C;
   transform: scale(1.1);
 }
 
@@ -158,7 +160,7 @@ main {
 }
 
 .question h2 {
-  color: #ffc72c;
+  color: #FFC72C;
   font-size: 1.5em;
   margin-bottom: 20px;
 }
@@ -171,9 +173,9 @@ main {
 }
 
 button {
-  background-color: #ffc72c;
+  background-color: #FFC72C;
   border: none;
-  color: #003b5c;
+  color: #003B5C;
   padding: 12px 25px;
   font-size: 16px;
   cursor: pointer;
@@ -184,7 +186,7 @@ button {
 }
 
 button:hover {
-  background-color: #ce0037;
+  background-color: #CE0037;
   color: #fff;
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -222,7 +224,7 @@ button:hover {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: #ce0037;
+  background: #CE0037;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -235,7 +237,7 @@ button:hover {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: #ce0037;
+  background: #CE0037;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -247,7 +249,7 @@ button:hover {
 #result {
   font-size: 1.2em;
   margin-top: 20px;
-  color: #ffc72c;
+  color: #FFC72C;
 }
 
 .done-btn {
@@ -281,7 +283,7 @@ button:hover {
 }
 
 .dish-box h3 {
-  color: #ffc72c;
+  color: #FFC72C;
   margin-bottom: 10px;
 }
 
@@ -316,7 +318,7 @@ button:hover {
 }
 
 .recipe h3 {
-  color: #ffc72c;
+  color: #FFC72C;
   margin-bottom: 10px;
 }
 
@@ -343,11 +345,12 @@ button:hover {
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 30px solid #ffc72c;
+  border-top: 30px solid #FFC72C;
   animation: bounce 2s infinite;
 }
 
 @keyframes bounce {
+
   0%,
   20%,
   50%,
@@ -382,9 +385,9 @@ button:hover {
 }
 
 .filter-toggle {
-  background-color: #ffc72c;
+  background-color: #FFC72C;
   border: none;
-  color: #003b5c;
+  color: #003B5C;
   padding: 10px;
   margin-right: 10px;
   border-radius: 5px;
@@ -396,7 +399,7 @@ button:hover {
 }
 
 .filter-toggle:hover {
-  background-color: #ce0037;
+  background-color: #CE0037;
   color: #fff;
 }
 
@@ -423,7 +426,7 @@ button:hover {
     width: 100%;
     left: -100%;
   }
-
+  
   .filter-sidebar.open {
     left: 0;
   }
@@ -435,7 +438,7 @@ button:hover {
   right: 10px;
   background: none;
   border: none;
-  color: #ffc72c;
+  color: #FFC72C;
   font-size: 30px;
   cursor: pointer;
 }
@@ -445,7 +448,7 @@ button:hover {
 }
 
 .filter-section h4 {
-  color: #ffc72c;
+  color: #FFC72C;
   margin-bottom: 10px;
 }
 
@@ -466,8 +469,8 @@ button:hover {
 .apply-filters {
   width: 100%;
   padding: 10px;
-  background-color: #ffc72c;
-  color: #003b5c;
+  background-color: #FFC72C;
+  color: #003B5C;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -475,7 +478,7 @@ button:hover {
 }
 
 .apply-filters:hover {
-  background-color: #ce0037;
+  background-color: #CE0037;
   color: #fff;
 }
 
@@ -558,7 +561,7 @@ button:hover {
 
 .question-cube-front {
   background-color: rgba(255, 199, 44, 0.8);
-  color: #003b5c;
+  color: #003B5C;
 }
 
 .question-cube-back {
@@ -597,7 +600,7 @@ button:hover {
   right: 20px;
   width: 50px;
   height: 50px;
-  background-color: #ffc72c;
+  background-color: #FFC72C;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -608,11 +611,11 @@ button:hover {
   border: none;
   font-weight: bold;
   font-size: 14px;
-  color: #003b5c;
+  color: #003B5C;
 }
 
 .accessibility-button:focus {
-  outline: 3px solid #ce0037;
+  outline: 3px solid #CE0037;
 }
 
 .accessibility-menu {
@@ -644,7 +647,7 @@ button:hover {
 }
 
 .accessibility-menu h3 {
-  color: #ffc72c;
+  color: #FFC72C;
   margin-top: 0;
 }
 
@@ -674,14 +677,14 @@ button:hover {
 .form-group label {
   display: block;
   margin-bottom: 5px;
-  color: #ffc72c;
+  color: #FFC72C;
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ffc72c;
+  border: 1px solid #FFC72C;
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
@@ -724,7 +727,7 @@ button:hover {
   height: 150px;
   border-radius: 50%;
   margin: 0 auto 1rem;
-  background: #ffc72c;
+  background: #FFC72C;
   padding: 3px;
 }
 
@@ -732,12 +735,12 @@ button:hover {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: #003b5c;
+  background: #003B5C;
   padding: 1rem;
 }
 
 .chef-name {
-  color: #ffc72c;
+  color: #FFC72C;
   font-size: 1.5em;
   margin: 0.5rem 0;
 }
@@ -763,9 +766,9 @@ button:hover {
 .language-selector select {
   padding: 5px 10px;
   border-radius: 5px;
-  border: 2px solid #ffc72c;
+  border: 2px solid #FFC72C;
   background: rgba(0, 0, 0, 0.2);
-  color: #ffc72c;
+  color: #FFC72C;
   font-size: 1em;
   cursor: pointer;
 }
@@ -803,7 +806,7 @@ button:hover {
 }
 
 .tip-card h3 {
-  color: #ffc72c;
+  color: #FFC72C;
   margin-bottom: 10px;
 }
 
@@ -829,7 +832,7 @@ button:hover {
 }
 
 .article-content h4 {
-  color: #ffc72c;
+  color: #FFC72C;
   margin: 20px 0 10px;
 }
 
@@ -866,3 +869,4 @@ button:hover {
   max-width: 800px;
   margin: 0 auto;
 }
+
