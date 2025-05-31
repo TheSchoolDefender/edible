@@ -1,151 +1,88 @@
 <html lang="en">
 <head>
-    <script>
-        // If you want to use module loading, add this
-        window.addEventListener('DOMContentLoaded', () => {
-            const script = document.createElement('script');
-            script.type = 'module';
-            script.src = 'script.js';
-            document.head.appendChild(script);
-        });
-    </script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edible - Recipes by kids made for kids</title>
-<link rel="icon" type="image/x-icon" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edible - Recipes by kids made for kids</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
 
-<!-- Linking to GSAP and Particles.js libraries -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Linking to GSAP and Particles.js libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-<!-- Link to external CSS for styles -->
-<link rel="stylesheet" href="style.css">
+    <!-- Link to external CSS for styles -->
+    <link rel="stylesheet" href="style.css">
 
-    <!-- Add print stylesheet -->
-    <link rel="stylesheet" href="print.css" media="print">
-
-<!-- Link to external JavaScript file -->
-<script src="script.js" defer></script>
-
-    <!-- Add jsPDF library for PDF generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <style>
-        header {
-            background-color: transparent !important;
-            position: relative;
-            z-index: 2;
-        }
-        header a h1 {
-            text-shadow: 3px 3px 0px rgba(206, 0, 55, 0.7);
-        }
-    </style>
+    <!-- Link to external JavaScript file -->
+    <script src="script.js" defer></script>
 </head>
 <body>
-<div id="particles-js"></div>
-<div class="content">
-<header>
-            <a href="#" onclick="resetSurvey(); return false;"><h1 data-translate="Edible">Edible</h1></a>
-            <p class="subtitle" data-translate="Culinary Adventures for Young Chefs">Culinary Adventures for Young Chefs</p>
+    <div id="particles-js"></div>
+    <div class="content">
+        <header>
             <a href="#" onclick="resetSurvey(); return false;"><h1>Edible</h1></a>
             <p class="subtitle">Culinary Adventures for Young Chefs</p>
-<nav>
-<ul>
-                    <li><button class="nav-btn" onclick="showSection('recipes')" data-translate="nav_recipes">Recipes</button></li>
-                    <li><button class="nav-btn" onclick="showSection('cooks')" data-translate="nav_cooks">Cooks</button></li>
-                    
-                    <li><button class="nav-btn" onclick="showSection('questions')" data-translate="nav_questions">Questions</button></li>
-                    <li><button class="nav-btn" onclick="showSection('documentation')" data-translate="nav_documentation">Documentation</button></li>
+            <nav>
+                <ul>
                     <li><button class="nav-btn" onclick="showSection('recipes')">Recipes</button></li>
                     <li><button class="nav-btn" onclick="showSection('recipe-finder')">Recipe Finder</button></li>
                     <li><button class="nav-btn" onclick="showSection('cooking-tips')">Cooking Tips</button></li>
                     <li><button class="nav-btn" onclick="showSection('questions')">Questions</button></li>
                     <li><button class="nav-btn" onclick="showDocumentation()">Documentation</button></li>
-</ul>
-</nav>
-<div class="language-selector">
-<select id="language-select">
-<option value="en">English</option>
-                    <option value="es">Español</option>
-                    <option value="zh-CN">中文</option>
-                    <option value="fr">Français</option>
-                    <option value="hi">हिन्दी</option>
-                    <option value="ru">Русский</option>
+                </ul>
+            </nav>
+            <div class="language-selector">
+                <select id="language-select">
+                    <option value="en">English</option>
                     <option value="es">Espa&#xf1;ol</option>
                     <option value="zh-CN">&#x4e2d;&#x6587;</option>
                     <option value="fr">Fran&#xe7;ais</option>
                     <option value="hi">&#x939;&#x93f;&#x902;&#x926;&#x940;</option>
                     <option value="ru">&#x420;&#x443;&#x441;&#x441;&#x43a;&#x438;&#x439;</option>
-</select>
-</div>
-</header>
-<main id="main-content">
-            <div id="quiz" class="active">
+                </select>
+            </div>
+        </header>
+        <main id="main-content">
             <div id="quiz">
-<div id="q1" class="question">
-                    <h2 data-translate="q1_text">Have you ever cooked before?</h2>
+                <div id="q1" class="question">
                     <h2>Have you ever cooked before?</h2>
-<div class="options">
-                        <button onclick="nextQuestion(1, 'yes')" data-translate="yes_option">Yes</button>
-                        <button onclick="nextQuestion(1, 'no')" data-translate="no_option">No</button>
+                    <div class="options">
                         <button onclick="nextQuestion(1, 'yes')">Yes</button>
                         <button onclick="nextQuestion(1, 'no')">No</button>
-</div>
-</div>
-<div id="q2" class="question" style="display: none;">
-                    <h2 data-translate="q2_text">Do you enjoy trying new foods?</h2>
+                    </div>
+                </div>
+                <div id="q2" class="question" style="display: none;">
                     <h2>Do you enjoy trying new foods?</h2>
-<div class="options">
-                        <button onclick="nextQuestion(2, 'yes')" data-translate="yes_option">Yes</button>
-                        <button onclick="nextQuestion(2, 'no')" data-translate="no_option">No</button>
+                    <div class="options">
                         <button onclick="nextQuestion(2, 'yes')">Yes</button>
                         <button onclick="nextQuestion(2, 'no')">No</button>
-</div>
-</div>
-<div id="q3" class="question" style="display: none;">
-                    <h2 data-translate="q3_text">How adventurous are you with food?</h2>
-                    <h2>How adventurous are you with food?</h2>
-<div class="slider-container">
-<input type="range" min="1" max="10" value="5" class="slider" id="q3-slider" oninput="updateSliderValue(3, this.value)">
-                        <p><span data-translate="slider_value_prefix">Value: </span><span id="q3-value">5</span></p>
-                        <p>Value: <span id="q3-value">5</span></p>
-</div>
-                    <button class="done-btn" onclick="nextQuestion(3, document.getElementById('q3-slider').value)" data-translate="done_button">Done</button>
-                    <button class="done-btn" onclick="nextQuestion(3, document.getElementById('q3-slider').value)">Done</button>
-</div>
-<div id="q4" class="question" style="display: none;">
-                    <h2 data-translate="q4_text">How much do you like cooking?</h2>
-                    <h2>How much do you like cooking?</h2>
-<div class="slider-container">
-<input type="range" min="1" max="10" value="5" class="slider" id="q4-slider" oninput="updateSliderValue(4, this.value)">
-                        <p><span data-translate="slider_value_prefix">Value: </span><span id="q4-value">5</span></p>
-                        <p>Value: <span id="q4-value">5</span></p>
-</div>
-                    <button class="done-btn" onclick="nextQuestion(4, document.getElementById('q4-slider').value)" data-translate="done_button">Done</button>
-                    <button class="done-btn" onclick="nextQuestion(4, document.getElementById('q4-slider').value)">Done</button>
-</div>
-<div id="q5" class="question" style="display: none;">
-                    <h2 data-translate="q5_text">How confident are you in the kitchen?</h2>
-                    <h2>How confident are you in the kitchen?</h2>
-<div class="slider-container">
-<input type="range" min="1" max="10" value="5" class="slider" id="q5-slider" oninput="updateSliderValue(5, this.value)">
-                        <p><span data-translate="slider_value_prefix">Value: </span><span id="q5-value">5</span></p>
-                        <p>Value: <span id="q5-value">5</span></p>
-</div>
-                    <button class="done-btn" onclick="nextQuestion(5, document.getElementById('q5-slider').value)" data-translate="done_button">Done</button>
-                    <button class="done-btn" onclick="nextQuestion(5, document.getElementById('q5-slider').value)">Done</button>
-</div>
-</div>
-<div id="recipes" style="display: none;">
-                <h2 data-translate="recipes_title">Our Recipes</h2>
-                <div id="skill-level-container">
-                    <h3 data-translate="skill_level_prompt">Select Your Skill Level</h3>
-                    <input type="range" min="1" max="25" value="13" class="skill-level-slider" id="skill-level-slider" oninput="updateSkillLevelRecipes(this.value)">
-                    <div class="skill-level-labels">
-                        <span data-translate="skill_level_beginner">Beginner</span>
-                        <span data-translate="skill_level_intermediate">Intermediate</span>
-                        <span data-translate="skill_level_advanced">Advanced</span>
                     </div>
+                </div>
+                <div id="q3" class="question" style="display: none;">
+                    <h2>How adventurous are you with food?</h2>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="q3-slider" oninput="updateSliderValue(3, this.value)">
+                        <p>Value: <span id="q3-value">5</span></p>
+                    </div>
+                    <button class="done-btn" onclick="nextQuestion(3, document.getElementById('q3-slider').value)">Done</button>
+                </div>
+                <div id="q4" class="question" style="display: none;">
+                    <h2>How much do you like cooking?</h2>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="q4-slider" oninput="updateSliderValue(4, this.value)">
+                        <p>Value: <span id="q4-value">5</span></p>
+                    </div>
+                    <button class="done-btn" onclick="nextQuestion(4, document.getElementById('q4-slider').value)">Done</button>
+                </div>
+                <div id="q5" class="question" style="display: none;">
+                    <h2>How confident are you in the kitchen?</h2>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="10" value="5" class="slider" id="q5-slider" oninput="updateSliderValue(5, this.value)">
+                        <p>Value: <span id="q5-value">5</span></p>
+                    </div>
+                    <button class="done-btn" onclick="nextQuestion(5, document.getElementById('q5-slider').value)">Done</button>
+                </div>
+            </div>
+            <div id="recipes" style="display: none;">
                 <h2>Our Recipes</h2>
                 <div id="search-container">
                     <button id="filter-toggle" class="filter-toggle" onclick="toggleFilterSidebar()">
@@ -156,12 +93,7 @@
                         </svg>
                     </button>
                     <input type="text" id="search-input" placeholder="Search recipes..." oninput="searchRecipes()">
-</div>
-                <div id="favorite-recipes-toggle">
-                    <label>
-                        <input type="checkbox" id="favorite-recipes-checkbox" onchange="toggleFavoriteRecipes()">
-                        <span data-translate="show_favorite_recipes">Show Favorite Recipes</span>
-                    </label>
+                </div>
                 
                 <!-- Filter Sidebar -->
                 <div id="filter-sidebar" class="filter-sidebar">
@@ -193,24 +125,22 @@
                     </div>
                     
                     <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
-</div>
+                </div>
                 
-<div id="recipe-list"></div>
-</div>
-<div id="suggestions" style="display: none;">
-                <h2 data-translate="suggest_recipe_title">Suggest a Recipe</h2>
+                <div id="recipe-list"></div>
+            </div>
+            <div id="suggestions" style="display: none;">
                 <h2>Suggest a Recipe</h2>
-<iframe 
-src="https://docs.google.com/forms/d/e/1FAIpQLSeaer09DQu7nZCriGD82-cs4-ZG6b1LHCwOOYHxjjersEn2QA/viewform?embedded=true" 
-width="100%" 
-@@ -138,90 +141,147 @@ <h2 data-translate="suggest_recipe_title">Suggest a Recipe</h2>
-Loading…
-</iframe>
-</div>
-            <div id="equipment" style="display: none;">
-                <h2 data-translate="equipment_title">Kids' Kitchen Equipment</h2>
-                <div id="equipment-list" class="equipment-grid">
-                    <!-- Equipment items will be dynamically added here -->
+                <iframe 
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSeaer09DQu7nZCriGD82-cs4-ZG6b1LHCwOOYHxjjersEn2QA/viewform?embedded=true" 
+                    width="100%" 
+                    height="800" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0">
+                    Loading…
+                </iframe>
+            </div>
             <div id="cooking-tips" style="display: none;">
                 <h2>Cooking Tips & Articles</h2>
                 <div class="tips-container">
@@ -267,65 +197,52 @@ Loading…
                             <p>Remember, you don't need to buy everything at once. Start with these basics and add more equipment as you develop your cooking skills and try new recipes!</p>
                         </div>
                     </div>
-</div>
-</div>
-<div id="cooks" style="display: none;">
-                <h2 data-translate="cooks_title">Cooks</h2>
+                </div>
+            </div>
+            <div id="cooks" style="display: none;">
                 <h2>Cooks</h2>
-<div class="chef-grid">
-<div class="chef-card">
-<div class="chef-avatar">
-<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-<path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-</svg>
-</div>
-                        <h3 class="chef-name" data-translate="chef1_name">John Doe</h3>
-                        <p class="chef-title" data-translate="chef1_title">Head Chef</p>
-                        <p class="chef-bio" data-translate="chef1_bio">John has been cooking for over 10 years and has a passion for creating new recipes.</p>
+                <div class="chef-grid">
+                    <div class="chef-card">
+                        <div class="chef-avatar">
+                            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                            </svg>
+                        </div>
                         <h3 class="chef-name">John Doe</h3>
                         <p class="chef-title">Head Chef</p>
                         <p class="chef-bio">John has been cooking for over 10 years and has a passion for creating new recipes.</p>
-</div>
-<div class="chef-card">
-<div class="chef-avatar">
-<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-<path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-</svg>
-</div>
-                        <h3 class="chef-name" data-translate="chef2_name">Jane Doe</h3>
-                        <p class="chef-title" data-translate="chef2_title">Sous Chef</p>
-                        <p class="chef-bio" data-translate="chef2_bio">Jane is a skilled chef with a focus on creating delicious and healthy meals.</p>
+                    </div>
+                    <div class="chef-card">
+                        <div class="chef-avatar">
+                            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                            </svg>
+                        </div>
                         <h3 class="chef-name">Jane Doe</h3>
                         <p class="chef-title">Sous Chef</p>
                         <p class="chef-bio">Jane is a skilled chef with a focus on creating delicious and healthy meals.</p>
-</div>
-</div>
-</div>
-<div id="questions" style="display: none;">
-                <h2 data-translate="questions_forum_title">Questions Forum</h2>
+                    </div>
+                </div>
+            </div>
+            <div id="questions" style="display: none;">
                 <h2>Questions Forum</h2>
-<form id="question-form">
-<div class="form-group">
-                        <label for="name" data-translate="form_name_label">Your Name:</label>
+                <form id="question-form">
+                    <div class="form-group">
                         <label for="name">Your Name:</label>
-<input type="text" id="name" name="name" required>
-</div>
-<div class="form-group">  
-                        <label for="email" data-translate="form_email_label">Your Email:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">  
                         <label for="email">Your Email:</label>
-<input type="email" id="email" name="email" required>
-</div>
-<div class="form-group">
-                        <label for="question" data-translate="form_question_label">Your Question:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
                         <label for="question">Your Question:</label>
-<textarea id="question" name="question" required></textarea>
-</div>
-                    <button type="submit" class="nav-btn" data-translate="form_send_button">Send Email</button>
+                        <textarea id="question" name="question" required></textarea>
+                    </div>
                     <button type="submit" class="nav-btn">Send Email</button>
-</form>
-</div>
-<div id="documentation" style="display: none;">
-                <!-- Content will be dynamically inserted here, title translated in showDocumentation -->
+                </form>
+            </div>
+            <div id="documentation" style="display: none;">
                 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRQVW5HriT-ggSWD8nPClE2x41raBzSf9JFR1fxUWqky7LrLL7tHankodr89jNXBUt-gOYzyGuJdty6/pubembed?start=true&loop=false&delayms=3000" frameborder="0" width="797" height="1085" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
             </div>
             <div id="recipe-finder" style="display: none;">
@@ -336,80 +253,68 @@ Loading…
                     <div id="ingredient-questions"></div>
                 </div>
                 <div id="finder-results" style="display: none;"></div>
-</div>
-</main>
-<div id="result-container" style="display: none;">
-            <div id="result"></div> <!-- Content here is dynamic, will be translated in showResult -->
+            </div>
+        </main>
+        <div id="result-container" style="display: none;">
             <div id="result"></div>
-<div id="recommended-dishes"></div>
-            <!-- Button "Show Recommended Recipes" is added dynamically in showResult, needs translation there -->
+            <div id="recommended-dishes"></div>
             <button class="nav-btn" onclick="showRecommendedRecipes()">Show Recommended Recipes</button>
-</div>
-<div id="recipe-container" style="display: none;">
-<!-- Selected recipe will be displayed here -->
-</div>
-</div>
-    <button class="accessibility-button" onclick="toggleAccessibilityMenu()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="#003B5C">
-            <circle cx="12" cy="12" r="10" stroke="#003B5C" stroke-width="2" fill="none"/>
-            <circle cx="8" cy="9" r="1.5"/>
-            <circle cx="16" cy="9" r="1.5"/>
-            <path d="M7 14.5C7 14.5 9 17 12 17C15 17 17 14.5 17 14.5" stroke="#003B5C" stroke-width="2" fill="none"/>
-        </svg>
+        </div>
+        <div id="recipe-container" style="display: none;">
+            <!-- Selected recipe will be displayed here -->
+        </div>
+    </div>
     <button class="accessibility-button" onclick="toggleAccessibilityMenu()" aria-label="Accessibility Options">
         A11Y
         <span class="sr-only">Accessibility Options</span>
-</button>
+    </button>
 
-<div class="accessibility-menu" id="accessibility-menu">
-        <h3 data-translate="accessibility_title">Accessibility Options</h3>
+    <div class="accessibility-menu" id="accessibility-menu">
         <h3>Accessibility Options</h3>
-
-<div class="accessibility-option">
-            <label data-translate="accessibility_tts_label">Text-to-Speech</label>
+        
+        <div class="accessibility-option">
             <label>Text-to-Speech</label>
-<select id="tts-option" onchange="toggleTTS(this.value)">
-                <option value="off" data-translate="accessibility_tts_off">Off</option>
-                <option value="on" data-translate="accessibility_tts_on">On</option>
+            <select id="tts-option" onchange="toggleTTS(this.value)">
                 <option value="off">Off</option>
                 <option value="on">On</option>
-</select>
-</div>
-
-<div class="accessibility-option">
-            <label data-translate="accessibility_language_label">Language</label>
+            </select>
+        </div>
+        
+        <div class="accessibility-option">
             <label>Language</label>
-<select id="language-option">
-<option value="en">English</option>
-<option value="es">Español</option>
-@@ -233,23 +293,23 @@ <h3 data-translate="accessibility_title">Accessibility Options</h3>
-</div>
-
-<div class="accessibility-option">
-            <label data-translate="accessibility_font_label">Font Type</label>
+            <select id="language-option">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="zh-CN">中文</option>
+                <option value="fr">Français</option>
+                <option value="hi">हिन्दी</option>
+                <option value="ru">Русский</option>
+            </select>
+        </div>
+        
+        <div class="accessibility-option">
             <label>Font Type</label>
-<select id="font-option" onchange="toggleDyslexicFont(this.value)">
-                <option value="regular" data-translate="accessibility_font_regular">Regular</option>
-                <option value="dyslexic" data-translate="accessibility_font_dyslexic">Comic Sans</option>
+            <select id="font-option" onchange="toggleDyslexicFont(this.value)">
                 <option value="regular">Regular</option>
                 <option value="dyslexic">Comic Sans</option>
-</select>
-</div>
-
-<div class="accessibility-option">
-            <label data-translate="accessibility_contrast_label">High Contrast</label>
+            </select>
+        </div>
+        
+        <div class="accessibility-option">
             <label>High Contrast</label>
-<select id="contrast-option" onchange="toggleHighContrast(this.value)">
-                <option value="normal" data-translate="accessibility_contrast_normal">Normal</option>
-                <option value="high" data-translate="accessibility_contrast_high">High Contrast</option>
+            <select id="contrast-option" onchange="toggleHighContrast(this.value)">
                 <option value="normal">Normal</option>
                 <option value="high">High Contrast</option>
-</select>
-</div>
-
-<div class="accessibility-option">
-            <label data-translate="accessibility_text_size_label">Text Size</label>
+            </select>
+        </div>
+        
+        <div class="accessibility-option">
             <label>Text Size</label>
-<input type="range" min="100" max="200" value="100" id="text-size" oninput="adjustTextSize(this.value)">
-</div>
-</div>
+            <input type="range" min="100" max="200" value="100" id="text-size" oninput="adjustTextSize(this.value)">
+        </div>
+    </div>
+
+    <div class="arrow"></div>
+    <div id="google_translate_element" style="display:none;"></div>
+</body>
+</html>
