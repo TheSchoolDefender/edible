@@ -1,374 +1,415 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edible - Culinary Adventures for Young Chefs</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // If you want to use module loading, add this
+        window.addEventListener('DOMContentLoaded', () => {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = 'script.js';
+            document.head.appendChild(script);
+        });
+    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edible - Recipes by kids made for kids</title>
+<link rel="icon" type="image/x-icon" href="favicon.png">
+
+<!-- Linking to GSAP and Particles.js libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<!-- Link to external CSS for styles -->
+<link rel="stylesheet" href="style.css">
+
+    <!-- Add print stylesheet -->
+    <link rel="stylesheet" href="print.css" media="print">
+
+<!-- Link to external JavaScript file -->
+<script src="script.js" defer></script>
+
+    <!-- Add jsPDF library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        header {
+            background-color: transparent !important;
+            position: relative;
+            z-index: 2;
+        }
+        header a h1 {
+            text-shadow: 3px 3px 0px rgba(206, 0, 55, 0.7);
+        }
+    </style>
 </head>
 <body>
-    <div id="particles-js"></div>
-    
-    <div class="content">
-        <header>
-            <div class="language-selector">
-                <select id="language-select" aria-label="Select Language">
-                    <option value="en">English</option>
+<div id="particles-js"></div>
+<div class="content">
+<header>
+            <a href="#" onclick="resetSurvey(); return false;"><h1 data-translate="Edible">Edible</h1></a>
+            <p class="subtitle" data-translate="Culinary Adventures for Young Chefs">Culinary Adventures for Young Chefs</p>
+            <a href="#" onclick="resetSurvey(); return false;"><h1>Edible</h1></a>
+            <p class="subtitle">Culinary Adventures for Young Chefs</p>
+<nav>
+<ul>
+                    <li><button class="nav-btn" onclick="showSection('recipes')" data-translate="nav_recipes">Recipes</button></li>
+                    <li><button class="nav-btn" onclick="showSection('cooks')" data-translate="nav_cooks">Cooks</button></li>
+                    
+                    <li><button class="nav-btn" onclick="showSection('questions')" data-translate="nav_questions">Questions</button></li>
+                    <li><button class="nav-btn" onclick="showSection('documentation')" data-translate="nav_documentation">Documentation</button></li>
+                    <li><button class="nav-btn" onclick="showSection('recipes')">Recipes</button></li>
+                    <li><button class="nav-btn" onclick="showSection('recipe-finder')">Recipe Finder</button></li>
+                    <li><button class="nav-btn" onclick="showSection('cooking-tips')">Cooking Tips</button></li>
+                    <li><button class="nav-btn" onclick="showSection('questions')">Questions</button></li>
+                    <li><button class="nav-btn" onclick="showDocumentation()">Documentation</button></li>
+</ul>
+</nav>
+<div class="language-selector">
+<select id="language-select">
+<option value="en">English</option>
                     <option value="es">Español</option>
                     <option value="zh-CN">中文</option>
                     <option value="fr">Français</option>
                     <option value="hi">हिन्दी</option>
                     <option value="ru">Русский</option>
-                </select>
-            </div>
-            
-            <div id="google_translate_element" style="display: none;"></div>
-            
-            <a href="#" onclick="resetSurvey()">
-                <h1>Edible</h1>
-                <p class="subtitle">Culinary Adventures for Young Chefs</p>
-            </a>
-            
-            <nav>
-                <ul>
-                    <li><a href="#" class="nav-btn" onclick="showSection('recipes')">Recipes</a></li>
-                    <li><a href="#" class="nav-btn" onclick="showSection('recipe-finder')">Recipe Finder</a></li>
-                    <li><a href="#" class="nav-btn" onclick="showSection('cooking-tips')">Cooking Tips</a></li>
-                    <li><a href="#" class="nav-btn" onclick="showSection('questions')">Questions</a></li>
-                    <li><a href="#" class="nav-btn" onclick="showDocumentation()">Documentation</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <main>
-            <!-- Quiz Section -->
+                    <option value="es">Espa&#xf1;ol</option>
+                    <option value="zh-CN">&#x4e2d;&#x6587;</option>
+                    <option value="fr">Fran&#xe7;ais</option>
+                    <option value="hi">&#x939;&#x93f;&#x902;&#x926;&#x940;</option>
+                    <option value="ru">&#x420;&#x443;&#x441;&#x441;&#x43a;&#x438;&#x439;</option>
+</select>
+</div>
+</header>
+<main id="main-content">
+            <div id="quiz" class="active">
             <div id="quiz">
-                <div id="q1" class="question">
-                    <h2>How much cooking experience do you have?</h2>
-                    <div class="options">
-                        <button onclick="nextQuestion(1, 'none')">None at all</button>
-                        <button onclick="nextQuestion(1, 'little')">A little</button>
-                        <button onclick="nextQuestion(1, 'some')">Some experience</button>
-                        <button onclick="nextQuestion(1, 'lots')">Lots of experience</button>
-                    </div>
-                </div>
-
-                <div id="q2" class="question" style="display: none;">
-                    <h2>How adventurous are you with trying new foods?</h2>
-                    <div class="options">
-                        <button onclick="nextQuestion(2, 'not-adventurous')">Not very adventurous</button>
-                        <button onclick="nextQuestion(2, 'somewhat')">Somewhat adventurous</button>
-                        <button onclick="nextQuestion(2, 'very')">Very adventurous</button>
-                        <button onclick="nextQuestion(2, 'extremely')">Extremely adventurous</button>
-                    </div>
-                </div>
-
-                <div id="q3" class="question" style="display: none;">
-                    <h2>How much do you enjoy cooking?</h2>
-                    <div class="slider-container">
-                        <p>Not at all</p>
-                        <input type="range" min="1" max="10" value="5" class="slider" id="q3-slider" oninput="updateSliderValue(3, this.value)">
-                        <p>Love it!</p>
-                        <p>Current value: <span id="q3-value">5</span></p>
-                        <button class="done-btn" onclick="nextQuestion(3, document.getElementById('q3-slider').value)">Next</button>
-                    </div>
-                </div>
-
-                <div id="q4" class="question" style="display: none;">
+<div id="q1" class="question">
+                    <h2 data-translate="q1_text">Have you ever cooked before?</h2>
+                    <h2>Have you ever cooked before?</h2>
+<div class="options">
+                        <button onclick="nextQuestion(1, 'yes')" data-translate="yes_option">Yes</button>
+                        <button onclick="nextQuestion(1, 'no')" data-translate="no_option">No</button>
+                        <button onclick="nextQuestion(1, 'yes')">Yes</button>
+                        <button onclick="nextQuestion(1, 'no')">No</button>
+</div>
+</div>
+<div id="q2" class="question" style="display: none;">
+                    <h2 data-translate="q2_text">Do you enjoy trying new foods?</h2>
+                    <h2>Do you enjoy trying new foods?</h2>
+<div class="options">
+                        <button onclick="nextQuestion(2, 'yes')" data-translate="yes_option">Yes</button>
+                        <button onclick="nextQuestion(2, 'no')" data-translate="no_option">No</button>
+                        <button onclick="nextQuestion(2, 'yes')">Yes</button>
+                        <button onclick="nextQuestion(2, 'no')">No</button>
+</div>
+</div>
+<div id="q3" class="question" style="display: none;">
+                    <h2 data-translate="q3_text">How adventurous are you with food?</h2>
+                    <h2>How adventurous are you with food?</h2>
+<div class="slider-container">
+<input type="range" min="1" max="10" value="5" class="slider" id="q3-slider" oninput="updateSliderValue(3, this.value)">
+                        <p><span data-translate="slider_value_prefix">Value: </span><span id="q3-value">5</span></p>
+                        <p>Value: <span id="q3-value">5</span></p>
+</div>
+                    <button class="done-btn" onclick="nextQuestion(3, document.getElementById('q3-slider').value)" data-translate="done_button">Done</button>
+                    <button class="done-btn" onclick="nextQuestion(3, document.getElementById('q3-slider').value)">Done</button>
+</div>
+<div id="q4" class="question" style="display: none;">
+                    <h2 data-translate="q4_text">How much do you like cooking?</h2>
+                    <h2>How much do you like cooking?</h2>
+<div class="slider-container">
+<input type="range" min="1" max="10" value="5" class="slider" id="q4-slider" oninput="updateSliderValue(4, this.value)">
+                        <p><span data-translate="slider_value_prefix">Value: </span><span id="q4-value">5</span></p>
+                        <p>Value: <span id="q4-value">5</span></p>
+</div>
+                    <button class="done-btn" onclick="nextQuestion(4, document.getElementById('q4-slider').value)" data-translate="done_button">Done</button>
+                    <button class="done-btn" onclick="nextQuestion(4, document.getElementById('q4-slider').value)">Done</button>
+</div>
+<div id="q5" class="question" style="display: none;">
+                    <h2 data-translate="q5_text">How confident are you in the kitchen?</h2>
                     <h2>How confident are you in the kitchen?</h2>
-                    <div class="slider-container">
-                        <p>Not confident</p>
-                        <input type="range" min="1" max="10" value="5" class="slider" id="q4-slider" oninput="updateSliderValue(4, this.value)">
-                        <p>Very confident</p>
-                        <p>Current value: <span id="q4-value">5</span></p>
-                        <button class="done-btn" onclick="nextQuestion(4, document.getElementById('q4-slider').value)">Next</button>
+<div class="slider-container">
+<input type="range" min="1" max="10" value="5" class="slider" id="q5-slider" oninput="updateSliderValue(5, this.value)">
+                        <p><span data-translate="slider_value_prefix">Value: </span><span id="q5-value">5</span></p>
+                        <p>Value: <span id="q5-value">5</span></p>
+</div>
+                    <button class="done-btn" onclick="nextQuestion(5, document.getElementById('q5-slider').value)" data-translate="done_button">Done</button>
+                    <button class="done-btn" onclick="nextQuestion(5, document.getElementById('q5-slider').value)">Done</button>
+</div>
+</div>
+<div id="recipes" style="display: none;">
+                <h2 data-translate="recipes_title">Our Recipes</h2>
+                <div id="skill-level-container">
+                    <h3 data-translate="skill_level_prompt">Select Your Skill Level</h3>
+                    <input type="range" min="1" max="25" value="13" class="skill-level-slider" id="skill-level-slider" oninput="updateSkillLevelRecipes(this.value)">
+                    <div class="skill-level-labels">
+                        <span data-translate="skill_level_beginner">Beginner</span>
+                        <span data-translate="skill_level_intermediate">Intermediate</span>
+                        <span data-translate="skill_level_advanced">Advanced</span>
                     </div>
-                </div>
-
-                <div id="q5" class="question" style="display: none;">
-                    <h2>What type of cuisine interests you most?</h2>
-                    <div class="options">
-                        <button onclick="nextQuestion(5, 'american')">American</button>
-                        <button onclick="nextQuestion(5, 'mexican')">Mexican</button>
-                        <button onclick="nextQuestion(5, 'chinese')">Chinese</button>
-                        <button onclick="nextQuestion(5, 'indian')">Indian</button>
-                        <button onclick="nextQuestion(5, 'italian')">Italian</button>
-                        <button onclick="nextQuestion(5, 'french')">French</button>
-                        <button onclick="nextQuestion(5, 'all')">All of them!</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Result Section -->
-            <div id="result-container" style="display: none;">
-                <div id="result"></div>
-                <div id="recommended-dishes"></div>
-                <button class="nav-btn" onclick="showSection('food-quiz')">Take Food Knowledge Quiz</button>
-                <button class="nav-btn" onclick="resetSurvey()">Retake Survey</button>
-            </div>
-
-            <!-- Food Quiz Section -->
-            <div id="food-quiz" style="display: none;">
-                <h2>Food Knowledge Quiz</h2>
-                <div id="food-quiz-content">
-                    <div id="food-question"></div>
-                    <div id="food-options"></div>
-                    <div id="food-quiz-result" style="display: none;"></div>
-                </div>
-                <button class="nav-btn" onclick="resetSurvey()">Back to Main Quiz</button>
-            </div>
-
-            <!-- Recipes Section -->
-            <div id="recipes" style="display: none;">
-                <h2>Our Recipe Collection</h2>
+                <h2>Our Recipes</h2>
                 <div id="search-container">
-                    <button class="filter-toggle" onclick="toggleFilterSidebar()" aria-label="Open Filters">
-                        🔍 Filters
+                    <button id="filter-toggle" class="filter-toggle" onclick="toggleFilterSidebar()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" y1="6" x2="20" y2="6"></line>
+                            <line x1="4" y1="12" x2="20" y2="12"></line>
+                            <line x1="4" y1="18" x2="20" y2="18"></line>
+                        </svg>
                     </button>
                     <input type="text" id="search-input" placeholder="Search recipes..." oninput="searchRecipes()">
-                </div>
-                <div id="recipe-list"></div>
-            </div>
-
-            <!-- Filter Sidebar -->
-            <div id="filter-sidebar" class="filter-sidebar">
-                <button class="close-sidebar" onclick="toggleFilterSidebar()" aria-label="Close Filters">&times;</button>
-                <h3>Filter Recipes</h3>
+</div>
+                <div id="favorite-recipes-toggle">
+                    <label>
+                        <input type="checkbox" id="favorite-recipes-checkbox" onchange="toggleFavoriteRecipes()">
+                        <span data-translate="show_favorite_recipes">Show Favorite Recipes</span>
+                    </label>
                 
-                <div class="filter-section">
-                    <h4>Skill Level</h4>
-                    <label><input type="checkbox" id="skill-beginner" onchange="searchRecipes()"> Beginner</label>
-                    <label><input type="checkbox" id="skill-intermediate" onchange="searchRecipes()"> Intermediate</label>
-                    <label><input type="checkbox" id="skill-master" onchange="searchRecipes()"> Master</label>
-                </div>
-
-                <div class="filter-section">
-                    <h4>Ingredients</h4>
-                    <div class="scrollable-checkboxes" id="ingredient-checkboxes">
-                        <!-- Ingredient checkboxes will be populated by JavaScript -->
+                <!-- Filter Sidebar -->
+                <div id="filter-sidebar" class="filter-sidebar">
+                    <button class="close-sidebar" onclick="toggleFilterSidebar()">&times;</button>
+                    <h3>Filter Recipes</h3>
+                    
+                    <div class="filter-section">
+                        <h4>Skill Level</h4>
+                        <select id="skill-level-filter" onchange="searchRecipes()">
+                            <option value="">All Skill Levels</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Master">Master</option>
+                        </select>
                     </div>
-                </div>
-
-                <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
-            </div>
-
-            <!-- Recipe Finder Section -->
-            <div id="recipe-finder" style="display: none;">
-                <h2>Recipe Finder</h2>
-                <p>Answer a few questions about what ingredients you have, and we'll suggest recipes you can make!</p>
-                
-                <div id="ingredients-survey">
-                    <div id="ingredient-questions">
-                        <!-- Questions will be populated by JavaScript -->
+                    
+                    <div class="filter-section">
+                        <h4>Ingredients</h4>
+                        <div id="ingredient-checkboxes" class="scrollable-checkboxes"></div>
                     </div>
-                </div>
+                    
+                    <div class="filter-section">
+                        <h4>Sort By</h4>
+                        <select id="sort-filter" onchange="searchRecipes()">
+                            <option value="name">Name (A-Z)</option>
+                            <option value="difficulty">Difficulty</option>
+                            <option value="ingredients">Fewest Ingredients</option>
+                        </select>
+                    </div>
+                    
+                    <button class="apply-filters" onclick="applyFilters()">Apply Filters</button>
+</div>
                 
-                <div id="finder-results" style="display: none;">
-                    <!-- Results will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Cooking Tips Section -->
+<div id="recipe-list"></div>
+</div>
+<div id="suggestions" style="display: none;">
+                <h2 data-translate="suggest_recipe_title">Suggest a Recipe</h2>
+                <h2>Suggest a Recipe</h2>
+<iframe 
+src="https://docs.google.com/forms/d/e/1FAIpQLSeaer09DQu7nZCriGD82-cs4-ZG6b1LHCwOOYHxjjersEn2QA/viewform?embedded=true" 
+width="100%" 
+@@ -138,90 +141,147 @@ <h2 data-translate="suggest_recipe_title">Suggest a Recipe</h2>
+Loading…
+</iframe>
+</div>
+            <div id="equipment" style="display: none;">
+                <h2 data-translate="equipment_title">Kids' Kitchen Equipment</h2>
+                <div id="equipment-list" class="equipment-grid">
+                    <!-- Equipment items will be dynamically added here -->
             <div id="cooking-tips" style="display: none;">
-                <h2>Cooking Tips & Techniques</h2>
+                <h2>Cooking Tips & Articles</h2>
                 <div class="tips-container">
                     <div class="tip-card">
-                        <h3>🔪 Knife Skills 101</h3>
-                        <p>Learn proper cutting techniques and safety. Always curl your fingers like a claw when holding food, and keep your knife sharp - a dull knife is more dangerous than a sharp one!</p>
+                        <h3>Knife Skills 101</h3>
+                        <p>Learn proper knife techniques to make cooking safer and more efficient. Always curl your fingertips under when holding food to protect them from the blade.</p>
                     </div>
-                    
                     <div class="tip-card">
-                        <h3>📏 Measuring Ingredients</h3>
-                        <p>Accurate measurements are crucial for baking. Use dry measuring cups for flour and sugar, liquid measuring cups for milk and oil. Level off dry ingredients with a knife.</p>
+                        <h3>Measuring Ingredients</h3>
+                        <p>For dry ingredients, fill and level with a straight edge. For liquids, read at eye level on a flat surface to ensure accuracy.</p>
                     </div>
-                    
                     <div class="tip-card">
-                        <h3>🧂 Salt as You Go</h3>
-                        <p>Don't wait until the end to season your food. Add salt in layers throughout cooking to build flavor. Taste as you go and adjust seasoning gradually.</p>
+                        <h3>Salt as You Go</h3>
+                        <p>Add salt throughout the cooking process rather than all at once at the end. This builds flavor in layers.</p>
                     </div>
-                    
                     <div class="tip-card">
-                        <h3>🥩 Rest Your Meat</h3>
-                        <p>After cooking meat, let it rest for 5-10 minutes before cutting. This allows juices to redistribute, making your meat more tender and flavorful.</p>
+                        <h3>Rest Your Meat</h3>
+                        <p>Let meat rest after cooking to allow juices to redistribute. For steaks, rest about 5 minutes.</p>
                     </div>
-                    
                     <div class="tip-card">
-                        <h3>🍳 Prep Before Cooking</h3>
-                        <p>Mise en place (everything in its place) is a chef's best friend. Prepare and measure all ingredients before you start cooking. This prevents mistakes and makes cooking smoother.</p>
+                        <h3>Prep Before Cooking</h3>
+                        <p>Read the recipe completely and prep all ingredients before you start cooking. This is called "mise en place" and makes cooking much smoother.</p>
                     </div>
-                    
                     <div class="tip-card">
-                        <h3>🔥 Heat Control</h3>
-                        <p>Understanding heat levels is key to good cooking. High heat for searing, medium for most cooking, low for simmering. Don't rush - good food takes time!</p>
+                        <h3>Control Heat</h3>
+                        <p>Different cooking methods require different heat levels. Low and slow for tough meats, high heat for searing.</p>
                     </div>
-                    
                     <div class="tip-card featured-article">
                         <h3>The Top 5 Best Cooking Equipment!</h3>
-                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=400&fit=crop" alt="Professional cooking equipment" style="max-width: 100%; height: auto;">
+                        <img src="https://cdn.pixabay.com/photo/2016/12/26/17/28/spaghetti-1932466_1280.jpg" alt="Professional cooking equipment">
                         <div class="article-content">
                             <p>Having the right tools can make all the difference in your cooking journey. Here are our top 5 essential cooking equipment picks that every young chef should have:</p>
                             
                             <h4>1. Chef's Knife</h4>
-                            <img src="https://images.unsplash.com/photo-1593618998160-e34014e67546?w=600&h=300&fit=crop" alt="Chef's Knife" style="max-width: 100%; height: auto; display: block; margin: 10px auto;">
+                            <img src="https://cdn.pixabay.com/photo/2016/03/31/19/23/knife-1294965_1280.jpg" alt="Chef's Knife">
                             <p>A good chef's knife is the foundation of any kitchen. Look for one that feels comfortable in your hand. For young chefs, consider a smaller 6-inch knife that's easier to control.</p>
                             
-                            <h4>2. Cutting Board</h4>
-                            <img src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=600&h=300&fit=crop" alt="Cutting Board" style="max-width: 100%; height: auto; display: block; margin: 10px auto;">
-                            <p>A sturdy cutting board protects your counters and keeps your knife sharp. Wood or plastic boards work well - just make sure to keep them clean!</p>
+                            <h4>2. Mixing Bowls Set</h4>
+                            <img src="https://cdn.pixabay.com/photo/2015/09/09/21/33/cooking-933841_1280.jpg" alt="Mixing Bowls">
+                            <p>A set of different sized mixing bowls is essential for preparing ingredients, mixing batters, and tossing salads. Stainless steel bowls are durable and lightweight.</p>
                             
-                            <h4>3. Non-Stick Pan</h4>
-                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=300&fit=crop" alt="Non-Stick Pan" style="max-width: 100%; height: auto; display: block; margin: 10px auto;">
-                            <p>Perfect for eggs, pancakes, and delicate foods. A good non-stick pan makes cooking and cleanup much easier for beginners.</p>
+                            <h4>3. Measuring Cups and Spoons</h4>
+                            <img src="https://cdn.pixabay.com/photo/2017/07/31/17/45/measuring-spoons-2559284_1280.jpg" alt="Measuring Tools">
+                            <p>Precise measurements are crucial in cooking and especially in baking. A good set of measuring cups for dry ingredients and a liquid measuring cup with clear markings will help you follow recipes accurately.</p>
                             
-                            <h4>4. Measuring Cups and Spoons</h4>
-                            <img src="https://images.unsplash.com/photo-1574781330855-d0db2706b3d0?w=600&h=300&fit=crop" alt="Measuring Cups" style="max-width: 100%; height: auto; display: block; margin: 10px auto;">
-                            <p>Accurate measurements are crucial for successful cooking and baking. Get both dry and liquid measuring tools.</p>
+                            <h4>4. Non-Stick Pan</h4>
+                            <img src="https://cdn.pixabay.com/photo/2021/01/10/08/03/frying-pan-5904042_1280.jpg" alt="Non-stick Pan">
+                            <p>A quality non-stick pan makes cooking eggs, pancakes, and delicate foods much easier. Look for one with a sturdy handle that stays cool during cooking.</p>
                             
-                            <h4>5. Mixing Bowls</h4>
-                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=300&fit=crop" alt="Mixing Bowls" style="max-width: 100%; height: auto; display: block; margin: 10px auto;">
-                            <p>A set of different sized mixing bowls is essential for prep work, mixing ingredients, and serving. Stainless steel or glass bowls are most versatile.</p>
+                            <h4>5. Digital Timer</h4>
+                            <img src="https://cdn.pixabay.com/photo/2017/01/09/12/49/timer-1966761_1280.jpg" alt="Kitchen Timer">
+                            <p>Never overcook again! A digital timer helps you keep track of cooking times precisely. Many young chefs find that timing is one of the most challenging aspects of cooking.</p>
+                            
+                            <p>Remember, you don't need to buy everything at once. Start with these basics and add more equipment as you develop your cooking skills and try new recipes!</p>
                         </div>
                     </div>
-                </div>
+</div>
+</div>
+<div id="cooks" style="display: none;">
+                <h2 data-translate="cooks_title">Cooks</h2>
+                <h2>Cooks</h2>
+<div class="chef-grid">
+<div class="chef-card">
+<div class="chef-avatar">
+<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+<path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+</svg>
+</div>
+                        <h3 class="chef-name" data-translate="chef1_name">John Doe</h3>
+                        <p class="chef-title" data-translate="chef1_title">Head Chef</p>
+                        <p class="chef-bio" data-translate="chef1_bio">John has been cooking for over 10 years and has a passion for creating new recipes.</p>
+                        <h3 class="chef-name">John Doe</h3>
+                        <p class="chef-title">Head Chef</p>
+                        <p class="chef-bio">John has been cooking for over 10 years and has a passion for creating new recipes.</p>
+</div>
+<div class="chef-card">
+<div class="chef-avatar">
+<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+<path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+</svg>
+</div>
+                        <h3 class="chef-name" data-translate="chef2_name">Jane Doe</h3>
+                        <p class="chef-title" data-translate="chef2_title">Sous Chef</p>
+                        <p class="chef-bio" data-translate="chef2_bio">Jane is a skilled chef with a focus on creating delicious and healthy meals.</p>
+                        <h3 class="chef-name">Jane Doe</h3>
+                        <p class="chef-title">Sous Chef</p>
+                        <p class="chef-bio">Jane is a skilled chef with a focus on creating delicious and healthy meals.</p>
+</div>
+</div>
+</div>
+<div id="questions" style="display: none;">
+                <h2 data-translate="questions_forum_title">Questions Forum</h2>
+                <h2>Questions Forum</h2>
+<form id="question-form">
+<div class="form-group">
+                        <label for="name" data-translate="form_name_label">Your Name:</label>
+                        <label for="name">Your Name:</label>
+<input type="text" id="name" name="name" required>
+</div>
+<div class="form-group">  
+                        <label for="email" data-translate="form_email_label">Your Email:</label>
+                        <label for="email">Your Email:</label>
+<input type="email" id="email" name="email" required>
+</div>
+<div class="form-group">
+                        <label for="question" data-translate="form_question_label">Your Question:</label>
+                        <label for="question">Your Question:</label>
+<textarea id="question" name="question" required></textarea>
+</div>
+                    <button type="submit" class="nav-btn" data-translate="form_send_button">Send Email</button>
+                    <button type="submit" class="nav-btn">Send Email</button>
+</form>
+</div>
+<div id="documentation" style="display: none;">
+                <!-- Content will be dynamically inserted here, title translated in showDocumentation -->
+                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRQVW5HriT-ggSWD8nPClE2x41raBzSf9JFR1fxUWqky7LrLL7tHankodr89jNXBUt-gOYzyGuJdty6/pubembed?start=true&loop=false&delayms=3000" frameborder="0" width="797" height="1085" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
             </div>
-
-            <!-- Questions Section -->
-            <div id="questions" style="display: none;">
-                <h2>Ask Our Chefs</h2>
-                <p>Have a cooking question? Our expert chefs are here to help!</p>
-                
-                <div id="questions-container">
-                    <div class="question-cube">
-                        <div class="question-cube-inner">
-                            <div class="question-cube-front">
-                                <h3>How do I know when my steak is done?</h3>
-                            </div>
-                            <div class="question-cube-back">
-                                <p>Use a meat thermometer! 125°F for rare, 135°F for medium-rare, 145°F for medium.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="question-cube">
-                        <div class="question-cube-inner">
-                            <div class="question-cube-front">
-                                <h3>Why did my cake sink in the middle?</h3>
-                            </div>
-                            <div class="question-cube-back">
-                                <p>Usually from opening the oven door too early or incorrect oven temperature. Be patient!</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="question-cube">
-                        <div class="question-cube-inner">
-                            <div class="question-cube-front">
-                                <h3>How do I make my pasta less sticky?</h3>
-                            </div>
-                            <div class="question-cube-back">
-                                <p>Use plenty of salted boiling water and stir occasionally. Don't rinse after cooking!</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="question-cube">
-                        <div class="question-cube-inner">
-                            <div class="question-cube-front">
-                                <h3>What's the secret to fluffy pancakes?</h3>
-                            </div>
-                            <div class="question-cube-back">
-                                <p>Don't overmix the batter! A few lumps are okay. Overmixing makes them tough.</p>
-                            </div>
-                        </div>
-                    </div>
+            <div id="recipe-finder" style="display: none;">
+                <h2>Recipe Finder</h2>
+                <p>Let us help you find recipes with ingredients you have on hand.</p>
+                <div id="ingredients-survey">
+                    <h3>What ingredients do you have?</h3>
+                    <div id="ingredient-questions"></div>
                 </div>
-                
-                <div style="margin-top: 40px;">
-                    <h3>Submit Your Own Question</h3>
-                    <form id="question-form">
-                        <div class="form-group">
-                            <label for="user-name">Your Name:</label>
-                            <input type="text" id="user-name" name="name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="user-email">Email (optional):</label>
-                            <input type="email" id="user-email" name="email">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="user-question">Your Question:</label>
-                            <textarea id="user-question" name="question" required placeholder="Ask anything about cooking, recipes, or techniques..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="nav-btn">Submit Question</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Recipe Detail Section -->
-            <div id="recipe-container" style="display: none;">
-                <div id="recipe-detail"></div>
-                <button class="nav-btn back-btn" onclick="showSection('recipes')">Back to Recipes</button>
-            </div>
-        </main>
-    </div>
-
-    <!-- Accessibility Menu -->
-    <div id="accessibility-menu" class="accessibility-menu">
-        <h3>Accessibility Options</h3>
-        
-        <div class="accessibility-option">
-            <label for="tts-option">Text-to-Speech:</label>
-            <select id="tts-option" onchange="toggleTTS(this.value)">
-                <option value="off">Off</option>
-                <option value="on">On</option>
-            </select>
-        </div>
-        
-        <div class="accessibility-option">
-            <label for="font-option">Font Style:</label>
-            <select id="font-option" onchange="toggleDyslexicFont(this.value)">
-                <option value="normal">Normal</option>
-                <option value="dyslexic">Dyslexic-Friendly</option>
-            </select>
-        </div>
-        
-        <div class="accessibility-option">
-            <label for="contrast-option">Contrast:</label>
-            <select id="contrast-option" onchange="toggleHighContrast(this.value)">
-                <option value="normal">Normal</option>
-                <option value="high">High Contrast</option>
-            </select>
-        </div>
-        
-        <div class="accessibility-option">
-            <label for="text-size">Text Size:</label>
-            <input type="range" id="text-size" min="80" max="150" value="100" onchange="adjustTextSize(this.value)">
-            <span id="text-size-value">100%</span>
-        </div>
-        
-        <div class="accessibility-option">
-            <label for="language-option">Language:</label>
-            <select id="language-option">
-                <option value="en">English</option>
-                <option value="es">Español</option>
-                <option value="zh-CN">中文</option>
-                <option value="fr">Français</option>
-                <option value="hi">हिन्दी</option>
-                <option value="ru">Русский</option>
-            </select>
-        </div>
-    </div>
-
+                <div id="finder-results" style="display: none;"></div>
+</div>
+</main>
+<div id="result-container" style="display: none;">
+            <div id="result"></div> <!-- Content here is dynamic, will be translated in showResult -->
+            <div id="result"></div>
+<div id="recommended-dishes"></div>
+            <!-- Button "Show Recommended Recipes" is added dynamically in showResult, needs translation there -->
+            <button class="nav-btn" onclick="showRecommendedRecipes()">Show Recommended Recipes</button>
+</div>
+<div id="recipe-container" style="display: none;">
+<!-- Selected recipe will be displayed here -->
+</div>
+</div>
+    <button class="accessibility-button" onclick="toggleAccessibilityMenu()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#003B5C">
+            <circle cx="12" cy="12" r="10" stroke="#003B5C" stroke-width="2" fill="none"/>
+            <circle cx="8" cy="9" r="1.5"/>
+            <circle cx="16" cy="9" r="1.5"/>
+            <path d="M7 14.5C7 14.5 9 17 12 17C15 17 17 14.5 17 14.5" stroke="#003B5C" stroke-width="2" fill="none"/>
+        </svg>
     <button class="accessibility-button" onclick="toggleAccessibilityMenu()" aria-label="Accessibility Options">
         A11Y
-    </button>
+        <span class="sr-only">Accessibility Options</span>
+</button>
 
-    <div class="arrow" id="scroll-arrow"></div>
+<div class="accessibility-menu" id="accessibility-menu">
+        <h3 data-translate="accessibility_title">Accessibility Options</h3>
+        <h3>Accessibility Options</h3>
 
-    <script src="script.js"></script>
-</body>
-</html>
+<div class="accessibility-option">
+            <label data-translate="accessibility_tts_label">Text-to-Speech</label>
+            <label>Text-to-Speech</label>
+<select id="tts-option" onchange="toggleTTS(this.value)">
+                <option value="off" data-translate="accessibility_tts_off">Off</option>
+                <option value="on" data-translate="accessibility_tts_on">On</option>
+                <option value="off">Off</option>
+                <option value="on">On</option>
+</select>
+</div>
+
+<div class="accessibility-option">
+            <label data-translate="accessibility_language_label">Language</label>
+            <label>Language</label>
+<select id="language-option">
+<option value="en">English</option>
+<option value="es">Español</option>
+@@ -233,23 +293,23 @@ <h3 data-translate="accessibility_title">Accessibility Options</h3>
+</div>
+
+<div class="accessibility-option">
+            <label data-translate="accessibility_font_label">Font Type</label>
+            <label>Font Type</label>
+<select id="font-option" onchange="toggleDyslexicFont(this.value)">
+                <option value="regular" data-translate="accessibility_font_regular">Regular</option>
+                <option value="dyslexic" data-translate="accessibility_font_dyslexic">Comic Sans</option>
+                <option value="regular">Regular</option>
+                <option value="dyslexic">Comic Sans</option>
+</select>
+</div>
+
+<div class="accessibility-option">
+            <label data-translate="accessibility_contrast_label">High Contrast</label>
+            <label>High Contrast</label>
+<select id="contrast-option" onchange="toggleHighContrast(this.value)">
+                <option value="normal" data-translate="accessibility_contrast_normal">Normal</option>
+                <option value="high" data-translate="accessibility_contrast_high">High Contrast</option>
+                <option value="normal">Normal</option>
+                <option value="high">High Contrast</option>
+</select>
+</div>
+
+<div class="accessibility-option">
+            <label data-translate="accessibility_text_size_label">Text Size</label>
+            <label>Text Size</label>
+<input type="range" min="100" max="200" value="100" id="text-size" oninput="adjustTextSize(this.value)">
+</div>
+</div>
