@@ -78,6 +78,7 @@ body {
   font-family: 'Poppins', sans-serif;
   color: #fff;
   text-align: center;
+  font-size: 16px; /* Add base font size for scaling */
 }
 
 .content {
@@ -680,6 +681,7 @@ button:hover {
   padding: 5px;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
 }
 
 .form-group {
