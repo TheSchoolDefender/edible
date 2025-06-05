@@ -1000,6 +1000,12 @@ function toggleHighContrast(value) {
   }
 }
 
+function adjustTextSize(size) {
+  // Convert size from slider (100-200) to percentage
+  const percentage = size / 100;
+  document.body.style.fontSize = `${16 * percentage}px`;
+}
+
 function showRecommend() {
   const recommendSection = document.getElementById('recommend');
   recommendSection.innerHTML = `
