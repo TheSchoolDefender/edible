@@ -1564,6 +1564,39 @@ function showDocumentation() {
   }
 }
 
+function showRecommendedRecipes() {
+  // Get 5 random recipes
+  let randomRecipes = [];
+  let recipesCopy = [...recipes];
+  
+  for (let i = 0; i < 5 && recipesCopy.length > 0; i++) {
+    const randomIndex = Math.floor(Math.random() * recipesCopy.length);
+    randomRecipes.push(recipesCopy[randomIndex]);
+    recipesCopy.splice(randomIndex, 1);
+  }
+  
+  const recommendedDiv = document.getElementById('recommended-dishes');
+  
+  recommendedDiv.innerHTML = randomRecipes.map(recipe => `
+    <div class="dish-box">
+      <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
+      <h3>${recipe.name}</h3>
+      <p>${recipe.description}</p>
+      <button class="nav-btn" onclick="showRecipe('${recipe.id}')">View Recipe</button>
+    </div>
+  `).join('');
+
+  gsap.fromTo('.dish-box', {
+    opacity: 0,
+    y: 20
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.2
+  });
+}
+
 particlesJS("particles-js", {
   particles: {
     number: {
