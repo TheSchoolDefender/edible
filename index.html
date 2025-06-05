@@ -3,7 +3,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edible - Recipes by kids made for kids</title>
-    <link rel="icon" type="image/x-icon" href="favicon.png">
 
     <!-- Linking to GSAP and Particles.js libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
@@ -30,16 +29,6 @@
                     <li><button class="nav-btn" onclick="showDocumentation()">Documentation</button></li>
                 </ul>
             </nav>
-            <div class="language-selector">
-                <select id="language-select">
-                    <option value="en">English</option>
-                    <option value="es">Espa&#xf1;ol</option>
-                    <option value="zh-CN">&#x4e2d;&#x6587;</option>
-                    <option value="fr">Fran&#xe7;ais</option>
-                    <option value="hi">&#x939;&#x93f;&#x902;&#x926;&#x940;</option>
-                    <option value="ru">&#x420;&#x443;&#x441;&#x441;&#x43a;&#x438;&#x439;</option>
-                </select>
-            </div>
         </header>
         <main id="main-content">
             <div id="quiz">
@@ -243,7 +232,7 @@
                 </form>
             </div>
             <div id="documentation" style="display: none;">
-                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRQVW5HriT-ggSWD8nPClE2x41raBzSf9JFR1fxUWqky7LrLL7tHankodr89jNXBUt-gOYzyGuJdty6/pubembed?start=true&loop=false&delayms=3000" frameborder="0" width="797" height="1085" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRQVW5HriT-ggSWD8nPClE2x41raBzSf9JFR1fxUWqky7LrLL7tHankodr89jNXBUt-gOYzyGuJdty6/pubembed?start=true&loop=false&delayms=60000" frameborder="0" width="797" height="1085" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
             </div>
             <div id="recipe-finder" style="display: none;">
                 <h2>Recipe Finder</h2>
@@ -282,7 +271,7 @@
         
         <div class="accessibility-option">
             <label>Language</label>
-            <select id="language-option">
+            <select id="language-option" onchange="changeLanguage(this.value)">
                 <option value="en">English</option>
                 <option value="es">Español</option>
                 <option value="zh-CN">中文</option>
