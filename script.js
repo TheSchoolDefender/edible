@@ -1,4 +1,3 @@
-
 let currentQuestion = 1;
 let answers = {};
 let questions = [{
@@ -771,7 +770,17 @@ function translatePageContent(targetLang) {
         element.innerText = data.data.translations[0].translatedText;
       }
     })
-    .catch(error => console.error('Translation error:', error));
+    .catch(error => {
+      console.error('Translation error:', error);
+      // Fallback to client-side translation if API fails
+      if (translateInit) {
+        const selectElement = document.querySelector('.goog-te-combo');
+        if (selectElement) {
+          selectElement.value = targetLang;
+          selectElement.dispatchEvent(new Event('change'));
+        }
+      }
+    });
   });
 }
 
@@ -983,6 +992,14 @@ function toggleDyslexicFont(value) {
   }
 }
 
+function toggleHighContrast(value) {
+  if (value === 'high') {
+    document.body.classList.add('high-contrast');
+  } else {
+    document.body.classList.remove('high-contrast');
+  }
+}
+
 function showRecommend() {
   const recommendSection = document.getElementById('recommend');
   recommendSection.innerHTML = `
@@ -1139,6 +1156,9 @@ function resetRecipeFinder() {
   // Reset all questions
   document.querySelectorAll('.ingredient-question').forEach((q, index) => {
     q.style.display = index === 0 ? 'block' : 'none';
+    // Reset opacity and position for animations
+    q.style.opacity = index === 0 ? '1' : '0';
+    q.style.transform = index === 0 ? 'translateY(0)' : 'translateY(20px)';
   });
   
   gsap.fromTo(ingredientsSurvey, 
@@ -1155,18 +1175,13 @@ document.addEventListener('DOMContentLoaded', function() {
   script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateInit';
   document.body.appendChild(script);
   
-  // Setup language selection
-  document.getElementById('language-select').addEventListener('change', function(e) {
-    changeLanguage(e.target.value);
-  });
-  
-  // Sync language selection between accessibility menu and header
+  // Setup language selection (from accessibility menu only)
   document.getElementById('language-option').addEventListener('change', function(e) {
-    document.getElementById('language-select').value = e.target.value;
     changeLanguage(e.target.value);
   });
   
-  showSection('recipes');
+  // Show quiz by default instead of recipes
+  resetSurvey();
 });
 
 function showRecipes() {
@@ -1524,6 +1539,23 @@ function showRecommendedRecipes(skillLevel) {
 function showDocumentation() {
   document.querySelectorAll('main > div, #result-container, #recipe-container').forEach(div => div.style.display = 'none');
   document.getElementById('documentation').style.display = 'block';
+  
+  // Stop auto-scrolling in the embedded presentation
+  const iframe = document.querySelector('#documentation iframe');
+  if (iframe && iframe.contentWindow) {
+    try {
+      // Try to access iframe content and stop auto-scrolling
+      iframe.onload = function() {
+        try {
+          iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        } catch (e) {
+          console.log('Could not pause presentation:', e);
+        }
+      };
+    } catch (e) {
+      console.log('Could not access iframe:', e);
+    }
+  }
 }
 
 particlesJS("particles-js", {
@@ -1636,4 +1668,3 @@ particlesJS("particles-js", {
   },
   retina_detect: true
 });
-
