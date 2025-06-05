@@ -908,6 +908,19 @@ function resetSurvey() {
   document.querySelectorAll('main > div').forEach(div => div.style.display = 'none');
   document.querySelector('#quiz').style.display = 'block';
   document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
+  
+  // Clear recommended dishes when resetting the survey
+  const recommendedDishesDiv = document.getElementById('recommended-dishes');
+  if (recommendedDishesDiv) {
+    recommendedDishesDiv.innerHTML = '';
+  }
+  
+  // Hide the result container
+  const resultContainer = document.getElementById('result-container');
+  if (resultContainer) {
+    resultContainer.style.display = 'none';
+  }
+  
   showQuestion(1);
 }
 
@@ -1315,8 +1328,12 @@ function getRecipeSkillLevel(recipe) {
     return complexity + (instruction.split(' ').length > 5 ? 1 : 0);
   }, 0);
 
-  if (ingredientCount <= 3 && instructionComplexity <= 1) return 'Beginner';
-  if (ingredientCount <= 6 && instructionComplexity <= 3) return 'Intermediate';
+  // Calculate a total score based on ingredients and complexity
+  const totalScore = ingredientCount + instructionComplexity;
+  
+  // Apply the new skill level ranges
+  if (totalScore <= 10) return 'Beginner';
+  if (totalScore <= 20) return 'Intermediate';
   return 'Master';
 }
 
@@ -1513,16 +1530,29 @@ function completeFoodQuiz() {
 }
 
 function showRecommendedRecipes(skillLevel) {
-  let recommendedRecipes = recipes.filter(recipe => 
+  // Get recipes matching user's skill level
+  let matchingRecipes = recipes.filter(recipe => 
     getRecipeSkillLevel(recipe) === skillLevel
   );
   
-  recommendedRecipes = recommendedRecipes.slice(0, 5);
+  // If no skillLevel provided or no matching recipes, use all recipes
+  if (!skillLevel || matchingRecipes.length < 5) {
+    matchingRecipes = [...recipes];
+  }
   
-  const recipesContainer = document.getElementById('result-container');
+  // Randomly select 5 recipes from the matching ones
+  let randomRecipes = [];
+  let recipesCopy = [...matchingRecipes];
+  
+  for (let i = 0; i < 5 && recipesCopy.length > 0; i++) {
+    const randomIndex = Math.floor(Math.random() * recipesCopy.length);
+    randomRecipes.push(recipesCopy[randomIndex]);
+    recipesCopy.splice(randomIndex, 1);
+  }
+  
   const recommendedDiv = document.getElementById('recommended-dishes');
   
-  recommendedDiv.innerHTML = recommendedRecipes.map(recipe => `
+  recommendedDiv.innerHTML = randomRecipes.map(recipe => `
     <div class="dish-box">
       <img src="${recipe.image}" alt="${recipe.name}" width="100%" height="200">
       <h3>${recipe.name}</h3>
